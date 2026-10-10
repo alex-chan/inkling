@@ -143,7 +143,15 @@ node tools/smoke-real-sites.js /tmp/out   # 真实站点检查，输出截图和
 node store/make-assets.mjs      # 重新生成商店截图与宣传图（store/assets/）
 ```
 
-商店后台要填的各项内容（说明、权限理由、数据使用声明、隐私政策网址）见 [store/listing.md](store/listing.md)。
+商店后台要填的各项内容（说明、权限理由、数据使用声明、隐私政策网址）：
+- Chrome 应用商店：[store/listing.md](store/listing.md)
+- Microsoft Edge Add-ons：[store/edge-listing.md](store/edge-listing.md)，用同一个 zip，另需 300×300 徽标 `store/assets/edge-logo-300.png`
+
+在其他 Chromium 内核浏览器上跑整套测试（例如 Edge）：
+
+```bash
+BROWSER_PATH="/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" npm test
+```
 
 ## 第三方数据与许可
 

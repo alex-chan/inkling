@@ -26,11 +26,16 @@ export const test = base.extend({
 
   context: async ({ mock }, use) => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'inkling-pw-'));
+    // BROWSER_PATH=… 可换成其他 Chromium 内核浏览器（如 Microsoft Edge）跑同一套测试
     const context = await chromium.launchPersistentContext(dir, {
-      channel: 'chromium',
+      ...(process.env.BROWSER_PATH ? { executablePath: process.env.BROWSER_PATH } : { channel: 'chromium' }),
       headless: !process.env.HEADED,
       viewport: { width: 1200, height: 900 },
-      args: [`--disable-extensions-except=${EXT}`, `--load-extension=${EXT}`],
+      args: [
+        `--disable-extensions-except=${EXT}`, `--load-extension=${EXT}`,
+        // 品牌版浏览器默认禁用命令行加载扩展
+        '--disable-features=DisableLoadExtensionCommandLineSwitch',
+      ],
     });
     let [sw] = context.serviceWorkers();
     if (!sw) sw = await context.waitForEvent('serviceworker');

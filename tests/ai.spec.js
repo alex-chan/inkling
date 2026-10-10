@@ -301,11 +301,12 @@ test.describe('B. Sign in with ChatGPT', () => {
     await opt.locator('#cgLogout').click();
     await expect(opt.locator('#cgSignedOut')).toBeVisible();
     await mock.control({ omitPlanScope: false, accessDenied: true });
+    // 新标签页创建时可能还是 about:blank（Edge），不要按初始 URL 过滤
     const [cb] = await Promise.all([
-      context.waitForEvent('page', (p) => p.url().includes('/authorize') || p.url().includes('callback.html')),
+      context.waitForEvent('page'),
       opt.getByRole('button', { name: 'Continue with ChatGPT' }).click(),
     ]);
-    await cb.waitForURL(/callback\.html/);
+    await expect.poll(() => cb.url(), { timeout: 15_000 }).toContain('callback.html');
     await expect(cb.locator('#title')).toHaveText('登录未完成');
     await expect(cb.locator('#msg')).toContainText('改用 API Key');
   });
@@ -344,7 +345,9 @@ test.describe('OAuth 回调拦截', () => {
       opt.getByRole('button', { name: 'Continue with ChatGPT' }).click(),
     ]);
     await sw.evaluate(() => chrome.declarativeNetRequest.updateDynamicRules({ removeRuleIds: [1] }));
-    await tab.waitForURL(/callback\.html/, { timeout: 15_000 });
+    // 回调地址连不上时浏览器先显示错误页，扩展再把标签页带到 callback.html；
+    // 有的浏览器（Edge）里 waitForURL 遇到导航错误会直接失败，所以改为轮询地址
+    await expect.poll(() => tab.url(), { timeout: 15_000 }).toContain('callback.html');
     await expect(opt.locator('#cgSignedIn')).toBeVisible();
     await expect(opt.locator('#cgUsing')).toHaveText('正在使用 ChatGPT 套餐用量');
     expect((await logOf(mock, '/api/accounts/oauth/token')).length).toBe(1);

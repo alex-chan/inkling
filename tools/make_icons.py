@@ -69,4 +69,7 @@ for y in range(96):
 store_dir = os.path.join(here, '..', 'store', 'assets')
 os.makedirs(store_dir, exist_ok=True)
 png(os.path.join(store_dir, 'store-icon-128.png'), 128, 128, store)
+
+# Edge Add-ons 商店徽标：300×300（1:1）
+png(os.path.join(store_dir, 'edge-logo-300.png'), 300, 300, render(300))
 print('ok')
