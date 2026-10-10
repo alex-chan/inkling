@@ -47,7 +47,9 @@
 4. `screenshot-4-settings.png`：词汇水平设置
 **小型宣传图**（440×280）：`promo-small-440x280.png`
 
-**官方网址 / 支持网址**：https://github.com/alex-chan/inkling ；问题反馈：https://github.com/alex-chan/inkling/issues
+**官方网址**：https://alex-chan.github.io/inkling/（已在 Google Search Console 验证，可在后台「官方网址」下拉框中选择）
+**首页网址**：https://github.com/alex-chan/inkling
+**支持网址**：https://github.com/alex-chan/inkling/issues
 
 ---
 
@@ -73,7 +75,7 @@
 
 **三项声明**都勾选：不向第三方出售或转让用户数据（核准用途除外）；不将数据用于与单一用途无关的目的；不将数据用于判断信用或发放贷款。
 
-**隐私权政策网址**：https://github.com/alex-chan/inkling/blob/main/PRIVACY.md
+**隐私权政策网址**：https://alex-chan.github.io/inkling/PRIVACY.html
 
 ---
 
