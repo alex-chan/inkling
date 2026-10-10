@@ -1,0 +1,77 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  html, body { margin: 0; width: 1400px; height: 560px; overflow: hidden; }
+  body {
+    background: radial-gradient(1200px 600px at 85% 30%, #3a332d 0%, #2b2724 55%, #231f1c 100%);
+    color: #f5efe6; font-family: system-ui, -apple-system, "PingFang SC", "Hiragino Sans GB", sans-serif;
+    display: grid; grid-template-columns: 560px 1fr; align-items: center; padding: 0 70px; box-sizing: border-box; gap: 40px;
+  }
+  .brand { display: flex; align-items: center; gap: 18px; }
+  .brand img { width: 76px; height: 76px; border-radius: 18px; box-shadow: 0 0 0 1px rgba(255,255,255,.08); }
+  .name { font-size: 52px; font-weight: 750; letter-spacing: .5px; }
+  .tagline { margin-top: 22px; font-size: 27px; line-height: 1.45; color: #efe4d6; font-weight: 500; }
+  .feats { margin: 28px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+  .feats li { font-size: 19px; color: #d9cdbd; display: flex; gap: 12px; align-items: baseline; }
+  .feats li::before { content: ''; width: 9px; height: 9px; border-radius: 50%; background: #f0a46a; flex: none; transform: translateY(-2px); }
+
+  .stage { position: relative; height: 430px; }
+  .paper, .card { box-sizing: border-box; }
+  .paper {
+    position: absolute; left: 0; top: 18px; width: 640px; background: #fbf8f2; color: #1d1d1b; border-radius: 16px;
+    padding: 30px 38px 34px; box-shadow: 0 30px 60px rgba(0,0,0,.35), 0 4px 12px rgba(0,0,0,.2);
+    font: 23px/2.05 Georgia, "Times New Roman", serif;
+  }
+  .kicker { font: 600 13px/1 system-ui, sans-serif; color: #a33; letter-spacing: .1em; text-transform: uppercase; }
+  .paper h2 { font: 700 31px/1.5 Georgia, serif; margin: 6px 0 10px; }
+  ruby { ruby-align: center; }
+  ruby u { text-decoration: underline dotted rgba(201,100,30,.8) 2px; text-underline-offset: 4px; }
+  ruby.wide { ruby-align: start; }
+  ruby.wide rt { margin-inline-end: -7em; text-align: start; }
+  rt { font: 500 .52em/1.1 system-ui, "PingFang SC", sans-serif; color: #111; }
+  .ipa { color: #93684a; font-family: "Lucida Sans Unicode", "Segoe UI", sans-serif; }
+  .hl u { background: rgba(240,150,60,.18); border-radius: 3px; }
+
+  .card {
+    position: absolute; right: -10px; top: 222px; width: 330px; background: #fffdf8; color: #1f1d1a; border: 1px solid #e8e1d4;
+    border-radius: 14px; padding: 18px 20px 16px; box-shadow: 0 24px 50px rgba(0,0,0,.35);
+    font: 15px/1.55 system-ui, "PingFang SC", sans-serif;
+  }
+  .card .w { font-size: 23px; font-weight: 700; }
+  .card .ph { color: #6b665e; margin-left: 8px; font-family: "Lucida Sans Unicode", "Segoe UI", sans-serif; }
+  .acc { font: 600 11px system-ui; color: #b4541a; background: #fbeee2; border-radius: 4px; padding: 0 5px; margin-left: 8px; vertical-align: 2px; }
+  .ctx { margin-top: 10px; background: #fbeee2; border-radius: 9px; padding: 7px 11px; display: flex; gap: 8px; align-items: center; }
+  .ctx small { color: #6b665e; }
+  .lv { background: #1f1d1a; color: #fffdf8; border-radius: 4px; padding: 0 6px; font-size: 12px; font-weight: 700; }
+  .kind { color: #6b665e; font-size: 12px; }
+  .ai { margin-top: 10px; background: #f4efe6; border-radius: 9px; padding: 9px 11px; font-size: 14px; color: #3a3631; }
+  .btns { margin-top: 12px; display: flex; gap: 8px; }
+  .b { border-radius: 8px; padding: 5px 12px; font-size: 13px; border: 1px solid #e8e1d4; background: #f4efe6; }
+  .b.p { background: #b4541a; border-color: #b4541a; color: #fff; }
+</style></head>
+<body>
+  <div>
+    <div class="brand"><img src="../extension/icons/icon128.png" alt=""><span class="name">Inkling 墨点</span></div>
+    <div class="tagline">读英文网页，只注释你不认识的词</div>
+    <ul class="feats">
+      <li>按词汇量自动注释中文，原文一字不动</li>
+      <li>美式音标、一键朗读，点词出词卡</li>
+      <li>接入大模型：语境释义、熟词僻义、CEFR 分级</li>
+    </ul>
+  </div>
+  <div class="stage">
+    <div class="paper">
+      <div class="kicker">Economy</div>
+      <h2>Markets <ruby><u>brace</u><rt>准备应对</rt></ruby> for a long winter</h2>
+      Officials refused to <ruby><u>rule out</u><rt>排除</rt></ruby> fresh <ruby><u>levies</u><rt>征税</rt></ruby>, warning that the
+      <ruby class="hl wide"><u>protracted</u><rt><span class="ipa">/proʊˈtræktəd/</span> 旷日持久的</rt></ruby> dispute could
+      <ruby><u>exacerbate</u><rt>加剧</rt></ruby> a <ruby><u>sluggish</u><rt>低迷的</rt></ruby> recovery.
+    </div>
+    <div class="card">
+      <span class="w">protracted</span><span class="acc">美</span><span class="ph">/proʊˈtræktəd/</span> 🔊
+      <div class="ctx"><small>语境义</small><b>旷日持久的</b><span class="lv">C2</span><span class="kind">生词</span></div>
+      <div class="ai">本句含义：形容争端拖了很久、迟迟未决。</div>
+      <div class="btns"><span class="b p">AI 语境解释</span><span class="b">我认识这个词</span></div>
+    </div>
+  </div>
+</body></html>

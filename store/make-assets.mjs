@@ -115,12 +115,19 @@ async function launch(settings) {
   await p.screenshot({ path: path.join(OUT, 'screenshot-4-settings.png') });
   await ctx.close();
 }
-// 小型宣传图
+// 宣传图：小型 440×280、顶部 1400×560
 {
   const b = await chromium.launch();
-  const p = await b.newPage({ viewport: { width: 440, height: 280 } });
-  await p.goto('file://' + path.join(here, 'promo-tile.html'));
-  await p.screenshot({ path: path.join(OUT, 'promo-small-440x280.png') });
+  for (const [file, w, h, out] of [
+    ['promo-tile.html', 440, 280, 'promo-small-440x280.png'],
+    ['promo-marquee.html', 1400, 560, 'promo-marquee-1400x560.png'],
+  ]) {
+    const p = await b.newPage({ viewport: { width: w, height: h } });
+    await p.goto('file://' + path.join(here, file));
+    await p.waitForLoadState('load');
+    await p.screenshot({ path: path.join(OUT, out) });
+    await p.close();
+  }
   await b.close();
 }
 server.close();

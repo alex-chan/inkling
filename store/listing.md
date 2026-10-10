@@ -45,7 +45,8 @@
 2. `screenshot-2-phonetic.png`：美式音标注释
 3. `screenshot-3-ai.png`：AI 优化注释（熟词僻义、短语、CEFR 等级）
 4. `screenshot-4-settings.png`：词汇水平设置
-**小型宣传图**（440×280）：`promo-small-440x280.png`
+**小型宣传图块**（440×280）：`promo-small-440x280.png`
+**顶部宣传图块**（1400×560）：`promo-marquee-1400x560.png`
 
 **官方网址**：https://alex-chan.github.io/inkling/（已在 Google Search Console 验证，可在后台「官方网址」下拉框中选择）
 **首页网址**：https://github.com/alex-chan/inkling
