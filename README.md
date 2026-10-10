@@ -10,6 +10,14 @@ Chrome 扩展（Manifest V3）：按你的词汇量给英文网页上的生词�
 2. 「加载已解压的扩展程序」→ 选择本仓库的 **`extension/`** 目录。
 3. 首次安装会自动打开设置页。
 
+## 支持的网站与权限
+
+默认只在指定的英文新闻和视频网站上运行，列表见 [extension/lib/sites.js](extension/lib/sites.js)：CNN、NBC News、CNBC、Reuters、BBC、Google 新闻、WSJ、YouTube、NYT、Guardian、AP、Bloomberg 等，共 28 个站点。这个列表与 `manifest.json` 的 `content_scripts.matches` 和 `host_permissions` 一致，测试会校验三者没有分叉。安装时不申请 `<all_urls>`。另有两种情况通过 `optional_host_permissions` 按单个网站授权：
+- **其他网站**：在工具栏弹窗点「在此网站启用」。后台会用 `chrome.scripting.registerContentScripts` 注册内容脚本，并立即注入当前标签页。已启用的网站可在设置页「支持的网站」里移除。
+- **自定义 API 地址**：在设置页点「获取模型列表 / 测试连接」时申请。没授权就直接调用的话，会给出明确的中文提示。
+
+YouTube：页面文字和视频字幕都会注释。字幕用浅色释义，不做 AI 优化，点击字幕里的词不会触发播放器。被 `-webkit-line-clamp` 截断行数的标题（YouTube 侧栏、Google 新闻卡片等）只加下划线、不加释义，以免撑高行距把末行挤掉。
+
 ## 目录
 
 ```
@@ -121,6 +129,7 @@ node tools/smoke-real-sites.js /tmp/out   # 真实站点检查，输出截图和
 
 - **AI 优化注释的效果没有用真实模型验证过**：测试里由 mock 返回固定结果，只验证了请求格式、取舍、渲染和缓存逻辑。提示词对真实模型的取舍效果（漏注 / 多注）需要接上你的 Key 后实际看看。
 - **真实的 ChatGPT 登录没有实测**：所有 OAuth 测试都跑在 mock 上，按官方文档的参数和行为编写。这个功能还处于 preview 阶段，文档没有说明是否支持浏览器扩展；第一次用真实账号登录时，最可能出问题的是授权页对动态注册或回调的校验。
+- **YouTube 真实字幕**：YouTube 会给自动化浏览器返回空字幕文件（0 字节），所以真实字幕只能手动验证。字幕逻辑已用仿 YouTube 字幕结构的本地页面测过；真实播放器里确实有代码依赖的 `ytp-caption-window-container`。
 - **NYT 和 Reuters**：它们对自动化浏览器显示"Verifying the device"人机验证，所以只用仿照它们 DOM 结构的本地页面做了测试，真实页面需要你手动验证。BBC 和 The Guardian 的真实文章页已检查：导航、页脚、代码块零注释，词卡正常，点链接里的词不会跳转。
 - 「词上方小字」模式会增大有注释那几行的行高，这是 `<ruby>` 本身的特性；介意的话可以选「词后括注」或「只加下划线」。
 - API Key 和令牌按需求存放在 `chrome.storage.local`。Chrome 默认允许 content script 读取这块存储，不过 content script 只读取设置相关的 key。

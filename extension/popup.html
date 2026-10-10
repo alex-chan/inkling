@@ -27,9 +27,14 @@
   </div>
 
   <div id="body" class="wrap" style="padding:0">
-    <div class="row between">
+    <div class="row between" id="siteRow">
       <span class="site grow">在 <b id="host">此网站</b> 上启用</span>
       <label class="switch"><input type="checkbox" id="siteOn" aria-label="当前网站开关"><span></span></label>
+    </div>
+    <div id="grantRow" class="sec" hidden>
+      <span class="small muted"><b id="grantHost"></b> 不在默认支持的网站里。授权后 Inkling 只会在这个网站上运行。</span>
+      <button class="btn primary" id="grantBtn">在此网站启用</button>
+      <span class="small err" id="grantErr"></span>
     </div>
 
     <div class="sec">

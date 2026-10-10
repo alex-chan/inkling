@@ -1,6 +1,6 @@
 # Chrome Web Store 上架资料（逐项粘贴到开发者后台）
 
-包：`dist/inkling-1.0.0.zip`（`./tools/package.sh` 生成）
+包：`dist/inkling-1.0.1.zip`（`./tools/package.sh` 生成）
 素材：`store/assets/`（`node store/make-assets.mjs` 重新生成）
 
 ---
@@ -12,13 +12,17 @@
 **名称**：Inkling 墨点（取自 manifest）
 
 **摘要**（取自 manifest，≤132 字符）：
-按你的词汇量给英文网页上的生词自动加中文注释、音标和发音，并可调用大模型结合上下文解释。
+按你的词汇量给 CNN、BBC、Reuters、YouTube 等英文新闻和视频网站上的生词加中文注释、美式音标和发音，可接入大模型解释。
 
 **类别**：教育（Education）
 
 **详细说明**：
 
-读英文新闻、博客、文档时，总有几个词不认识、不会读？Inkling 按你的词汇量，只给超出你水平的生词加注释，其余原文一字不动。
+读英文新闻、看英文视频时，总有几个词不认识、不会读？Inkling 按你的词汇量，只给超出你水平的生词加注释，其余原文一字不动。
+
+【支持的网站】
+默认在这些英文新闻和视频网站上运行：CNN、NBC News、CNBC、Reuters、BBC、Google 新闻、华尔街日报、YouTube（含视频字幕）、纽约时报、卫报、AP、Bloomberg、华盛顿邮报、金融时报、经济学人、NPR、半岛电视台、ABC News、CBS News、Fox News、Politico、Axios、The Atlantic、纽约客、TIME、USA Today、Forbes、Business Insider。
+其他网站可在工具栏弹窗中点「在此网站启用」，按网站单独授权。
 
 【按水平注释生词】
 • 词汇水平可选：初中 / 高中 / 四级 / 六级 / 考研 / 雅思托福 / 专八 / GRE，也可以用滑杆自由调节；提供 40 词小测，帮你估算自己的词汇量
@@ -62,9 +66,14 @@
 **权限理由**：
 
 - `storage`：在本机保存用户设置、熟词本和生词本、用户填写的 API Key，以及 ChatGPT 登录令牌。
+- `scripting`：用户在弹窗中对某个非默认网站点「在此网站启用」并授权后，用它在该网站注册内容脚本，并立即注入当前标签页。只作用于用户授权过的网站。
 - `webNavigation`：仅用于「用 ChatGPT 登录」。OAuth 授权完成后，OpenAI 会把浏览器重定向到本地回调地址 http://127.0.0.1:14551/auth/callback（OpenAI 对开源/本地应用的要求）。扩展通过 webNavigation 识别这次跳转，读取授权码完成登录，作为下面重定向规则的兜底。不读取其他任何导航。
 - `declarativeNetRequestWithHostAccess`：仅在登录进行期间添加一条动态规则，把上述本地回调地址重定向到扩展自带的 callback.html 页面，登录结束后立即删除。不拦截、不修改任何其他请求。
-- 主机权限 `<all_urls>`：内容脚本需要在用户浏览的任意英文网页上识别并注释生词；后台需要直接访问用户自己填写的任意 OpenAI 兼容接口地址（由用户决定，无法事先列举）。
+- 主机权限（必需）：
+  - 列出的英文新闻和视频网站（CNN、BBC、Reuters、YouTube、WSJ 等）：内容脚本在这些网站上识别并注释生词；
+  - `https://api.openai.com/*`、`https://auth.openai.com/*`：默认的模型接口和「用 ChatGPT 登录」；
+  - `http://127.0.0.1/*`：仅用于拦截 ChatGPT 登录的本地回调地址（见上一条）。
+- 可选主机权限 `https://*/*`、`http://*/*`：安装时不申请。只在两种情况下，经用户点击按钮后按单个网站申请：①用户在弹窗中对当前网站点「在此网站启用」；②用户在设置页填写了自定义的 OpenAI 兼容接口地址并点「测试连接」。
 
 **是否使用远程代码**：否。所有代码都在扩展包内，没有 eval，也不加载远程脚本。
 
@@ -82,4 +91,4 @@
 
 ## 给审核人员的测试说明（Test instructions，可选）
 
-无需账号即可测试核心功能：安装后打开任意英文新闻文章页（如 bbc.com/news 的文章），生词会被注释；点击被注释的词可弹出词卡并朗读。AI 功能需要用户自己的 OpenAI 兼容 API Key（设置页 → 大模型），默认关闭。
+无需账号即可测试核心功能：安装后打开 BBC、CNN 或 Reuters 的任意英文文章页（如 https://www.bbc.com/news 里的一篇文章），生词会被注释；点击被注释的词可弹出词卡并朗读。在默认列表以外的网站上点工具栏图标，会看到「在此网站启用」按钮。AI 功能需要用户自己的 OpenAI 兼容 API Key（设置页 → 大模型），默认关闭。

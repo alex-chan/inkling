@@ -1,6 +1,7 @@
 import {
   GLOSS_COLORS, PRESETS, LEVEL_MIN, LEVEL_MAX, getSettings, sliderToLevel, levelToSlider, presetLabel, normalizeWordList,
 } from './lib/settings.js';
+import { DEFAULT_SITES } from './lib/sites.js';
 
 const $ = (id) => document.getElementById(id);
 let S = await getSettings();
@@ -20,6 +21,33 @@ const save = (patch) => { Object.assign(S, patch); return chrome.storage.local.s
 
 $('enabled').checked = S.enabled;
 $('enabled').addEventListener('change', (e) => save({ enabled: e.target.checked }));
+
+// ---------------- 支持的网站 ----------------
+
+$('defaultSites').replaceChildren(...DEFAULT_SITES.map(([name, pats]) => {
+  const c = document.createElement('span');
+  c.className = 'chip word-chip';
+  c.textContent = name;
+  c.title = pats.join('\n');
+  return c;
+}));
+async function renderExtraSites() {
+  const { enabledSites = [] } = await chrome.storage.local.get('enabledSites');
+  $('extraEmpty').hidden = enabledSites.length > 0;
+  $('extraSites').replaceChildren(...enabledSites.map((p) => {
+    const c = document.createElement('span');
+    c.className = 'chip word-chip';
+    c.textContent = p.replace(/^https?:\/\//, '').replace(/\/\*$/, '') + ' ';
+    const x = document.createElement('button');
+    x.className = 'btn link small';
+    x.textContent = '移除';
+    x.setAttribute('aria-label', `移除 ${p}`);
+    x.addEventListener('click', () => call('disableSite', { pattern: p }).then(renderExtraSites));
+    c.append(x);
+    return c;
+  }));
+}
+renderExtraSites();
 
 // ---------------- 词汇水平 ----------------
 
@@ -234,7 +262,24 @@ $('toggleKey').addEventListener('click', () => {
   $('apiKey').type = show ? 'text' : 'password';
   $('toggleKey').textContent = show ? '隐藏' : '显示';
 });
+// 自定义接口地址需要单独授权（必须在点击事件里同步发起请求）
+function requestApiAccess() {
+  let pattern;
+  try {
+    const u = new URL(apiOpts().apiBase);
+    if (!/^https?:$/.test(u.protocol)) return Promise.resolve(true);
+    pattern = `${u.protocol}//${u.hostname}/*`;
+  } catch {
+    return Promise.resolve(true); // 地址格式错误交给后台给出提示
+  }
+  return chrome.permissions.request({ origins: [pattern] }).then((ok) => {
+    if (!ok) setStatus($('apiStatus'), `需要允许访问 ${new URL(apiOpts().apiBase).host} 才能使用这个接口地址`, 'err');
+    return ok;
+  }).catch(() => true);
+}
+
 $('fetchModels').addEventListener('click', async () => {
+  if (!(await requestApiAccess())) return;
   setStatus($('apiStatus'), '正在获取模型列表…');
   $('fetchModels').disabled = true;
   try {
@@ -249,6 +294,7 @@ $('fetchModels').addEventListener('click', async () => {
   }
 });
 $('testApi').addEventListener('click', async () => {
+  if (!(await requestApiAccess())) return;
   setStatus($('apiStatus'), '正在测试…');
   $('testApi').disabled = true;
   try {
@@ -334,6 +380,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
   if ('enabled' in changes) $('enabled').checked = S.enabled;
   if ('autoAI' in changes) $('autoAI').checked = S.autoAI;
   if ('glossColor' in changes) renderGlossColor();
+  if ('enabledSites' in changes) renderExtraSites();
   if ('showPhonetic' in changes) $('showPhonetic').checked = S.showPhonetic;
   if ('autoSpeak' in changes) $('autoSpeak').checked = S.autoSpeak;
   if ('speechRate' in changes) renderRate();

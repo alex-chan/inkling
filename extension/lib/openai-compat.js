@@ -10,6 +10,12 @@ async function request(apiBase, apiKey, path, init = {}) {
   const base = normalizeBase(apiBase);
   if (!/^https?:\/\//i.test(base)) throw new AIError('接口地址格式不正确，应以 http:// 或 https:// 开头');
   if (!apiKey) throw new AIError('尚未填写 API Key，请到设置页「大模型」中填写');
+  // 扩展只默认拥有 api.openai.com 的访问权限；其他接口地址需要用户授权一次
+  const u = new URL(base);
+  const pattern = `${u.protocol}//${u.hostname}/*`;
+  if (chrome.permissions && !(await chrome.permissions.contains({ origins: [pattern] }).catch(() => false))) {
+    throw new AIError(`还没有授权访问 ${u.host}。请到设置页「大模型」点「测试连接」，在弹出的提示中允许访问。`, { code: 'need_host_permission' });
+  }
   let res;
   try {
     res = await fetch(base + path, {

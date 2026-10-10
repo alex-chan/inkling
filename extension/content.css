@@ -81,3 +81,15 @@ html.ik-dark-page ik-a {
   ik-a rt, ik-a ik-g { display: none !important; }
   ik-a { text-decoration: none !important; }
 }
+
+/* YouTube 字幕：深色半透明底，释义与音标改用浅色 */
+.ytp-caption-segment ik-a rt,
+.ytp-caption-segment ik-a ik-g {
+  color: #ffd479 !important;
+}
+.ytp-caption-segment ik-a ik-ipa {
+  color: #e8cdb4 !important;
+}
+.ytp-caption-segment ik-a {
+  text-decoration-color: rgba(255, 212, 121, 0.8) !important;
+}

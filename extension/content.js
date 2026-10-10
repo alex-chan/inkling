@@ -30,6 +30,8 @@
   const EN_STOP = new Set('the of and to in is that for it with as was on be by are this have from at he she they we you not or but an his her has had will would said its their which were been who more than also after about'.split(' '));
   // 句首常见的大写功能词：与它相邻的大写词不因此被当作专有名词
   const CAP_FUNC = new Set('the a an in on at of for and but if as to by with from it he she they we i this that these those when while after before its his her their our my your'.split(' '));
+  const CAPTION_SEL = '.ytp-caption-window-container, .caption-window, .ytp-caption-segment';
+
   // 新闻里高频、又恰好是普通英文词的人名：首字母大写时一律视为人名
   const NAME_HINTS = new Set(['trump', 'pence', 'barr', 'xi']);
   const FOREIGN_STOP = new Set('le la les des du une est et que qui pour dans der die das und ist nicht mit den el los las del por para con una que sono della di il lo gli het een van op dat zijn'.split(' '));
@@ -347,10 +349,26 @@
     return known.has(d.l) || known.has(baseToken(d.word).toLowerCase());
   }
 
+  // 行数被截断的标题（-webkit-line-clamp，如 YouTube 侧栏、Google 新闻卡片）：
+  // 加释义会撑高行距、把末行挤掉，这类块只加下划线，点词仍可看词卡
+  function isClamped(start) {
+    for (let el = start, i = 0; el && el !== document.body && i < 6; el = el.parentElement, i++) {
+      const cs = getComputedStyle(el);
+      const clamp = cs.webkitLineClamp || cs.getPropertyValue('-webkit-line-clamp');
+      if (clamp && clamp !== 'none') return true;
+    }
+    return false;
+  }
+
   function annotateBlock(b) {
     if (!b.isConnected) return;
     processed.add(b);
     const nodes = blockTextNodes(b);
+    const clampCache = new Map();
+    const clampedAt = (el) => {
+      if (!clampCache.has(el)) clampCache.set(el, isClamped(el));
+      return clampCache.get(el);
+    };
     const items = aiResults.get(b);
     const glossed = new Set();
     let prevChar = ''; // 本块中上一个有意义的字符；为空表示块首
@@ -397,11 +415,12 @@
       if (tail) prevChar = tail;
       if (!found.length) continue;
       found.sort((x, y) => x.start - y.start);
+      const compact = clampedAt(node.parentElement);
       const frag = document.createDocumentFragment();
       let last = 0;
       for (const f of found) {
         if (f.start > last) frag.append(text.slice(last, f.start));
-        const first = !glossed.has(f.d.l);
+        const first = !compact && !glossed.has(f.d.l);
         glossed.add(f.d.l);
         frag.append(makeAnnotation(f.d, first));
         last = f.end;
@@ -410,7 +429,8 @@
       if (last < text.length) frag.append(text.slice(last));
       node.replaceWith(frag);
     }
-    if (S.autoAI && !items && words >= 4) aiIO.observe(b);
+    // 视频字幕变化太快，不做 AI 优化（每行一次请求既慢又费用量）
+    if (S.autoAI && !items && words >= 4 && !b.closest(CAPTION_SEL)) aiIO.observe(b);
     if (count) scheduleFit(b);
   }
 
@@ -493,7 +513,11 @@
         pendingRoots.add(n);
       }
     }
-    if (pendingRoots.size && !moTimer) moTimer = setTimeout(scanPending, 250);
+    // 字幕更新要跟上播放节奏，其余内容 250ms 合并一次
+    if (pendingRoots.size && !moTimer) {
+      const fast = [...pendingRoots].some((n) => (n.nodeType === 1 ? n : n.parentElement)?.closest?.(CAPTION_SEL));
+      moTimer = setTimeout(scanPending, fast ? 60 : 250);
+    }
   }
   function scanPending() {
     moTimer = 0;

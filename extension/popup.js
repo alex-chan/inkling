@@ -1,14 +1,30 @@
 import { PRESETS, getSettings, sliderToLevel, levelToSlider, presetLabel } from './lib/settings.js';
+import { DEFAULT_MATCHES, matchesAny, originPattern } from './lib/sites.js';
 
 const $ = (id) => document.getElementById(id);
 let S = await getSettings();
 let host = '';
+let tabUrl = '';
+let tabId = 0;
+let covered = false; // 当前网站是否已能运行（默认网站或已授权）
 
 try {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  const u = new URL(tab.url);
+  // 测试用：popup.html?url=… 可指定"当前网页"
+  tabUrl = new URLSearchParams(location.search).get('url') || tab.url;
+  tabId = tab.id;
+  const u = new URL(tabUrl);
   if (/^https?:$/.test(u.protocol)) host = u.hostname;
 } catch { /* 非网页标签 */ }
+
+async function checkCovered() {
+  if (!host) return false;
+  if (matchesAny(tabUrl, DEFAULT_MATCHES)) return true;
+  const { enabledSites = [], devConfig } = await chrome.storage.local.get(['enabledSites', 'devConfig']);
+  const pats = [...enabledSites, ...(devConfig?.extraSites || [])];
+  return matchesAny(tabUrl, pats) && await chrome.permissions.contains({ origins: [originPattern(tabUrl)] });
+}
+covered = await checkCovered();
 
 for (const p of PRESETS) $('preset').add(new Option(`${p.label}（${p.value}）`, p.value));
 $('preset').add(new Option('自定义', 'custom'));
@@ -17,7 +33,10 @@ function render() {
   $('enabled').checked = S.enabled;
   $('body').classList.toggle('dim', !S.enabled);
   $('host').textContent = host || '此页面';
-  $('siteOn').checked = !!host && !S.disabledSites.includes(host);
+  $('siteRow').hidden = !!host && !covered;
+  $('grantRow').hidden = !host || covered;
+  $('grantHost').textContent = host;
+  $('siteOn').checked = !!host && covered && !S.disabledSites.includes(host);
   $('siteOn').disabled = !host;
   $('level').value = levelToSlider(S.level);
   $('levelVal').textContent = S.level;
@@ -60,6 +79,17 @@ $('autoAI').addEventListener('change', (e) => save({ autoAI: e.target.checked })
 const save = (patch) => { Object.assign(S, patch); render(); return chrome.storage.local.set(patch); };
 
 $('enabled').addEventListener('change', (e) => save({ enabled: e.target.checked }));
+$('grantBtn').addEventListener('click', () => {
+  // 必须在点击事件里直接发起授权请求
+  chrome.permissions.request({ origins: [originPattern(tabUrl)] }).then(async (ok) => {
+    if (!ok) { $('grantErr').textContent = '没有获得授权'; return; }
+    const res = await chrome.runtime.sendMessage({ type: 'enableSite', url: tabUrl, tabId });
+    if (!res?.ok) { $('grantErr').textContent = res?.error?.message || '启用失败'; return; }
+    covered = true;
+    S = await getSettings();
+    render();
+  });
+});
 $('siteOn').addEventListener('change', (e) => {
   const set = new Set(S.disabledSites);
   e.target.checked ? set.delete(host) : set.add(host);

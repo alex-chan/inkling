@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>YouTube-like</title>
+<style>
+  body { margin: 0; font-family: Roboto, Arial, sans-serif; background: #fff; }
+  #movie_player { position: relative; width: 854px; height: 480px; background: #000; }
+  .ytp-caption-window-container { position: absolute; inset: 0; pointer-events: none; }
+  .caption-window { position: absolute; left: 50%; bottom: 40px; transform: translateX(-50%); pointer-events: auto; text-align: center; }
+  .caption-visual-line { display: block; }
+  .ytp-caption-segment { display: inline-block; background: rgba(8,8,8,.75); color: #fff; font-size: 26px; padding: 0 6px; }
+  #title { font-size: 20px; margin: 12px 0; }
+</style></head>
+<body>
+  <div id="movie_player" class="html5-video-player">
+    <div class="ytp-caption-window-container" id="cc"></div>
+  </div>
+  <h1 id="title">How tariffs exacerbate inflation</h1>
+  <div id="related" style="width:200px">
+    <h3><a href="/watch?v=x"><span id="clamped" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:20px;max-height:40px">The protracted stagnation and the ubiquitous bureaucracy explained</span></a></h3>
+  </div>
+  <script>
+    // 模拟 YouTube：每隔一段时间整块替换字幕 DOM；点击播放器计数
+    window.playerClicks = 0;
+    document.getElementById('movie_player').addEventListener('click', () => { window.playerClicks++; document.body.dataset.playerClicks = window.playerClicks; });
+    const lines = ['The tariffs could exacerbate inflation', 'A protracted dispute rattled markets'];
+    let i = 0;
+    function show() {
+      const cc = document.getElementById('cc');
+      cc.innerHTML = '';
+      const w = document.createElement('div'); w.className = 'caption-window'; w.id = 'cw' + i;
+      w.innerHTML = '<span class="captions-text"><span class="caption-visual-line"><span class="ytp-caption-segment"></span></span></span>';
+      w.querySelector('.ytp-caption-segment').textContent = lines[i % lines.length];
+      cc.append(w);
+      document.body.dataset.caption = String(i);
+      i++;
+    }
+    show();
+    setInterval(show, 2500);
+  </script>
+</body></html>

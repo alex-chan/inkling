@@ -64,8 +64,13 @@ async function launch(settings) {
   let [sw] = ctx.serviceWorkers();
   if (!sw) sw = await ctx.waitForEvent('serviceworker');
   await sw.evaluate((s) => chrome.storage.local.set(s), {
-    devConfig: { noWelcome: true }, apiBase: `${base}/v1`, apiKey: 'demo', apiModel: 'demo', ...settings,
+    devConfig: { noWelcome: true, extraSites: ['http://127.0.0.1/*'] }, apiBase: `${base}/v1`, apiKey: 'demo', apiModel: 'demo', ...settings,
   });
+  // 展示页在 127.0.0.1 上，不在默认网站列表里：等动态注册的 content script 就绪
+  for (let i = 0; i < 100; i++) {
+    if ((await sw.evaluate(async () => (await chrome.scripting.getRegisteredContentScripts()).length)) > 0) break;
+    await new Promise((r) => setTimeout(r, 50));
+  }
   for (const p of ctx.pages()) if (p.url().includes('options.html')) await p.close();
   return { ctx, id: new URL(sw.url()).host };
 }
@@ -111,7 +116,8 @@ async function launch(settings) {
   const { ctx, id } = await launch({ knownWords: ['tariff', 'escalation'], learningWords: ['hedge'] });
   const p = await ctx.newPage();
   await p.goto(`chrome-extension://${id}/options.html`);
-  await p.waitForTimeout(600);
+  await p.waitForSelector('#near .chip'); // 首次加载词典约 1–2 秒
+  await p.waitForTimeout(300);
   await p.screenshot({ path: path.join(OUT, 'screenshot-4-settings.png') });
   await ctx.close();
 }
