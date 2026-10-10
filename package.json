@@ -1,0 +1,14 @@
+{
+  "name": "inkling-dev",
+  "private": true,
+  "description": "Inkling 墨点 —— 开发与端到端测试（扩展本身在 extension/，无需构建）",
+  "type": "module",
+  "scripts": {
+    "build:dict": "python3 -I tools/build_dict.py",
+    "mock": "node tests/mock-server.js",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.59.1"
+  }
+}

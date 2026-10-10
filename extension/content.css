@@ -1,0 +1,83 @@
+/* Inkling 墨点 —— 页面注释样式（尽量不影响原有排版） */
+
+ik-a {
+  display: inline !important;
+  cursor: pointer !important;
+  text-decoration-line: underline !important;
+  text-decoration-style: dotted !important;
+  text-decoration-color: rgba(201, 100, 30, 0.75) !important;
+  text-decoration-thickness: 1.5px !important;
+  text-underline-offset: 3px !important;
+  border-radius: 2px;
+  transition: background-color 0.15s;
+}
+ik-a:hover {
+  background-color: rgba(240, 150, 60, 0.16) !important;
+}
+
+ik-a > ruby {
+  ruby-position: over !important;
+  ruby-align: center;
+  margin: 0 !important;
+  padding: 0 !important;
+  font: inherit !important;
+  line-height: inherit !important;
+}
+
+ik-a rt,
+ik-a ik-g {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  font-family: system-ui, -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  text-decoration: none !important;
+  text-indent: 0 !important;
+  white-space: nowrap !important;
+  /* 释义颜色可在设置里改，content.js 写入 --ik-gloss-color（默认黑色） */
+  color: var(--ik-gloss-color, #000) !important;
+  pointer-events: none;
+}
+
+ik-a rt {
+  font-size: 0.56em !important;
+  line-height: 1.1 !important;
+  padding-bottom: 1px !important;
+  opacity: 0.95;
+}
+
+ik-a ik-g {
+  display: inline !important;
+  font-size: 0.82em !important;
+}
+
+/* 显示美式音标时注释变宽：左对齐并允许向右溢出，避免把原文字距撑开 */
+ik-a.ik-ph > ruby {
+  ruby-align: start !important;
+}
+ik-a.ik-ph rt {
+  margin-inline-end: -4em !important;
+  text-align: start !important;
+}
+ik-a ik-ipa {
+  font-family: "Lucida Sans Unicode", "Segoe UI", "Arial Unicode MS", system-ui, sans-serif !important;
+  color: #93684a !important;
+}
+ik-a ik-t, ik-a ik-ipa {
+  display: inline !important;
+}
+
+/* 深色背景的网页 */
+html.ik-dark-page ik-a ik-ipa {
+  color: #d8b49a !important;
+}
+html.ik-dark-page ik-a {
+  text-decoration-color: rgba(240, 164, 106, 0.7) !important;
+}
+
+@media print {
+  ik-a rt, ik-a ik-g { display: none !important; }
+  ik-a { text-decoration: none !important; }
+}

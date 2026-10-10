@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Inkling 墨点</title>
+<link rel="stylesheet" href="ui.css">
+<style>
+  body { width: 320px; }
+  .wrap { padding: 14px 16px 12px; display: grid; gap: 14px; }
+  .sec { display: grid; gap: 6px; }
+  .sec-title { font-size: 12px; color: var(--muted); }
+  .level-val { font-weight: 650; font-variant-numeric: tabular-nums; }
+  .site { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ai-line { font-size: 13px; display: flex; align-items: center; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); flex: none; }
+  .dot.ok { background: var(--ok); }
+  .dot.warn { background: var(--warn); }
+  footer { border-top: 1px solid var(--line); padding-top: 10px; }
+  .dim { opacity: .5; pointer-events: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="row between">
+    <div class="brand"><img src="icons/icon32.png" alt="" width="22" height="22"><span>Inkling 墨点</span></div>
+    <label class="switch" title="总开关"><input type="checkbox" id="enabled" aria-label="总开关"><span></span></label>
+  </div>
+
+  <div id="body" class="wrap" style="padding:0">
+    <div class="row between">
+      <span class="site grow">在 <b id="host">此网站</b> 上启用</span>
+      <label class="switch"><input type="checkbox" id="siteOn" aria-label="当前网站开关"><span></span></label>
+    </div>
+
+    <div class="sec">
+      <div class="row between"><span class="sec-title">词汇量</span><span><span class="level-val" id="levelVal">4500</span> <span class="muted small" id="levelName">四级</span></span></div>
+      <input type="range" id="level" min="0" max="1000" aria-label="词汇量">
+      <select id="preset" aria-label="预设档位"></select>
+    </div>
+
+    <div class="sec">
+      <span class="sec-title">显示方式</span>
+      <div class="seg" role="radiogroup" aria-label="显示方式">
+        <label><input type="radio" name="mode" value="ruby"><span>词上方</span></label>
+        <label><input type="radio" name="mode" value="paren"><span>词后括注</span></label>
+        <label><input type="radio" name="mode" value="underline"><span>只加下划线</span></label>
+      </div>
+    </div>
+
+    <div class="sec">
+      <span class="sec-title">AI</span>
+      <div class="ai-line"><span class="dot" id="aiDot"></span><span id="aiText">检查中…</span></div>
+      <div class="row between" id="autoRow">
+        <span class="small">AI 优化注释（语境释义 + 分级）</span>
+        <label class="switch"><input type="checkbox" id="autoAI" aria-label="AI 优化注释"><span></span></label>
+      </div>
+    </div>
+  </div>
+
+  <footer class="row between">
+    <span class="muted small" id="counts"></span>
+    <button class="btn" id="openOptions">设置</button>
+  </footer>
+</div>
+<script type="module" src="popup.js"></script>
+</body>
+</html>
