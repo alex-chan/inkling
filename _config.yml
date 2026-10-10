@@ -1,0 +1,15 @@
+# GitHub Pages（https://alex-chan.github.io/inkling/）：只发布说明文档、隐私政策和 Google 站点验证文件
+title: Inkling 墨点
+description: 按词汇量给英文网页生词加中文注释、美式音标与发音的 Chrome 扩展
+exclude:
+  - extension
+  - tests
+  - tools
+  - store
+  - node_modules
+  - package.json
+  - package-lock.json
+  - playwright.config.js
+  - dist
+include:
+  - googleb20d4d1faeb2aef3.html
