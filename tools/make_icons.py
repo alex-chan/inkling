@@ -58,4 +58,15 @@ dst = os.path.join(here, '..', 'extension', 'icons')
 os.makedirs(dst, exist_ok=True)
 for s in (16, 32, 48, 128):
     png(os.path.join(dst, f'icon{s}.png'), s, s, render(s))
+
+# 商店图标：128×128，图案 96×96 居中，四周 16px 透明留白（Chrome Web Store 规范）
+art = render(96)
+store = [0] * (128 * 128 * 4)
+for y in range(96):
+    for x in range(96):
+        i, j = (y * 96 + x) * 4, ((y + 16) * 128 + x + 16) * 4
+        store[j:j + 4] = art[i:i + 4]
+store_dir = os.path.join(here, '..', 'store', 'assets')
+os.makedirs(store_dir, exist_ok=True)
+png(os.path.join(store_dir, 'store-icon-128.png'), 128, 128, store)
 print('ok')

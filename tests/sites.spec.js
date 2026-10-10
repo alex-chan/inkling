@@ -29,3 +29,19 @@ test('NYT 式结构：正文 p、页眉 nav、Mr. 前缀人名、句首生词', 
   // 文章内 header 里的标题照常处理
   expect(await annotatedWords(page, 'h1')).toEqual(expect.arrayContaining(['Perfunctory', 'Belated']));
 });
+
+test('数字后的单位缩写不注释（6 min read）', async ({ context, mock }) => {
+  const page = await context.newPage();
+  await page.goto(mock.page('nyt-like.html'));
+  await page.waitForSelector('#n1 ik-a');
+  await page.evaluate(() => {
+    const p = document.createElement('p');
+    p.id = 'units';
+    p.textContent = 'A 6 min read about the perfunctory talks.';
+    document.querySelector('#n2').after(p);
+  });
+  await page.waitForSelector('#units ik-a');
+  const words = await page.$$eval('#units ik-a', (els) => els.map((e) => e.dataset.w));
+  expect(words).toContain('perfunctory');
+  expect(words).not.toContain('min');
+});

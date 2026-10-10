@@ -387,6 +387,8 @@
         const I = decide(m[0], sentenceStart || heading || titleCase,
           !titleCase && /^[A-Z]/.test(m[0]) && capNeighbor(text, m.index, m.index + m[0].length));
         if (!I || taken(m.index, m.index + m[0].length)) continue;
+        // 数字后面的短词多是单位缩写：6 min read、5 km、30 mph
+        if (m[0].length <= 3 && /\d\s*$/.test(text.slice(0, m.index))) continue;
         // AI 模式下，词典候选只保留生词本里的词（其余以模型判断为准）
         if (aiRes && !(learning.has(I.l) || learning.has(baseToken(m[0]).toLowerCase()))) continue;
         found.push({ start: m.index, end: m.index + m[0].length, d: dictDesc(m[0], I) });
@@ -701,9 +703,27 @@
     let left = rect.left + sx;
     left = Math.max(sx + 8, Math.min(left, sx + vw - width - 8));
     let top = rect.bottom + sy + 8;
-    if (rect.bottom + h + 16 > vh && rect.top - h - 8 > 0) top = rect.top + sy - h - 8;
+    if (rect.bottom + h + 16 > vh) {
+      // 下方放不下：放到词上方；上方也放不下就贴着窗口底部，保证整张卡片可见
+      top = rect.top - h - 8 > 0 ? rect.top + sy - h - 8 : Math.max(sy + 8, sy + vh - h - 8);
+    }
     el.style.left = `${left}px`;
     el.style.top = `${top}px`;
+  }
+
+  // 卡片内容变高（AI 解释流式输出）后超出窗口底部时，重新定位
+  let refitRaf = 0;
+  function refitCard() {
+    if (refitRaf || !current?.anchor) return;
+    refitRaf = requestAnimationFrame(() => {
+      refitRaf = 0;
+      if (!current || card.hidden) return;
+      const r = card.getBoundingClientRect();
+      if (r.bottom <= window.innerHeight - 8) return;
+      const a = current.anchor;
+      const rect = { left: a.left - window.scrollX, top: a.top - window.scrollY, bottom: a.bottom - window.scrollY };
+      place(card, rect, r.width);
+    });
   }
 
   function closeCard() {
@@ -717,6 +737,7 @@
     closeCard();
     current = opts;
     const { text, I, rect, ai } = opts;
+    opts.anchor = { left: rect.left + window.scrollX, top: rect.top + window.scrollY, bottom: rect.bottom + window.scrollY };
     const isWord = !!I;
     const isPhrase = /\s/.test(text);
     const KIND_NAMES = { word: '生词', sense: '熟词僻义', phrase: isPhrase ? '短语' : '习语' };
@@ -800,15 +821,17 @@
     const myPort = port;
     myPort.onMessage.addListener((m) => {
       if (port !== myPort) return;
-      if (m.type === 'delta') out.textContent += m.text;
+      if (m.type === 'delta') { out.textContent += m.text; refitCard(); }
       else if (m.type === 'done') {
         out.classList.remove('cursor');
         btn.disabled = false; btn.textContent = '重新解释';
         box.dataset.state = 'done';
+        refitCard();
       } else if (m.type === 'error') {
         out.classList.remove('cursor');
         btn.disabled = false; btn.textContent = 'AI 语境解释';
         showAIError(box, m.error, out.textContent);
+        refitCard();
       }
     });
     myPort.onDisconnect.addListener(() => { if (port === myPort) port = null; });

@@ -4,6 +4,7 @@
   "short_name": "Inkling",
   "version": "1.0.0",
   "description": "按你的词汇量给英文网页上的生词自动加中文注释、音标和发音，并可调用大模型结合上下文解释。",
+  "homepage_url": "https://github.com/alex-chan/inkling",
   "minimum_chrome_version": "116",
   "icons": {
     "16": "icons/icon16.png",
@@ -26,18 +27,34 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
-      "css": ["content.css"],
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
       "run_at": "document_idle"
     }
   ],
-  "permissions": ["storage", "webNavigation", "declarativeNetRequestWithHostAccess"],
-  "host_permissions": ["<all_urls>"],
+  "permissions": [
+    "storage",
+    "webNavigation",
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "web_accessible_resources": [
     {
-      "resources": ["callback.html"],
-      "matches": ["<all_urls>"]
+      "resources": [
+        "callback.html"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ]
 }

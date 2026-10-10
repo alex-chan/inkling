@@ -85,6 +85,27 @@ test.describe('A. API Key 方式', () => {
     expect(req.auth).toBe(`Bearer ${GOOD_KEY}`);
   });
 
+  test('AI 解释变长后词卡整张保持在窗口内', async ({ context, mock, sw }) => {
+    await setStorage(sw, { apiBase: `${mock.base}/v1`, apiKey: GOOD_KEY, apiModel: 'mock-chat-1' });
+    const page = await context.newPage();
+    await page.setViewportSize({ width: 900, height: 420 });
+    await page.goto(mock.page('article.html'));
+    await waitAnnotated(page, '#p3');
+    // 把生词滚到窗口靠下的位置再点
+    await page.evaluate(() => {
+      const el = document.querySelector('#p3 ik-a');
+      window.scrollBy(0, el.getBoundingClientRect().top - (innerHeight - 60));
+    });
+    await page.locator('#p3 ik-a').first().click();
+    const card = cardLocator(page);
+    await card.getByRole('button', { name: 'AI 语境解释' }).click();
+    await expect(card.locator('.ai')).toHaveAttribute('data-state', 'done');
+    await page.waitForTimeout(100);
+    const box = await card.boundingBox();
+    expect(box.y).toBeGreaterThanOrEqual(0);
+    expect(box.y + box.height).toBeLessThanOrEqual(420);
+  });
+
   test('未配置时词卡给出中文提示', async ({ context, mock }) => {
     const { box } = await explainOnArticle(context, mock);
     await expect(box).toContainText('尚未填写 API Key');

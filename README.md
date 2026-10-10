@@ -2,6 +2,8 @@
 
 Chrome 扩展（Manifest V3）：按你的词汇量给英文网页上的生词加中文注释、音标和发音，点词可调用大模型结合上下文解释。原生 JS，无构建步骤。
 
+开源协议：[MIT](LICENSE) · 隐私政策：[PRIVACY.md](PRIVACY.md)
+
 ## 安装
 
 1. 打开 `chrome://extensions`，开启「开发者模式」。
@@ -124,3 +126,17 @@ node tools/smoke-real-sites.js /tmp/out   # 真实站点检查，输出截图和
 - API Key 和令牌按需求存放在 `chrome.storage.local`。Chrome 默认允许 content script 读取这块存储，不过 content script 只读取设置相关的 key。
 - 朗读效果取决于系统里有没有 en-US 语音。
 - 少数生僻词 CMUdict 没有收录，这些词在注释里不显示音标，词卡里显示 ECDICT 的音标。
+
+## 打包与上架
+
+```bash
+./tools/package.sh              # → dist/inkling-<version>.zip，manifest.json 位于根目录
+node store/make-assets.mjs      # 重新生成商店截图与宣传图（store/assets/）
+```
+
+商店后台要填的各项内容（说明、权限理由、数据使用声明、隐私政策网址）见 [store/listing.md](store/listing.md)。
+
+## 第三方数据与许可
+
+- [ECDICT](https://github.com/skywind3000/ECDICT)：英汉词典数据，MIT License，见 `extension/data/LICENSE-ECDICT.txt`
+- [CMUdict](https://github.com/cmusphinx/cmudict)：美式发音数据，BSD-style License，见 `extension/data/LICENSE-CMUdict.txt`
