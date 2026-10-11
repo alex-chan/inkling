@@ -19,7 +19,7 @@
 
 ## 3. 属性（Properties）
 
-- **类别**：教育（Education）
+- **类别**：Productivity（Edge 没有「教育」类）
 - **隐私政策要求**：是。扩展会访问个人信息：用 ChatGPT 登录时的姓名和邮箱、用户的 API Key，均只保存在本机。
 - **隐私政策网址**：https://alex-chan.github.io/inkling/PRIVACY.html
 - **网站网址**：https://alex-chan.github.io/inkling/
