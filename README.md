@@ -1,14 +1,21 @@
 # Inkling 墨点
 
-Chrome 扩展（Manifest V3）：按你的词汇量给英文网页上的生词加中文注释、音标和发音，点词可调用大模型结合上下文解释。原生 JS，无构建步骤。
+Chrome / Edge 扩展（Manifest V3）：按你的词汇量给英文新闻和视频网站上的生词加中文注释、美式音标和发音，点词可调用大模型结合上下文解释。原生 JS，无构建步骤。
 
 开源协议：[MIT](LICENSE) · 隐私政策：[PRIVACY.md](PRIVACY.md)
 
 ## 安装
 
-1. 打开 `chrome://extensions`，开启「开发者模式」。
-2. 「加载已解压的扩展程序」→ 选择本仓库的 **`extension/`** 目录。
-3. 首次安装会自动打开设置页。
+| 浏览器 | 地址 |
+|---|---|
+| Microsoft Edge | [Edge 加载项商店](https://microsoftedge.microsoft.com/addons/detail/dfhdmfanaegieoikjhechcifnpkianfl) |
+| Google Chrome | Chrome 应用商店审核中，通过后在这里补上链接；在此之前请手动安装 ↓ |
+
+**手动安装**（Chrome / Edge 通用）：
+1. 从 [Releases](https://github.com/alex-chan/inkling/releases/latest) 下载 `inkling-<版本>.zip` 并解压；或者直接用本仓库的 **`extension/`** 目录。
+2. 打开 `chrome://extensions`（Edge 为 `edge://extensions`），开启「开发者模式」。
+3. 点「加载已解压的扩展程序」，选择解压后的文件夹（或 `extension/` 目录）。
+4. 首次安装会自动打开设置页。
 
 ## 支持的网站与权限
 
