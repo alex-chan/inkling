@@ -9,9 +9,9 @@ Chrome / Edge 扩展（Manifest V3）：按你的词汇量给英文新闻和视�
 | 浏览器 | 地址 |
 |---|---|
 | Microsoft Edge | [Edge 加载项商店](https://microsoftedge.microsoft.com/addons/detail/dfhdmfanaegieoikjhechcifnpkianfl) |
-| Google Chrome | Chrome 应用商店审核中，通过后在这里补上链接；在此之前请手动安装 ↓ |
+| Google Chrome | [Chrome 应用商店](https://chromewebstore.google.com/detail/inkling-%E5%A2%A8%E7%82%B9/negghbijibmmijjljhpedlgfoipagngp) |
 
-**手动安装**（Chrome / Edge 通用）：
+**手动安装**（Chrome / Edge 通用，用于试用未上架的新版本）：
 1. 从 [Releases](https://github.com/alex-chan/inkling/releases/latest) 下载 `inkling-<版本>.zip` 并解压；或者直接用本仓库的 **`extension/`** 目录。
 2. 打开 `chrome://extensions`（Edge 为 `edge://extensions`），开启「开发者模式」。
 3. 点「加载已解压的扩展程序」，选择解压后的文件夹（或 `extension/` 目录）。
