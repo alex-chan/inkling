@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Inkling · 登录 ChatGPT</title>
+<title data-i18n="cb_title">Inkling · 登录 ChatGPT</title>
 <link rel="stylesheet" href="ui.css">
 </head>
 <body class="center-page">
   <main class="panel narrow">
-    <div class="brand"><img src="icons/icon48.png" alt="" width="32" height="32"><span>Inkling 墨点</span></div>
-    <h1 id="title">正在完成登录…</h1>
-    <p id="msg" class="muted">请稍候，正在与 ChatGPT 交换令牌。</p>
-    <p id="actions" hidden><a class="btn" href="options.html#ai">返回设置</a></p>
+    <div class="brand"><img src="icons/icon48.png" alt="" width="32" height="32"><span data-i18n="brand">Inkling 墨点</span></div>
+    <h1 id="title" data-i18n="cb_finishing">正在完成登录…</h1>
+    <p id="msg" class="muted" data-i18n="cb_wait">请稍候，正在与 ChatGPT 交换令牌。</p>
+    <p id="actions" hidden><a class="btn" href="options.html#ai" data-i18n="back_settings">返回设置</a></p>
   </main>
-  <script src="callback.js"></script>
+  <script type="module" src="callback.js"></script>
 </body>
 </html>

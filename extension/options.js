@@ -1,14 +1,44 @@
 import {
-  GLOSS_COLORS, PRESETS, LEVEL_MIN, LEVEL_MAX, getSettings, sliderToLevel, levelToSlider, presetLabel, normalizeWordList,
+  GLOSS_COLORS, PRESETS, LEVEL_MIN, LEVEL_MAX, getSettings, sliderToLevel, levelToSlider, normalizeWordList,
 } from './lib/settings.js';
 import { DEFAULT_SITES } from './lib/sites.js';
+import { initI18n, applyI18n, t, tNodes, presetName, UI_LANGUAGES } from './lib/i18n.js';
 
 const $ = (id) => document.getElementById(id);
+await initI18n();
+applyI18n();
 let S = await getSettings();
+
+// ---------------- 界面语言 ----------------
+
+{
+  const { uiLanguage = 'auto' } = await chrome.storage.local.get('uiLanguage');
+  const sel = $('uiLanguage');
+  sel.replaceChildren(new Option(t('ui_lang_auto'), 'auto'), ...UI_LANGUAGES.map(([v, label]) => new Option(label, v)));
+  sel.value = uiLanguage;
+  sel.addEventListener('change', async () => {
+    await chrome.storage.local.set({ uiLanguage: sel.value });
+    location.reload();
+  });
+}
+
+// 含元素的句子：计数、链接嵌在译文里
+const knownCountEl = $('knownCount');
+const learningCountEl = $('learningCount');
+$('knownLabel').replaceChildren(tNodes('known_label', knownCountEl));
+$('learningLabel').replaceChildren(tNodes('learning_label', learningCountEl));
+{
+  const a = document.createElement('a');
+  a.href = 'https://github.com/skywind3000/ECDICT';
+  a.target = '_blank';
+  a.rel = 'noopener';
+  a.textContent = 'ECDICT';
+  $('aboutText').replaceChildren(tNodes('about_text', a));
+}
 
 async function call(type, extra = {}) {
   const res = await chrome.runtime.sendMessage({ type, ...extra });
-  if (!res?.ok) throw Object.assign(new Error(res?.error?.message || '出错了'), res?.error || {});
+  if (!res?.ok) throw Object.assign(new Error(res?.error?.message || t('error_generic')), res?.error || {});
   return res.data;
 }
 function setStatus(el, text, kind = '') {
@@ -27,7 +57,7 @@ $('enabled').addEventListener('change', (e) => save({ enabled: e.target.checked 
 $('defaultSites').replaceChildren(...DEFAULT_SITES.map(([name, pats]) => {
   const c = document.createElement('span');
   c.className = 'chip word-chip';
-  c.textContent = name;
+  c.textContent = name === 'Google 新闻' ? t('site_google_news') : name;
   c.title = pats.join('\n');
   return c;
 }));
@@ -40,8 +70,8 @@ async function renderExtraSites() {
     c.textContent = p.replace(/^https?:\/\//, '').replace(/\/\*$/, '') + ' ';
     const x = document.createElement('button');
     x.className = 'btn link small';
-    x.textContent = '移除';
-    x.setAttribute('aria-label', `移除 ${p}`);
+    x.textContent = t('remove');
+    x.setAttribute('aria-label', t('remove_aria', p));
     x.addEventListener('click', () => call('disableSite', { pattern: p }).then(renderExtraSites));
     c.append(x);
     return c;
@@ -56,7 +86,7 @@ for (const p of PRESETS) {
   b.className = 'chip';
   b.type = 'button';
   b.dataset.value = p.value;
-  b.textContent = `${p.label} ${p.value}`;
+  b.textContent = `${presetName(p.value)} ${p.value}`;
   b.addEventListener('click', () => setLevel(p.value, true));
   $('presets').append(b);
 }
@@ -64,7 +94,7 @@ for (const p of PRESETS) {
 let nearTimer = 0;
 function renderLevel() {
   $('levelVal').textContent = S.level;
-  $('levelName').textContent = presetLabel(S.level);
+  $('levelName').textContent = presetName(S.level);
   $('level').value = levelToSlider(S.level);
   $('levelNum').value = S.level;
   for (const b of $('presets').children) b.classList.toggle('on', Number(b.dataset.value) === S.level);
@@ -78,7 +108,7 @@ async function renderNear() {
     $('near').replaceChildren(...words.map((w) => {
       const s = document.createElement('span');
       s.className = `chip word-chip ${w.known ? '' : 'unknown'}`;
-      s.title = `词频 #${w.r}`;
+      s.title = t('rank', w.r);
       s.append(w.w);
       const em = document.createElement('em');
       em.textContent = w.g;
@@ -121,9 +151,9 @@ $('quizDone').addEventListener('click', async () => {
   const answers = quizItems.map((q, i) => ({ band: q.band, known: $('quizGrid').querySelector(`input[data-i="${i}"]`).checked }));
   const { level } = await call('quizEstimate', { answers });
   setLevel(level, true);
-  setStatus($('quizResult'), `估算词汇量约 ${level}（${presetLabel(level)}），已应用。`, 'ok');
+  setStatus($('quizResult'), t('quiz_result', level, presetName(level)), 'ok');
   $('quizStart').hidden = false;
-  $('quizStart').textContent = '再测一次';
+  $('quizStart').textContent = t('quiz_again');
 });
 
 // ---------------- 显示方式 ----------------
@@ -141,8 +171,8 @@ for (const c of GLOSS_COLORS) {
   b.className = 'swatch';
   b.setAttribute('role', 'radio');
   b.dataset.color = c.value;
-  b.title = c.label;
-  b.setAttribute('aria-label', c.label);
+  b.title = t(`color_${c.value.slice(1)}`);
+  b.setAttribute('aria-label', b.title);
   b.style.background = c.value;
   b.addEventListener('click', () => setGlossColor(c.value));
   $('swatches').append(b);
@@ -182,12 +212,12 @@ function renderVoices() {
   const voices = speechSynthesis.getVoices().filter((v) => /^en/i.test(v.lang))
     .sort((a, b) => (a.lang === 'en-US' ? 0 : 1) - (b.lang === 'en-US' ? 0 : 1) || a.lang.localeCompare(b.lang) || a.name.localeCompare(b.name));
   const sel = $('speechVoice');
-  sel.replaceChildren(new Option('自动（优先美式英语）', ''), ...voices.map((v) => new Option(`${v.name}（${v.lang}）`, v.name)));
-  if (S.speechVoice && !voices.some((v) => v.name === S.speechVoice)) sel.add(new Option(`${S.speechVoice}（当前不可用）`, S.speechVoice));
+  sel.replaceChildren(new Option(t('voice_auto'), ''), ...voices.map((v) => new Option(`${v.name} (${v.lang})`, v.name)));
+  if (S.speechVoice && !voices.some((v) => v.name === S.speechVoice)) sel.add(new Option(t('voice_unavailable', S.speechVoice), S.speechVoice));
   sel.value = S.speechVoice;
   $('voiceNote').textContent = voices.length
-    ? `使用浏览器自带的语音合成，本机有 ${voices.length} 个英语声音。`
-    : '没有检测到英语声音，朗读可能不可用。可以在系统设置里添加英语（美国）语音。';
+    ? t('voice_count', voices.length)
+    : t('voice_none');
 }
 renderVoices();
 speechSynthesis.addEventListener('voiceschanged', renderVoices);
@@ -202,7 +232,7 @@ $('tryVoice').addEventListener('click', () => {
   speechSynthesis.speak(u);
 });
 call('lookup', { tokens: ['tariff'] }).then((r) => {
-  if (r.tariff?.us) $('phonPreview').textContent = `（例：tariff /${r.tariff.us}/ 关税）`;
+  if (r.tariff?.us) $('phonPreview').textContent = t('ipa_example', r.tariff.us);
 }).catch(() => {});
 
 // ---------------- 词表 ----------------
@@ -210,8 +240,8 @@ call('lookup', { tokens: ['tariff'] }).then((r) => {
 function renderLists() {
   $('knownList').value = S.knownWords.join('\n');
   $('learningList').value = S.learningWords.join('\n');
-  $('knownCount').textContent = S.knownWords.length;
-  $('learningCount').textContent = S.learningWords.length;
+  knownCountEl.textContent = S.knownWords.length;
+  learningCountEl.textContent = S.learningWords.length;
 }
 renderLists();
 $('saveLists').addEventListener('click', async () => {
@@ -221,7 +251,7 @@ $('saveLists').addEventListener('click', async () => {
   const knownWords = normalizeWordList($('knownList').value).filter((w) => !learnSet.has(w));
   await save({ knownWords, learningWords });
   renderLists();
-  setStatus($('listStatus'), '已保存', 'ok');
+  setStatus($('listStatus'), t('saved'), 'ok');
   setTimeout(() => setStatus($('listStatus'), ''), 2000);
 });
 $('exportLists').addEventListener('click', () => {
@@ -260,7 +290,7 @@ for (const id of ['apiBase', 'apiKey', 'apiModel']) {
 $('toggleKey').addEventListener('click', () => {
   const show = $('apiKey').type === 'password';
   $('apiKey').type = show ? 'text' : 'password';
-  $('toggleKey').textContent = show ? '隐藏' : '显示';
+  $('toggleKey').textContent = show ? t('hide') : t('show');
 });
 // 自定义接口地址需要单独授权（必须在点击事件里同步发起请求）
 function requestApiAccess() {
@@ -273,19 +303,19 @@ function requestApiAccess() {
     return Promise.resolve(true); // 地址格式错误交给后台给出提示
   }
   return chrome.permissions.request({ origins: [pattern] }).then((ok) => {
-    if (!ok) setStatus($('apiStatus'), `需要允许访问 ${new URL(apiOpts().apiBase).host} 才能使用这个接口地址`, 'err');
+    if (!ok) setStatus($('apiStatus'), t('need_api_access', new URL(apiOpts().apiBase).host), 'err');
     return ok;
   }).catch(() => true);
 }
 
 $('fetchModels').addEventListener('click', async () => {
   if (!(await requestApiAccess())) return;
-  setStatus($('apiStatus'), '正在获取模型列表…');
+  setStatus($('apiStatus'), t('fetching_models'));
   $('fetchModels').disabled = true;
   try {
     const models = await call('listModels', apiOpts());
     $('apiModels').replaceChildren(...models.map((m) => new Option(m.name, m.id)));
-    setStatus($('apiStatus'), `获取到 ${models.length} 个模型，可在「模型」输入框中选择。`, 'ok');
+    setStatus($('apiStatus'), t('got_models', models.length), 'ok');
     if (!$('apiModel').value && models[0]) { $('apiModel').value = models[0].id; $('apiModel').dispatchEvent(new Event('change')); }
   } catch (e) {
     setStatus($('apiStatus'), e.message, 'err');
@@ -295,11 +325,11 @@ $('fetchModels').addEventListener('click', async () => {
 });
 $('testApi').addEventListener('click', async () => {
   if (!(await requestApiAccess())) return;
-  setStatus($('apiStatus'), '正在测试…');
+  setStatus($('apiStatus'), t('testing'));
   $('testApi').disabled = true;
   try {
     const r = await call('testConnection', apiOpts());
-    setStatus($('apiStatus'), `连接成功（${r.ms} ms），模型回复：${r.reply}`, 'ok');
+    setStatus($('apiStatus'), t('test_ok', r.ms, r.reply), 'ok');
   } catch (e) {
     setStatus($('apiStatus'), e.message, 'err');
   } finally {
@@ -313,11 +343,11 @@ async function renderChatGPT() {
   $('cgSignedOut').hidden = st.signedIn;
   $('cgSignedIn').hidden = !st.signedIn;
   $('cgLoginOther').hidden = !st.hasClient;
-  $('cgLogin').title = st.hasClient && st.lastEmail ? `上次登录：${st.lastEmail}` : '';
+  $('cgLogin').title = st.hasClient && st.lastEmail ? t('last_login', st.lastEmail) : '';
   $('cgError').hidden = !st.error;
   $('cgError').textContent = st.error;
   if (st.signedIn) {
-    $('cgUsing').textContent = st.planEnabled ? '正在使用 ChatGPT 套餐用量' : '已登录，但未授权使用套餐用量';
+    $('cgUsing').textContent = st.planEnabled ? t('ai_using_plan') : t('ai_plan_not_granted');
     $('cgUsing').className = st.planEnabled ? 'ok' : 'warn';
     $('cgAccount').textContent = [st.name, st.email].filter(Boolean).join(' · ');
     $('cgModel').disabled = !st.planEnabled;
@@ -352,10 +382,10 @@ $('cgLogout').addEventListener('click', async () => {
   }
 });
 $('cgTest').addEventListener('click', async () => {
-  setStatus($('cgStatus'), '正在测试…');
+  setStatus($('cgStatus'), t('testing'));
   try {
     const r = await call('testConnection', { provider: 'chatgpt', model: $('cgModel').value });
-    setStatus($('cgStatus'), `连接成功（${r.ms} ms），模型回复：${r.reply}`, 'ok');
+    setStatus($('cgStatus'), t('test_ok', r.ms, r.reply), 'ok');
   } catch (e) {
     setStatus($('cgStatus'), e.message, 'err');
     if (e.needLogin) renderChatGPT();

@@ -1,6 +1,6 @@
 # Chrome Web Store 上架资料（逐项粘贴到开发者后台）
 
-包：`dist/inkling-1.0.1.zip`（`./tools/package.sh` 生成）
+包：`dist/inkling-1.0.2.zip`（`./tools/package.sh` 生成）
 素材：`store/assets/`（`node store/make-assets.mjs` 重新生成）
 
 ---

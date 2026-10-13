@@ -1,0 +1,677 @@
+{
+  "appName": {
+    "message": "Inkling 墨點"
+  },
+  "appDesc": {
+    "message": "依你的詞彙量為 CNN、BBC、Reuters、YouTube 等英文新聞和影片網站上的生詞加上中文註釋、美式音標和發音，可接入大型語言模型解釋。"
+  },
+  "brand": {
+    "message": "Inkling 墨點"
+  },
+  "error_generic": {
+    "message": "出錯了"
+  },
+  "error_detail": {
+    "message": "出錯了：{0}"
+  },
+  "cancelled": {
+    "message": "已取消"
+  },
+  "unknown_error": {
+    "message": "未知錯誤"
+  },
+  "cancel": {
+    "message": "取消"
+  },
+  "save": {
+    "message": "儲存"
+  },
+  "saved": {
+    "message": "已儲存"
+  },
+  "remove": {
+    "message": "移除"
+  },
+  "remove_aria": {
+    "message": "移除 {0}"
+  },
+  "custom": {
+    "message": "自訂"
+  },
+  "settings": {
+    "message": "設定"
+  },
+  "model": {
+    "message": "模型"
+  },
+  "preset_1500": {
+    "message": "國中"
+  },
+  "preset_3500": {
+    "message": "高中"
+  },
+  "preset_4500": {
+    "message": "四級"
+  },
+  "preset_6000": {
+    "message": "六級"
+  },
+  "preset_6500": {
+    "message": "考研"
+  },
+  "preset_8000": {
+    "message": "雅思/托福"
+  },
+  "preset_11000": {
+    "message": "專八"
+  },
+  "preset_14000": {
+    "message": "GRE"
+  },
+  "color_000000": {
+    "message": "黑色"
+  },
+  "color_5f6368": {
+    "message": "深灰"
+  },
+  "color_b4541a": {
+    "message": "赭橙"
+  },
+  "color_c62828": {
+    "message": "紅色"
+  },
+  "color_2e7d32": {
+    "message": "綠色"
+  },
+  "color_1a5fb4": {
+    "message": "藍色"
+  },
+  "color_7b3fbf": {
+    "message": "紫色"
+  },
+  "tag_zk": {
+    "message": "中考"
+  },
+  "tag_gk": {
+    "message": "高考"
+  },
+  "tag_cet4": {
+    "message": "四級"
+  },
+  "tag_cet6": {
+    "message": "六級"
+  },
+  "tag_ky": {
+    "message": "考研"
+  },
+  "tag_toefl": {
+    "message": "托福"
+  },
+  "tag_ielts": {
+    "message": "雅思"
+  },
+  "tag_gre": {
+    "message": "GRE"
+  },
+  "site_google_news": {
+    "message": "Google 新聞"
+  },
+  "card_aria": {
+    "message": "Inkling 詞卡"
+  },
+  "sel_title": {
+    "message": "查看釋義（Inkling）"
+  },
+  "sel_label": {
+    "message": "注"
+  },
+  "kind_word": {
+    "message": "生詞"
+  },
+  "kind_sense": {
+    "message": "熟詞僻義"
+  },
+  "kind_phrase": {
+    "message": "片語"
+  },
+  "kind_idiom": {
+    "message": "慣用語"
+  },
+  "ctx_label": {
+    "message": "語境義"
+  },
+  "cefr_title": {
+    "message": "CEFR 難度等級"
+  },
+  "lemma": {
+    "message": "原形 {0}"
+  },
+  "rank": {
+    "message": "詞頻 #{0}"
+  },
+  "close": {
+    "message": "關閉"
+  },
+  "us_ipa": {
+    "message": "美式音標"
+  },
+  "us_badge": {
+    "message": "美"
+  },
+  "speak_title": {
+    "message": "朗讀（美式）"
+  },
+  "speak": {
+    "message": "朗讀"
+  },
+  "not_in_dict_word": {
+    "message": "詞典裡沒有這個詞，已請 AI 結合上下文解釋。"
+  },
+  "not_in_dict_phrase": {
+    "message": "詞典裡沒有這個片語，已請 AI 結合上下文解釋。"
+  },
+  "ai_explain": {
+    "message": "AI 語境解釋"
+  },
+  "ai_explaining": {
+    "message": "解釋中…"
+  },
+  "ai_reexplain": {
+    "message": "重新解釋"
+  },
+  "know_word": {
+    "message": "我認識這個詞"
+  },
+  "know_phrase": {
+    "message": "我認識這個片語"
+  },
+  "add_learning": {
+    "message": "加入生詞本"
+  },
+  "remove_learning": {
+    "message": "移出生詞本"
+  },
+  "ext_updated": {
+    "message": "擴充功能已更新，請重新整理頁面後再試"
+  },
+  "view": {
+    "message": "查看"
+  },
+  "open_settings": {
+    "message": "開啟 Inkling 設定"
+  },
+  "master_switch": {
+    "message": "總開關"
+  },
+  "site_enabled_on": {
+    "message": "在 {0} 上啟用"
+  },
+  "this_page": {
+    "message": "此頁面"
+  },
+  "site_switch_aria": {
+    "message": "目前網站開關"
+  },
+  "not_default_site": {
+    "message": "{0} 不在預設支援的網站中。授權後 Inkling 只會在這個網站上執行。"
+  },
+  "enable_here": {
+    "message": "在此網站啟用"
+  },
+  "grant_denied": {
+    "message": "未取得授權"
+  },
+  "enable_failed": {
+    "message": "啟用失敗"
+  },
+  "vocab": {
+    "message": "詞彙量"
+  },
+  "display_mode": {
+    "message": "顯示方式"
+  },
+  "mode_ruby_short": {
+    "message": "詞上方"
+  },
+  "mode_ruby": {
+    "message": "詞上方小字"
+  },
+  "mode_paren": {
+    "message": "詞後括註"
+  },
+  "mode_underline": {
+    "message": "只加底線"
+  },
+  "checking": {
+    "message": "檢查中…"
+  },
+  "auto_ai_short": {
+    "message": "AI 優化註釋（語境釋義 + 分級）"
+  },
+  "counts": {
+    "message": "熟詞 {0} · 生詞 {1}"
+  },
+  "ai_using_plan": {
+    "message": "正在使用 ChatGPT 方案用量"
+  },
+  "ai_plan_not_granted": {
+    "message": "已登入 ChatGPT，但未授權方案用量"
+  },
+  "ai_signed_out": {
+    "message": "ChatGPT 未登入"
+  },
+  "ai_apikey": {
+    "message": "API Key · {0}"
+  },
+  "ai_no_model": {
+    "message": "未選模型"
+  },
+  "ai_unconfigured": {
+    "message": "未設定（可在設定中填寫 API Key 或登入 ChatGPT）"
+  },
+  "auto_title_on": {
+    "message": "用量會明顯增加"
+  },
+  "auto_title_off": {
+    "message": "請先在設定中接入大型語言模型"
+  },
+  "opt_title": {
+    "message": "Inkling 墨點 · 設定"
+  },
+  "ui_lang": {
+    "message": "介面語言"
+  },
+  "ui_lang_auto": {
+    "message": "跟隨瀏覽器"
+  },
+  "sites_h": {
+    "message": "支援的網站"
+  },
+  "sites_desc": {
+    "message": "Inkling 預設只在下列英文新聞和影片網站上執行。其他網站可在工具列彈出視窗中點「在此網站啟用」個別授權。"
+  },
+  "sites_extra_h": {
+    "message": "你啟用的其他網站"
+  },
+  "sites_none": {
+    "message": "還沒有。"
+  },
+  "level_h": {
+    "message": "詞彙程度"
+  },
+  "level_desc": {
+    "message": "詞頻排名在 N 以內的詞視為已認識，不會註釋。生詞本裡的詞一律註釋，熟詞本裡的詞永不註釋。"
+  },
+  "presets_aria": {
+    "message": "預設檔位"
+  },
+  "level_slider_aria": {
+    "message": "詞彙量滑桿"
+  },
+  "level_number_aria": {
+    "message": "詞彙量數值"
+  },
+  "near_desc": {
+    "message": "這條線附近的詞（左邊的視為認識，有框的會被註釋）："
+  },
+  "quiz_h": {
+    "message": "不確定自己的程度？"
+  },
+  "quiz_desc": {
+    "message": "40 詞小測驗：從 10 個詞頻區段各抽 4 個詞，勾選你確定認識的，估算詞彙量。"
+  },
+  "quiz_start": {
+    "message": "開始測驗"
+  },
+  "quiz_again": {
+    "message": "再測一次"
+  },
+  "quiz_done": {
+    "message": "估算我的程度"
+  },
+  "quiz_result": {
+    "message": "估算詞彙量約 {0}（{1}），已套用。"
+  },
+  "display_desc": {
+    "message": "同一段落中同一個詞只在第一次出現時顯示釋義。點擊被註釋的詞可以開啟詞卡；選取任意詞或片語會出現「注」按鈕。"
+  },
+  "color_h": {
+    "message": "釋義顏色"
+  },
+  "color_custom_title": {
+    "message": "自訂顏色"
+  },
+  "color_custom_aria": {
+    "message": "自訂釋義顏色"
+  },
+  "color_note": {
+    "message": "在深色背景的網頁上，如果所選顏色看不清楚（例如黑色），會自動改用淺灰色。"
+  },
+  "pron_h": {
+    "message": "音標與發音"
+  },
+  "show_ipa": {
+    "message": "在註釋中顯示美式音標"
+  },
+  "ipa_example": {
+    "message": "（例：tariff /{0}/ 關稅）"
+  },
+  "ipa_desc": {
+    "message": "美式 IPA 來自 CMUdict（如 tariff /ˈtɛrəf/）。詞卡中一律顯示音標；這個開關只控制頁面上的註釋。「只加底線」模式下不顯示。"
+  },
+  "auto_speak": {
+    "message": "開啟詞卡時自動朗讀"
+  },
+  "voice": {
+    "message": "聲音"
+  },
+  "rate": {
+    "message": "語速"
+  },
+  "try_voice": {
+    "message": "🔊 試聽"
+  },
+  "voice_note": {
+    "message": "使用瀏覽器內建的語音合成，可選聲音取決於作業系統。"
+  },
+  "voice_auto": {
+    "message": "自動（優先美式英語）"
+  },
+  "voice_unavailable": {
+    "message": "{0}（目前無法使用）"
+  },
+  "voice_count": {
+    "message": "使用瀏覽器內建的語音合成，本機有 {0} 個英語聲音。"
+  },
+  "voice_none": {
+    "message": "沒有偵測到英語聲音，朗讀可能無法使用。可以在系統設定中新增英語（美國）語音。"
+  },
+  "lists_h": {
+    "message": "熟詞本 / 生詞本"
+  },
+  "export_json": {
+    "message": "匯出 JSON"
+  },
+  "lists_desc": {
+    "message": "每行一個詞（原形）。修改後點「儲存」，已開啟的頁面立即生效。"
+  },
+  "known_label": {
+    "message": "熟詞本（{0}）· 永不註釋"
+  },
+  "learning_label": {
+    "message": "生詞本（{0}）· 一律註釋"
+  },
+  "ai_h": {
+    "message": "大型語言模型"
+  },
+  "ai_desc": {
+    "message": "用於詞卡中的「AI 語境解釋」和可選的 AI 優化註釋。兩種接入方式擇一即可。"
+  },
+  "apikey_head": {
+    "message": "使用 API Key（OpenAI 相容介面）"
+  },
+  "api_base": {
+    "message": "介面網址"
+  },
+  "api_key_note": {
+    "message": "只儲存在本機（chrome.storage.local），不會同步，也不會傳給介面網址以外的任何服務。"
+  },
+  "show": {
+    "message": "顯示"
+  },
+  "hide": {
+    "message": "隱藏"
+  },
+  "fetch_models": {
+    "message": "取得模型清單"
+  },
+  "test_conn": {
+    "message": "測試連線"
+  },
+  "chatgpt_head": {
+    "message": "使用 ChatGPT 帳號（消耗 Plus / Pro 方案用量）"
+  },
+  "chatgpt_desc": {
+    "message": "登入後，AI 解釋會計入你的 ChatGPT 方案用量，不需要 API Key。登入與授權在 OpenAI 頁面完成，Inkling 不會看到你的密碼。"
+  },
+  "login_other": {
+    "message": "使用其他帳號登入"
+  },
+  "manage_usage": {
+    "message": "管理用量"
+  },
+  "refresh_models": {
+    "message": "重新整理模型清單"
+  },
+  "logout": {
+    "message": "登出"
+  },
+  "need_api_access": {
+    "message": "需要允許存取 {0} 才能使用這個介面網址"
+  },
+  "fetching_models": {
+    "message": "正在取得模型清單…"
+  },
+  "got_models": {
+    "message": "取得 {0} 個模型，可在「模型」欄位中選擇。"
+  },
+  "testing": {
+    "message": "正在測試…"
+  },
+  "test_ok": {
+    "message": "連線成功（{0} ms），模型回覆：{1}"
+  },
+  "last_login": {
+    "message": "上次登入：{0}"
+  },
+  "auto_h": {
+    "message": "AI 優化註釋（語境釋義 + 難度分級）"
+  },
+  "auto_desc": {
+    "message": "讀到哪一段，就讓模型依你的詞彙程度重新判斷這一段該註釋什麼。"
+  },
+  "auto_li1": {
+    "message": "釋義依上下文給出，不再只是詞典的第一個義項；"
+  },
+  "auto_li2": {
+    "message": "去掉不需要註釋的：人名地名、你大概認識或猜得出來的詞；"
+  },
+  "auto_li3": {
+    "message": "補上詞頻表發現不了的：熟詞僻義（如 markets brace for… 中的 brace 表示「準備應對」）、片語動詞和慣用語（如 rule out、in the wake of）；"
+  },
+  "auto_li4": {
+    "message": "詞卡中顯示語境義和 CEFR 難度等級（A1–C2）。"
+  },
+  "auto_warn": {
+    "message": "開啟後用量會明顯增加：每讀一段就要請求一次模型，相鄰的短段落會合併成一次請求。預設關閉。結果會快取，同一段在同一檔程度下不會重複請求。未開啟時，詞典註釋照常運作。"
+  },
+  "about_h": {
+    "message": "關於"
+  },
+  "about_text": {
+    "message": "離線詞典以 {0}（MIT 授權）精簡產生，美式音標來自 CMUdict。朗讀使用瀏覽器內建的語音合成。"
+  },
+  "cb_title": {
+    "message": "Inkling · 登入 ChatGPT"
+  },
+  "cb_finishing": {
+    "message": "正在完成登入…"
+  },
+  "cb_wait": {
+    "message": "請稍候，正在與 ChatGPT 交換權杖。"
+  },
+  "back_settings": {
+    "message": "返回設定"
+  },
+  "cb_ok": {
+    "message": "已登入 ChatGPT"
+  },
+  "cb_ok_msg": {
+    "message": "正在使用 ChatGPT 方案用量{0}。此頁面將自動關閉。"
+  },
+  "cb_noplan": {
+    "message": "已登入，但未授權方案用量"
+  },
+  "cb_noplan_msg": {
+    "message": "沒有取得使用 ChatGPT 方案用量的授權。請回到設定頁重新登入並允許，或改用 API Key。"
+  },
+  "cb_fail": {
+    "message": "登入未完成"
+  },
+  "site_no_permission": {
+    "message": "沒有取得該網站的存取權限"
+  },
+  "login_stale": {
+    "message": "登入要求已失效或已處理，請回到 Inkling 設定頁重新點擊 Continue with ChatGPT"
+  },
+  "login_denied": {
+    "message": "你沒有同意授權，或未開啟 ChatGPT 方案用量共享。可以重新登入並允許使用方案用量，或改用 API Key。"
+  },
+  "login_failed": {
+    "message": "登入失敗：{0}"
+  },
+  "login_no_code": {
+    "message": "回呼中缺少授權碼"
+  },
+  "login_no_client": {
+    "message": "首次註冊未傳回 client_id，註冊不完整，請重試"
+  },
+  "login_client_mismatch": {
+    "message": "回呼傳回的 client_id 與已儲存的不一致，已拒絕本次登入"
+  },
+  "login_network": {
+    "message": "無法連線到 OpenAI 登入伺服器，請檢查網路"
+  },
+  "login_code_expired": {
+    "message": "授權碼已失效，請重新登入"
+  },
+  "token_exchange_failed": {
+    "message": "交換權杖失敗（HTTP {0}）{1}"
+  },
+  "login_account_mismatch": {
+    "message": "登入的 ChatGPT 帳號與先前不同。如需更換帳號，請在設定頁選擇「使用其他帳號登入」。"
+  },
+  "plan_not_granted": {
+    "message": "已登入，但沒有授權使用 ChatGPT 方案用量。請重新登入並允許方案用量，或改用 API Key。"
+  },
+  "session_expired": {
+    "message": "登入已過期，請重新登入 ChatGPT"
+  },
+  "refresh_network": {
+    "message": "更新 ChatGPT 登入狀態時網路出錯，請稍後再試"
+  },
+  "login_invalid": {
+    "message": "ChatGPT 登入已失效，請重新登入"
+  },
+  "refresh_failed": {
+    "message": "更新 ChatGPT 權杖失敗（HTTP {0}）{1}"
+  },
+  "not_signed_in": {
+    "message": "尚未登入 ChatGPT，請到設定頁點擊 Continue with ChatGPT"
+  },
+  "plan_disabled": {
+    "message": "已登入 ChatGPT，但未授權使用方案用量。請重新登入並允許，或改用 API Key。"
+  },
+  "logout_ok": {
+    "message": "已登出 ChatGPT"
+  },
+  "logout_unconfirmed": {
+    "message": "已登出，但無法確認權杖已撤銷。你可以在 ChatGPT 設定中中斷 Inkling 的連線。"
+  },
+  "openai_network": {
+    "message": "無法連線到 OpenAI 介面，請檢查網路"
+  },
+  "usage_limit": {
+    "message": "ChatGPT 方案用量已達上限，請稍後再試或調整用量設定。"
+  },
+  "not_eligible": {
+    "message": "目前的 ChatGPT 帳號無法共享方案用量（需要 Plus 或 Pro 方案）。可改用 API Key。"
+  },
+  "invalid_user": {
+    "message": "ChatGPT 登入狀態無效，請重新登入。"
+  },
+  "usage_unavailable": {
+    "message": "暫時無法確認 ChatGPT 用量，請稍後再試。"
+  },
+  "unsupported_capability": {
+    "message": "所選模型或請求參數不受支援{0}，請改用其他模型。"
+  },
+  "route_unsupported": {
+    "message": "請求的介面不受支援。"
+  },
+  "scope_not_authorized": {
+    "message": "目前的授權不允許此操作，請重新登入並允許使用方案用量。"
+  },
+  "http_forbidden": {
+    "message": "請求被拒絕（HTTP 403）{0}"
+  },
+  "usage_limit_short": {
+    "message": "ChatGPT 方案用量已達上限。"
+  },
+  "service_unavailable": {
+    "message": "ChatGPT 服務暫時無法使用，請稍後再試。"
+  },
+  "http_failed": {
+    "message": "請求失敗（HTTP {0}）{1}"
+  },
+  "no_chatgpt_model": {
+    "message": "尚未選擇 ChatGPT 模型，請到設定頁選擇"
+  },
+  "gen_failed": {
+    "message": "模型產生失敗{0}"
+  },
+  "incomplete": {
+    "message": "回答未完成（被截斷）"
+  },
+  "model_error": {
+    "message": "模型傳回錯誤：{0}"
+  },
+  "interrupted": {
+    "message": "連線中斷，回答不完整，請重試"
+  },
+  "no_json": {
+    "message": "模型沒有傳回 JSON"
+  },
+  "usage_paused": {
+    "message": "用量已達上限，AI 優化註釋已暫停"
+  },
+  "bad_base": {
+    "message": "介面網址格式不正確，應以 http:// 或 https:// 開頭"
+  },
+  "no_api_key": {
+    "message": "尚未填寫 API Key，請到設定頁「大型語言模型」中填寫"
+  },
+  "need_host": {
+    "message": "尚未授權存取 {0}。請到設定頁「大型語言模型」點「測試連線」，在跳出的提示中允許存取。"
+  },
+  "cannot_connect": {
+    "message": "無法連線到 {0}，請檢查介面網址和網路"
+  },
+  "server_said": {
+    "message": "（伺服器回應：{0}）"
+  },
+  "http_401": {
+    "message": "API Key 無效或已過期（HTTP 401）{0}"
+  },
+  "http_403": {
+    "message": "沒有權限存取該介面或模型（HTTP 403）{0}"
+  },
+  "http_404": {
+    "message": "介面網址或模型名稱不正確（HTTP 404）{0}"
+  },
+  "http_429": {
+    "message": "請求過於頻繁或帳戶額度不足（HTTP 429）{0}"
+  },
+  "http_5xx": {
+    "message": "伺服器出錯（HTTP {0}），請稍後再試{1}"
+  },
+  "models_unrecognized": {
+    "message": "無法辨識介面傳回的模型清單格式"
+  },
+  "no_model": {
+    "message": "尚未選擇模型，請到設定頁填寫模型名稱"
+  },
+  "empty_reply": {
+    "message": "模型沒有傳回內容"
+  }
+}

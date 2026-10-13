@@ -1,5 +1,7 @@
 // 极简 SSE 解析：逐个产出 { event, data }
 
+import { t } from './i18n.js';
+
 export async function* readSSE(response) {
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
@@ -45,8 +47,8 @@ export function errorPayload(err) {
   if (err instanceof AIError) {
     return { message: err.message, code: err.code, link: err.link, linkText: err.linkText, needLogin: !!err.needLogin };
   }
-  if (err?.name === 'AbortError') return { message: '已取消' };
-  return { message: '出错了：' + (err?.message || String(err)) };
+  if (err?.name === 'AbortError') return { message: t('cancelled') };
+  return { message: t('error_detail', err?.message || String(err)) };
 }
 
 export async function readErrorBody(res) {

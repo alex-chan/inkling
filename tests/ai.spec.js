@@ -294,7 +294,7 @@ test.describe('B. Sign in with ChatGPT', () => {
   test('未授权套餐用量 / 拒绝授权：给出提示并引导改用 API Key', async ({ context, mock, extId, sw }) => {
     await mock.control({ omitPlanScope: true });
     const opt = await loginChatGPT(context, extId);
-    await expect(opt.locator('#cgUsing')).toHaveText('已登录，但未授权使用套餐用量');
+    await expect(opt.locator('#cgUsing')).toHaveText('已登录 ChatGPT，但未授权套餐用量');
     await expect(opt.locator('#cgError')).toContainText('改用 API Key');
     expect((await getStorage(sw, ['aiProvider'])).aiProvider ?? 'apikey').toBe('apikey');
 

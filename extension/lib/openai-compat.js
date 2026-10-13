@@ -1,5 +1,6 @@
 // A. API Key 方式：OpenAI 兼容的 Chat Completions 接口
 
+import { t } from './i18n.js';
 import { readSSE, AIError, readErrorBody } from './sse.js';
 
 export function normalizeBase(base) {
@@ -8,13 +9,13 @@ export function normalizeBase(base) {
 
 async function request(apiBase, apiKey, path, init = {}) {
   const base = normalizeBase(apiBase);
-  if (!/^https?:\/\//i.test(base)) throw new AIError('接口地址格式不正确，应以 http:// 或 https:// 开头');
-  if (!apiKey) throw new AIError('尚未填写 API Key，请到设置页「大模型」中填写');
+  if (!/^https?:\/\//i.test(base)) throw new AIError(t('bad_base'), { code: 'bad_base' });
+  if (!apiKey) throw new AIError(t('no_api_key'), { code: 'no_api_key' });
   // 扩展只默认拥有 api.openai.com 的访问权限；其他接口地址需要用户授权一次
   const u = new URL(base);
   const pattern = `${u.protocol}//${u.hostname}/*`;
   if (chrome.permissions && !(await chrome.permissions.contains({ origins: [pattern] }).catch(() => false))) {
-    throw new AIError(`还没有授权访问 ${u.host}。请到设置页「大模型」点「测试连接」，在弹出的提示中允许访问。`, { code: 'need_host_permission' });
+    throw new AIError(t('need_host', u.host), { code: 'need_host_permission' });
   }
   let res;
   try {
@@ -24,18 +25,18 @@ async function request(apiBase, apiKey, path, init = {}) {
     });
   } catch (e) {
     if (e?.name === 'AbortError') throw e;
-    throw new AIError(`无法连接到 ${new URL(base).host}，请检查接口地址和网络`);
+    throw new AIError(t('cannot_connect', new URL(base).host));
   }
   if (!res.ok) {
     const { msg } = await readErrorBody(res);
-    const detail = msg ? `（服务器返回：${msg}）` : '';
+    const detail = msg ? t('server_said', msg) : '';
     const s = res.status;
-    if (s === 401) throw new AIError(`API Key 无效或已过期（HTTP 401）${detail}`, { code: 'invalid_api_key' });
-    if (s === 403) throw new AIError(`没有权限访问该接口或模型（HTTP 403）${detail}`);
-    if (s === 404) throw new AIError(`接口地址或模型名不正确（HTTP 404）${detail}`);
-    if (s === 429) throw new AIError(`请求过于频繁或账户额度不足（HTTP 429）${detail}`);
-    if (s >= 500) throw new AIError(`服务端出错（HTTP ${s}），请稍后再试${detail}`);
-    throw new AIError(`请求失败（HTTP ${s}）${detail}`);
+    if (s === 401) throw new AIError(t('http_401', detail), { code: 'invalid_api_key' });
+    if (s === 403) throw new AIError(t('http_403', detail));
+    if (s === 404) throw new AIError(t('http_404', detail));
+    if (s === 429) throw new AIError(t('http_429', detail));
+    if (s >= 500) throw new AIError(t('http_5xx', s, detail));
+    throw new AIError(t('http_failed', s, detail));
   }
   return res;
 }
@@ -44,7 +45,7 @@ export async function listModels({ apiBase, apiKey }) {
   const res = await request(apiBase, apiKey, '/models', { method: 'GET' });
   const j = await res.json().catch(() => null);
   const list = Array.isArray(j?.data) ? j.data : Array.isArray(j?.models) ? j.models : null;
-  if (!list) throw new AIError('接口返回的模型列表格式无法识别');
+  if (!list) throw new AIError(t('models_unrecognized'));
   return list.map((m) => ({ id: m.id || m.slug || m.name, name: m.id || m.display_name || m.name }))
     .filter((m) => m.id)
     .sort((a, b) => a.id.localeCompare(b.id));
@@ -52,7 +53,7 @@ export async function listModels({ apiBase, apiKey }) {
 
 // 流式对话，返回完整文本
 export async function chat({ apiBase, apiKey, model, system, user, onDelta, signal, temperature = 0.3 }) {
-  if (!model) throw new AIError('尚未选择模型，请到设置页填写模型名');
+  if (!model) throw new AIError(t('no_model'), { code: 'no_model' });
   const res = await request(apiBase, apiKey, '/chat/completions', {
     method: 'POST',
     signal,
@@ -69,7 +70,7 @@ export async function chat({ apiBase, apiKey, model, system, user, onDelta, sign
     // 有些兼容服务忽略 stream 参数，直接返回 JSON
     const j = await res.json().catch(() => null);
     text = j?.choices?.[0]?.message?.content || '';
-    if (!text) throw new AIError('模型没有返回内容');
+    if (!text) throw new AIError(t('empty_reply'));
     onDelta?.(text);
     return text;
   }
@@ -77,10 +78,10 @@ export async function chat({ apiBase, apiKey, model, system, user, onDelta, sign
     if (data === '[DONE]') break;
     let j;
     try { j = JSON.parse(data); } catch { continue; }
-    if (j.error) throw new AIError('模型返回错误：' + (j.error.message || JSON.stringify(j.error)));
+    if (j.error) throw new AIError(t('model_error', j.error.message || JSON.stringify(j.error)));
     const delta = j.choices?.[0]?.delta?.content ?? j.choices?.[0]?.message?.content ?? '';
     if (delta) { text += delta; onDelta?.(delta); }
   }
-  if (!text) throw new AIError('模型没有返回内容');
+  if (!text) throw new AIError(t('empty_reply'));
   return text;
 }

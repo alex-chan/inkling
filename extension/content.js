@@ -17,7 +17,16 @@
   let learning = new Set();
   let active = false;
 
-  const TAG_NAMES = { zk: '中考', gk: '高考', cet4: '四级', cet6: '六级', ky: '考研', toefl: '托福', ielts: '雅思', gre: 'GRE' };
+  // ---------------- 界面文案（由后台按当前界面语言提供） ----------------
+  let M = {};
+  function t(key, ...subs) {
+    return (M[key] ?? key).replace(/{(\d)}/g, (_, i) => (subs[i] ?? ''));
+  }
+  async function loadMessages() {
+    try { M = (await send({ type: 'i18n' })).messages || {}; } catch { /* 后台未就绪时保持原样 */ }
+  }
+  // 需要配置才能用的错误：词卡里给出「打开设置」链接，自动注释也随之停止
+  const CONFIG_CODES = new Set(['no_api_key', 'no_model', 'no_chatgpt_model', 'need_host_permission', 'plan_disabled', 'bad_base']);
   const WORD_RE = /[A-Za-z]+(?:['’][A-Za-z]+)*/g;
   const BLOCK_SEL = 'p, li, h1, h2, h3, h4, h5, h6, blockquote, dd, dt, figcaption, td, th, summary, caption, label';
   const SKIP_SEL = [
@@ -51,7 +60,7 @@
         chrome.runtime.sendMessage(msg, (res) => {
           if (chrome.runtime.lastError) return reject(new Error(chrome.runtime.lastError.message));
           if (!res) return reject(new Error('no response'));
-          res.ok ? resolve(res.data) : reject(Object.assign(new Error(res.error?.message || '出错了'), res.error));
+          res.ok ? resolve(res.data) : reject(Object.assign(new Error(res.error?.message || t('error_generic')), res.error));
         });
       } catch (e) { reject(e); }
     });
@@ -594,7 +603,7 @@
       });
     } catch (e) {
       mutate(() => blocks.forEach((b) => b.removeAttribute('data-ik-ai')));
-      if (e.needLogin || e.code || /用量|API Key|尚未/.test(e.message || '')) aiStopped = true;
+      if (e.needLogin || e.code) aiStopped = true;
     } finally {
       for (const b of blocks) aiPending.delete(b);
     }
@@ -703,8 +712,8 @@
     host.style.cssText = 'position:absolute!important;top:0!important;left:0!important;width:0!important;height:0!important;overflow:visible!important;z-index:2147483647!important;display:block!important;';
     shadow = host.attachShadow({ mode: 'open' });
     shadow.innerHTML = `<style>${CARD_CSS}</style>
-      <div class="card" role="dialog" aria-label="Inkling 词卡" hidden></div>
-      <button class="sel" title="查看释义（Inkling）" hidden>注</button>`;
+      <div class="card" role="dialog" aria-label="${esc(t('card_aria'))}" hidden></div>
+      <button class="sel" title="${esc(t('sel_title'))}" hidden>${esc(t('sel_label'))}</button>`;
     card = shadow.querySelector('.card');
     selBtn = shadow.querySelector('.sel');
     selBtn.addEventListener('mousedown', (e) => { e.preventDefault(); e.stopPropagation(); });
@@ -764,31 +773,31 @@
     opts.anchor = { left: rect.left + window.scrollX, top: rect.top + window.scrollY, bottom: rect.bottom + window.scrollY };
     const isWord = !!I;
     const isPhrase = /\s/.test(text);
-    const KIND_NAMES = { word: '生词', sense: '熟词僻义', phrase: isPhrase ? '短语' : '习语' };
+    const KIND_NAMES = { word: t('kind_word'), sense: t('kind_sense'), phrase: isPhrase ? t('kind_phrase') : t('kind_idiom') };
     // AI 按语境给出的释义与难度（开启「AI 优化注释」时才有）
-    const aiRow = ai ? `<div class="ctx"><span class="ctx-label">语境义</span><b class="ctx-gloss">${esc(ai.gloss)}</b>
-        ${ai.level ? `<span class="tag lv" title="CEFR 难度等级">${esc(ai.level)}</span>` : ''}
-        <span class="tag kind">${esc(KIND_NAMES[ai.kind] || '生词')}</span></div>` : '';
+    const aiRow = ai ? `<div class="ctx"><span class="ctx-label">${esc(t('ctx_label'))}</span><b class="ctx-gloss">${esc(ai.gloss)}</b>
+        ${ai.level ? `<span class="tag lv" title="${esc(t('cefr_title'))}">${esc(ai.level)}</span>` : ''}
+        <span class="tag kind">${esc(KIND_NAMES[ai.kind] || t('kind_word'))}</span></div>` : '';
     const inLearning = I && (learning.has(I.l));
-    const tags = I ? I.t.split(' ').filter(Boolean).map((t) => `<span class="tag">${esc(TAG_NAMES[t] || t)}</span>`).join('') : '';
-    const lemmaNote = I && I.w.toLowerCase() !== baseToken(text).toLowerCase() ? `<span>原形 <b>${esc(I.w)}</b></span>` : '';
-    const rank = I ? `<span>词频 #${I.r >= 30000 ? '30000+' : I.r}</span>` : '';
+    const tags = I ? I.t.split(' ').filter(Boolean).map((x) => `<span class="tag">${esc(M[`tag_${x}`] || x)}</span>`).join('') : '';
+    const lemmaNote = I && I.w.toLowerCase() !== baseToken(text).toLowerCase() ? `<span>${t('lemma', `<b>${esc(I.w)}</b>`)}</span>` : '';
+    const rank = I ? `<span>${esc(t('rank', I.r >= 30000 ? '30000+' : I.r))}</span>` : '';
     card.innerHTML = `
-      <button class="close" aria-label="关闭">×</button>
+      <button class="close" aria-label="${esc(t('close'))}">×</button>
       <div class="head">
         <span class="word">${esc(text)}</span>
-        ${I?.us ? `<span class="ph" title="美式音标"><span class="acc">美</span>/${esc(I.us)}/</span>` : I?.ph ? `<span class="ph">/${esc(I.ph)}/</span>` : ''}
-        <button class="speak" title="朗读（美式）" aria-label="朗读">🔊</button>
+        ${I?.us ? `<span class="ph" title="${esc(t('us_ipa'))}"><span class="acc">${esc(t('us_badge'))}</span>/${esc(I.us)}/</span>` : I?.ph ? `<span class="ph">/${esc(I.ph)}/</span>` : ''}
+        <button class="speak" title="${esc(t('speak_title'))}" aria-label="${esc(t('speak'))}">🔊</button>
       </div>
       ${aiRow}
       ${isWord ? `<div class="meta">${lemmaNote}${rank}${tags}</div>
-      <ul class="defs">${I.tr.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>` : ai ? '' : `<div class="note">词典里没有这个${isPhrase ? '短语' : '词'}，已请 AI 结合上下文解释。</div>`}
+      <ul class="defs">${I.tr.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>` : ai ? '' : `<div class="note">${esc(t(isPhrase ? 'not_in_dict_phrase' : 'not_in_dict_word'))}</div>`}
       <div class="ai" hidden></div>
       <div class="row">
-        <button class="b primary act-ai">AI 语境解释</button>
-        ${opts.annotated ? `<button class="b act-known">我认识这个${isPhrase ? '短语' : '词'}</button>` : ''}
-        ${isWord && !opts.annotated ? `<button class="b act-learn">${inLearning ? '移出生词本' : '加入生词本'}</button>` : ''}
-        ${isWord && opts.annotated && inLearning ? '<button class="b act-learn">移出生词本</button>' : ''}
+        <button class="b primary act-ai">${esc(t('ai_explain'))}</button>
+        ${opts.annotated ? `<button class="b act-known">${esc(t(isPhrase ? 'know_phrase' : 'know_word'))}</button>` : ''}
+        ${isWord && !opts.annotated ? `<button class="b act-learn">${esc(t(inLearning ? 'remove_learning' : 'add_learning'))}</button>` : ''}
+        ${isWord && opts.annotated && inLearning ? `<button class="b act-learn">${esc(t('remove_learning'))}</button>` : ''}
       </div>`;
     card.hidden = false;
     place(card, rect, Math.min(340, document.documentElement.clientWidth - 16));
@@ -834,12 +843,12 @@
     box.innerHTML = '<span class="out cursor"></span>';
     const out = box.querySelector('.out');
     btn.disabled = true;
-    btn.textContent = '解释中…';
+    btn.textContent = t('ai_explaining');
     if (port) { try { port.disconnect(); } catch { /* */ } }
     try {
       port = chrome.runtime.connect({ name: 'explain' });
     } catch {
-      showAIError(box, { message: '扩展已更新，请刷新页面后重试' });
+      showAIError(box, { message: t('ext_updated') });
       return;
     }
     const myPort = port;
@@ -848,12 +857,12 @@
       if (m.type === 'delta') { out.textContent += m.text; refitCard(); }
       else if (m.type === 'done') {
         out.classList.remove('cursor');
-        btn.disabled = false; btn.textContent = '重新解释';
+        btn.disabled = false; btn.textContent = t('ai_reexplain');
         box.dataset.state = 'done';
         refitCard();
       } else if (m.type === 'error') {
         out.classList.remove('cursor');
-        btn.disabled = false; btn.textContent = 'AI 语境解释';
+        btn.disabled = false; btn.textContent = t('ai_explain');
         showAIError(box, m.error, out.textContent);
         refitCard();
       }
@@ -866,9 +875,9 @@
     box.dataset.state = 'error';
     const parts = [];
     if (partial) parts.push(`<div>${esc(partial)}</div>`);
-    parts.push(`<div class="err">${esc(err?.message || '出错了')}</div>`);
-    if (err?.link) parts.push(`<div><a href="${esc(err.link)}" target="_blank" rel="noopener">${esc(err.linkText || '查看')}</a></div>`);
-    if (err?.needLogin || /尚未|API Key|设置页/.test(err?.message || '')) parts.push('<div><a href="#" class="go-opt">打开 Inkling 设置</a></div>');
+    parts.push(`<div class="err">${esc(err?.message || t('error_generic'))}</div>`);
+    if (err?.link) parts.push(`<div><a href="${esc(err.link)}" target="_blank" rel="noopener">${esc(err.linkText || t('view'))}</a></div>`);
+    if (err?.needLogin || CONFIG_CODES.has(err?.code)) parts.push(`<div><a href="#" class="go-opt">${esc(t('open_settings'))}</a></div>`);
     box.innerHTML = parts.join('');
     box.querySelector('.go-opt')?.addEventListener('click', (e) => { e.preventDefault(); send({ type: 'openOptions', hash: 'ai' }); });
   }
@@ -890,8 +899,8 @@
 
   async function toggleLearning(I, btn) {
     if (!I) return;
-    if (learning.has(I.l)) { learning.delete(I.l); btn.textContent = '加入生词本'; }
-    else { learning.add(I.l); known.delete(I.l); btn.textContent = '移出生词本'; }
+    if (learning.has(I.l)) { learning.delete(I.l); btn.textContent = t('add_learning'); }
+    else { learning.add(I.l); known.delete(I.l); btn.textContent = t('remove_learning'); }
     rerenderAll();
     await saveLists();
   }
@@ -1087,8 +1096,18 @@
   window.addEventListener('keydown', onKey, true);
   document.addEventListener('copy', onCopy, true);
 
-  chrome.storage.local.get(KEYS, (raw) => {
+  // 界面语言切换：重新取文案；词卡和划词按钮按新语言重建
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area !== 'local' || !('uiLanguage' in changes)) return;
+    closeCard();
+    hideSelBtn();
+    if (host) { host.remove(); host = null; }
+    loadMessages();
+  });
+
+  chrome.storage.local.get(KEYS, async (raw) => {
     applySettings(raw || {});
+    await loadMessages();
     if (shouldBeActive()) start();
   });
 })();

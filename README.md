@@ -17,6 +17,15 @@ Chrome / Edge 扩展（Manifest V3）：按你的词汇量给英文新闻和视�
 3. 点「加载已解压的扩展程序」，选择解压后的文件夹（或 `extension/` 目录）。
 4. 首次安装会自动打开设置页。
 
+## 界面语言
+
+界面支持 **简体中文、繁體中文、English**。默认跟随浏览器语言，也可以在设置页右上角「界面语言」手动切换，已打开的网页不用刷新就会生效。注释释义仍为中文：界面选繁体时，AI 释义也会用繁體中文输出；离线词典本身只有简体。
+
+- 文案总表：[tools/i18n_table.py](tools/i18n_table.py)，key 对应（简体, 繁體, English）三种译文。改完后运行 `python3 -I tools/i18n_table.py`，生成 `extension/_locales/*/messages.json`。
+- 运行时：[extension/lib/i18n.js](extension/lib/i18n.js) 直接读取 messages.json，以支持手动切换（`chrome.i18n` 只能跟随浏览器）。页面用 `data-i18n` / `data-i18n-title` / `data-i18n-aria` 标注；content script 从后台取当前语言的文案。
+- manifest 的名称、说明使用 `__MSG_appName__` / `__MSG_appDesc__`，两个商店会按语言显示。各语言的商店详细说明见 [store/listing-i18n.md](store/listing-i18n.md)。
+- 测试会校验三种语言的 key 完全一致、占位符数量一致（`tests/i18n.spec.js`）。
+
 ## 支持的网站与权限
 
 默认只在指定的英文新闻和视频网站上运行，列表见 [extension/lib/sites.js](extension/lib/sites.js)：CNN、NBC News、CNBC、Reuters、BBC、Google 新闻、WSJ、YouTube、NYT、Guardian、AP、Bloomberg 等，共 28 个站点。这个列表与 `manifest.json` 的 `content_scripts.matches` 和 `host_permissions` 一致，测试会校验三者没有分叉。安装时不申请 `<all_urls>`。另有两种情况通过 `optional_host_permissions` 按单个网站授权：

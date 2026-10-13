@@ -2,6 +2,7 @@
 // 参考 https://developers.openai.com/siwc/token-sharing-open-source/sign-in
 
 import { readSSE, AIError, readErrorBody } from './sse.js';
+import { t, ready } from './i18n.js';
 
 const PROD = {
   authBase: 'https://auth.openai.com',
@@ -54,7 +55,7 @@ async function sha256(str) {
 }
 function decodeJwt(token) {
   const [h, p, s] = String(token).split('.');
-  if (!h || !p || !s) throw new Error('ID token 格式错误');
+  if (!h || !p || !s) throw new Error('malformed ID token');
   return {
     header: JSON.parse(new TextDecoder().decode(b64urlDecode(h))),
     payload: JSON.parse(new TextDecoder().decode(b64urlDecode(p))),
@@ -162,13 +163,14 @@ export function handleCallback(search) {
   const state = params.get('state') || '';
   if (inflight.has(state)) return inflight.get(state);
   const p = (async () => {
+    await ready();
     const { chatgptHandled = {} } = await chrome.storage.session.get('chatgptHandled');
     if (chatgptHandled[state]) return chatgptHandled[state];
     let result;
     try {
       result = await processCallback(params);
     } catch (e) {
-      result = { ok: false, message: e.message || String(e) };
+      result = { ok: false, message: t('login_failed', e.message || String(e)) };
     }
     if (!result.ok && !result.stale) await setLastError(result.message);
     if (state && !result.stale) {
@@ -187,7 +189,7 @@ async function processCallback(params) {
   const state = params.get('state');
   const { chatgptPending = {} } = await chrome.storage.session.get('chatgptPending');
   const pending = state && chatgptPending[state];
-  if (!pending) return { ok: false, stale: true, message: '登录请求已失效或已处理，请回到 Inkling 设置页重新点击 Continue with ChatGPT' };
+  if (!pending) return { ok: false, stale: true, message: t('login_stale') };
   delete chatgptPending[state];
   await chrome.storage.session.set({ chatgptPending });
   if (!Object.keys(chatgptPending).length) await removeRedirectRule().catch(() => {});
@@ -196,20 +198,20 @@ async function processCallback(params) {
   const error = params.get('error');
   if (error) {
     if (error === 'access_denied') {
-      return { ok: false, message: '你没有同意授权，或未开启 ChatGPT 套餐用量共享。可以重新登录并允许使用套餐用量，或改用 API Key。' };
+      return { ok: false, message: t('login_denied') };
     }
-    return { ok: false, message: `登录失败：${error}${params.get('error_description') ? '（' + params.get('error_description') + '）' : ''}` };
+    return { ok: false, message: t('login_failed', `${error}${params.get('error_description') ? ` (${params.get('error_description')})` : ''}`) };
   }
   const code = params.get('code');
-  if (!code) return { ok: false, message: '回调中缺少授权码' };
+  if (!code) return { ok: false, message: t('login_no_code') };
 
   const cbClient = params.get('client_id');
   let clientId;
   if (pending.clientId === DYNAMIC_CLIENT) {
-    if (!cbClient || cbClient === DYNAMIC_CLIENT) return { ok: false, message: '首次注册未返回 client_id，注册不完整，请重试' };
+    if (!cbClient || cbClient === DYNAMIC_CLIENT) return { ok: false, message: t('login_no_client') };
     clientId = cbClient;
   } else {
-    if (cbClient && cbClient !== pending.clientId) return { ok: false, message: '回调返回的 client_id 与已保存的不一致，已拒绝本次登录' };
+    if (cbClient && cbClient !== pending.clientId) return { ok: false, message: t('login_client_mismatch') };
     clientId = pending.clientId;
   }
 
@@ -221,17 +223,17 @@ async function processCallback(params) {
     redirect_uri: pending.redirectUri,
     resource: c.resource,
   }).catch(() => null);
-  if (!res) return { ok: false, message: '无法连接到 OpenAI 登录服务器，请检查网络' };
+  if (!res) return { ok: false, message: t('login_network') };
   if (!res.ok) {
     const { json, msg } = await readErrorBody(res);
-    if (json?.error === 'invalid_grant') return { ok: false, message: '授权码已失效，请重新登录' };
-    return { ok: false, message: `换取令牌失败（HTTP ${res.status}）${msg ? '：' + msg : ''}` };
+    if (json?.error === 'invalid_grant') return { ok: false, message: t('login_code_expired') };
+    return { ok: false, message: t('token_exchange_failed', res.status, msg ? `: ${msg}` : '') };
   }
   const tok = await res.json();
   const claims = await verifyIdToken(tok.id_token, { clientId, nonce: pending.nonce, issuer: c.issuer, jwksUrl: c.jwksUrl });
 
   if (pending.expectSub && claims.sub !== pending.expectSub) {
-    return { ok: false, message: '登录的 ChatGPT 账号与之前的不同。如需换账号，请在设置页选择「使用其他账号登录」。' };
+    return { ok: false, message: t('login_account_mismatch') };
   }
 
   const scopes = String(tok.scope || params.get('scope') || '').split(/\s+/).filter(Boolean);
@@ -257,7 +259,7 @@ async function processCallback(params) {
     chatgptAuth: auth,
     chatgptLastClient: { clientId, sub: claims.sub, email: auth.email, idToken: tok.id_token },
     chatgptRegistrations,
-    chatgptLastError: planEnabled ? '' : '已登录，但没有授权使用 ChatGPT 套餐用量。请重新登录并允许套餐用量，或改用 API Key。',
+    chatgptLastError: planEnabled ? '' : t('plan_not_granted'),
   };
   if (planEnabled) patch.aiProvider = 'chatgpt';
   await chrome.storage.local.set(patch);
@@ -279,35 +281,35 @@ let jwksCache = null;
 async function getJwks(url, force) {
   if (!force && jwksCache && jwksCache.url === url && Date.now() - jwksCache.at < 3600e3) return jwksCache.keys;
   const r = await fetch(url);
-  if (!r.ok) throw new Error(`获取 JWKS 失败（HTTP ${r.status}）`);
+  if (!r.ok) throw new Error(`JWKS fetch failed (HTTP ${r.status})`);
   const j = await r.json();
   jwksCache = { url, at: Date.now(), keys: j.keys || [] };
   return jwksCache.keys;
 }
 
 export async function verifyIdToken(idToken, { clientId, nonce, issuer, jwksUrl }) {
-  if (!idToken) throw new Error('令牌响应中没有 ID token');
+  if (!idToken) throw new Error('no ID token in token response');
   const { header, payload, signingInput, signature } = decodeJwt(idToken);
   const algs = {
     RS256: { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
     ES256: { name: 'ECDSA', namedCurve: 'P-256', hash: 'SHA-256' },
   };
   const alg = algs[header.alg];
-  if (!alg) throw new Error(`不支持的 ID token 签名算法：${header.alg}`);
+  if (!alg) throw new Error(`unsupported ID token algorithm: ${header.alg}`);
   let keys = await getJwks(jwksUrl);
   let jwk = keys.find((k) => k.kid === header.kid) || (!header.kid && keys.length === 1 ? keys[0] : null);
   if (!jwk) { keys = await getJwks(jwksUrl, true); jwk = keys.find((k) => k.kid === header.kid); }
-  if (!jwk) throw new Error('ID token 的签名密钥不在 JWKS 中');
+  if (!jwk) throw new Error('ID token signing key not in JWKS');
   const { alg: _a, use: _u, key_ops: _k, ...pub } = jwk;
   const key = await crypto.subtle.importKey('jwk', pub, alg, false, ['verify']);
   const ok = await crypto.subtle.verify(alg, key, signature, enc.encode(signingInput));
-  if (!ok) throw new Error('ID token 签名校验失败');
-  if (payload.iss !== issuer) throw new Error('ID token 的签发者（iss）不正确');
+  if (!ok) throw new Error('ID token signature check failed');
+  if (payload.iss !== issuer) throw new Error('ID token issuer (iss) mismatch');
   const aud = Array.isArray(payload.aud) ? payload.aud : [payload.aud];
-  if (!aud.includes(clientId)) throw new Error('ID token 的受众（aud）与 client_id 不符');
-  if (!payload.exp || payload.exp * 1000 < Date.now() - 60e3) throw new Error('ID token 已过期');
-  if (payload.nonce !== nonce) throw new Error('ID token 的 nonce 不匹配');
-  if (!payload.sub) throw new Error('ID token 缺少 sub');
+  if (!aud.includes(clientId)) throw new Error('ID token audience (aud) mismatch');
+  if (!payload.exp || payload.exp * 1000 < Date.now() - 60e3) throw new Error('ID token expired');
+  if (payload.nonce !== nonce) throw new Error('ID token nonce mismatch');
+  if (!payload.sub) throw new Error('ID token has no sub');
   return payload;
 }
 
@@ -324,7 +326,7 @@ export function refresh() {
 
 async function doRefresh() {
   const { chatgptAuth: auth } = await chrome.storage.local.get('chatgptAuth');
-  if (!auth?.refreshToken) throw needLogin('登录已过期，请重新登录 ChatGPT');
+  if (!auth?.refreshToken) throw needLogin(t('session_expired'));
   const c = await config();
   let res;
   try {
@@ -335,16 +337,16 @@ async function doRefresh() {
       resource: c.resource,
     });
   } catch {
-    throw new AIError('刷新 ChatGPT 登录状态时网络出错，请稍后再试');
+    throw new AIError(t('refresh_network'));
   }
   if (!res.ok) {
     const { json, msg } = await readErrorBody(res);
     const code = json?.error?.code || json?.error || json?.code;
     if (TERMINAL_REFRESH_ERRORS.has(code) || res.status === 400 || res.status === 401) {
       await clearTokens();
-      throw needLogin('ChatGPT 登录已失效，请重新登录');
+      throw needLogin(t('login_invalid'));
     }
-    throw new AIError(`刷新 ChatGPT 令牌失败（HTTP ${res.status}）${msg ? '：' + msg : ''}`);
+    throw new AIError(t('refresh_failed', res.status, msg ? `: ${msg}` : ''));
   }
   const tok = await res.json();
   const scopes = tok.scope ? String(tok.scope).split(/\s+/) : auth.scopes;
@@ -373,9 +375,9 @@ async function clearTokens() {
 
 export async function getAuth({ forceRefresh = false } = {}) {
   const { chatgptAuth: auth } = await chrome.storage.local.get('chatgptAuth');
-  if (!auth) throw needLogin('尚未登录 ChatGPT，请到设置页点击 Continue with ChatGPT');
+  if (!auth) throw needLogin(t('not_signed_in'));
   if (!auth.planEnabled) {
-    throw new AIError('已登录 ChatGPT，但未授权使用套餐用量。请重新登录并允许，或改用 API Key。', { code: 'plan_disabled' });
+    throw new AIError(t('plan_disabled'), { code: 'plan_disabled' });
   }
   if (forceRefresh || auth.expiresAt - 60e3 < Date.now()) return refresh();
   return auth;
@@ -408,7 +410,7 @@ export async function logout() {
   return {
     ok: true,
     revoked,
-    message: revoked ? '已退出 ChatGPT' : '已退出，但未能确认撤销令牌。你可以在 ChatGPT 设置中断开 Inkling。',
+    message: revoked ? t('logout_ok') : t('logout_unconfirmed'),
   };
 }
 
@@ -441,7 +443,7 @@ async function apiFetch(path, init, retried = false) {
     });
   } catch (e) {
     if (e?.name === 'AbortError') throw e;
-    throw new AIError('无法连接到 OpenAI 接口，请检查网络');
+    throw new AIError(t('openai_network'));
   }
   if (res.status === 401 && !retried) {
     // 访问令牌可能被提前作废：强制刷新一次再试
@@ -462,21 +464,21 @@ export async function listModels() {
 function codeError(code, param, status) {
   switch (code) {
     case 'subscription_sharing_usage_limit_exceeded':
-      return new AIError('ChatGPT 套餐用量已达上限，请稍后再试或调整用量设置。', { code, link: USAGE_URL, linkText: '管理用量' });
+      return new AIError(t('usage_limit'), { code, link: USAGE_URL, linkText: t('manage_usage') });
     case 'subscription_sharing_user_not_eligible':
-      return new AIError('当前 ChatGPT 账号无法共享套餐用量（需要 Plus 或 Pro 套餐）。可改用 API Key。', { code });
+      return new AIError(t('not_eligible'), { code });
     case 'subscription_sharing_invalid_user':
-      return new AIError('ChatGPT 登录状态无效，请重新登录。', { code, needLogin: true });
+      return new AIError(t('invalid_user'), { code, needLogin: true });
     case 'subscription_sharing_usage_unavailable':
     case 'subscription_sharing_user_unavailable':
-      return new AIError('暂时无法确认 ChatGPT 用量，请稍后再试。', { code, retryable: true });
+      return new AIError(t('usage_unavailable'), { code, retryable: true });
     case 'subscription_sharing_unsupported_capability':
-      return new AIError(`所选模型或请求参数不受支持${param ? '（' + param + '）' : ''}，请换一个模型。`, { code });
+      return new AIError(t('unsupported_capability', param ? ` (${param})` : ''), { code });
     case 'subscription_sharing_route_not_supported':
-      return new AIError('请求的接口不受支持。', { code });
+      return new AIError(t('route_unsupported'), { code });
     case 'chatpass_v2_scope_not_authorized':
     case 'chatpass_v2_invalid_authorization_context':
-      return new AIError('当前授权不允许此操作，请重新登录并允许使用套餐用量。', { code });
+      return new AIError(t('scope_not_authorized'), { code });
     default:
       return null;
   }
@@ -489,16 +491,16 @@ async function httpError(res) {
     if (err.needLogin) await clearTokens();
     return err;
   }
-  if (res.status === 401) { await clearTokens(); return needLogin('ChatGPT 登录状态无效，请重新登录'); }
-  if (res.status === 403) return new AIError(`请求被拒绝（HTTP 403）${msg ? '：' + msg : ''}`);
-  if (res.status === 429) return new AIError('ChatGPT 套餐用量已达上限。', { link: USAGE_URL, linkText: '管理用量' });
-  if (res.status === 503) return new AIError('ChatGPT 服务暂时不可用，请稍后再试。', { retryable: true });
-  return new AIError(`请求失败（HTTP ${res.status}）${msg ? '：' + msg : ''}`);
+  if (res.status === 401) { await clearTokens(); return needLogin(t('invalid_user')); }
+  if (res.status === 403) return new AIError(t('http_forbidden', msg ? `: ${msg}` : ''));
+  if (res.status === 429) return new AIError(t('usage_limit_short'), { code: 'http_429', link: USAGE_URL, linkText: t('manage_usage') });
+  if (res.status === 503) return new AIError(t('service_unavailable'), { retryable: true });
+  return new AIError(t('http_failed', res.status, msg ? `: ${msg}` : ''));
 }
 
 // 流式推理（Responses API）。只有收到 response.completed 才算成功。
 export async function respond({ model, instructions, input, onDelta, signal }) {
-  if (!model) throw new AIError('尚未选择 ChatGPT 模型，请到设置页选择');
+  if (!model) throw new AIError(t('no_chatgpt_model'), { code: 'no_chatgpt_model' });
   const body = JSON.stringify({
     model,
     instructions,
@@ -528,14 +530,14 @@ export async function respond({ model, instructions, input, onDelta, signal }) {
       const e = j.response?.error || {};
       const err = codeError(e.code, e.param);
       if (err?.needLogin) await clearTokens();
-      throw err || new AIError(`模型生成失败${e.message ? '：' + e.message : ''}`);
+      throw err || new AIError(t('gen_failed', e.message ? `: ${e.message}` : ''));
     } else if (type === 'response.incomplete') {
-      throw new AIError('回答未完成（被截断）', { partial: text });
+      throw new AIError(t('incomplete'), { partial: text });
     } else if (type === 'error') {
       const err = codeError(j.code || j.error?.code, j.param);
-      throw err || new AIError(`模型返回错误：${j.message || j.error?.message || '未知错误'}`);
+      throw err || new AIError(t('model_error', j.message || j.error?.message || t('unknown_error')));
     }
   }
-  if (!completed) throw new AIError('连接中断，回答不完整，请重试', { partial: text });
+  if (!completed) throw new AIError(t('interrupted'), { partial: text });
   return text;
 }

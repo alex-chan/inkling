@@ -4,6 +4,7 @@ import * as ai from './lib/ai.js';
 import * as chatgpt from './lib/chatgpt.js';
 import { errorPayload } from './lib/sse.js';
 import { DEFAULT_MATCHES, matchesAny, originPattern } from './lib/sites.js';
+import { t, ready, locale, allMessages } from './lib/i18n.js';
 
 // ---------- 用户自行启用的网站：动态注册 content script ----------
 // 默认网站由 manifest 静态注入；其他网站需要用户在弹窗里授权（optional_host_permissions）。
@@ -45,7 +46,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
 // 弹窗授权成功后调用：记录网站、注册脚本、立即注入当前标签页
 async function enableSite({ url, tabId }) {
   const pattern = originPattern(url);
-  if (!(await chrome.permissions.contains({ origins: [pattern] }))) throw new Error('没有获得该网站的访问权限');
+  if (!(await chrome.permissions.contains({ origins: [pattern] }))) throw new Error(t('site_no_permission'));
   const { enabledSites = [], disabledSites = [] } = await chrome.storage.local.get(['enabledSites', 'disabledSites']);
   const host = new URL(url).hostname;
   await chrome.storage.local.set({
@@ -95,6 +96,7 @@ const handlers = {
   async chatgptLogin({ newAccount }) { return chatgpt.startLogin({ newAccount }); },
   async chatgptLogout() { return chatgpt.logout(); },
   async authCallback({ search }) { return chatgpt.handleCallback(search); },
+  async i18n() { return { locale: locale(), messages: allMessages() }; },
   async enableSite(msg) { return enableSite(msg); },
   async disableSite(msg) { return disableSite(msg); },
   async openOptions({ hash }) {
@@ -106,7 +108,7 @@ const handlers = {
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   const h = handlers[msg?.type];
   if (!h) return false;
-  Promise.resolve()
+  ready()
     .then(() => h(msg, sender))
     .then((data) => sendResponse({ ok: true, data }))
     .catch((err) => sendResponse({ ok: false, error: errorPayload(err) }));
@@ -122,6 +124,7 @@ chrome.runtime.onConnect.addListener((port) => {
   port.onDisconnect.addListener(() => { closed = true; ctrl.abort(); });
   port.onMessage.addListener(async (req) => {
     try {
+      await ready();
       await ai.explain(req, (delta) => { if (!closed) port.postMessage({ type: 'delta', text: delta }); }, ctrl.signal);
       if (!closed) port.postMessage({ type: 'done' });
     } catch (err) {

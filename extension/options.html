@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Inkling 墨点 · 设置</title>
+<title data-i18n="opt_title">Inkling 墨点 · 设置</title>
 <link rel="stylesheet" href="ui.css">
 <style>
   .page { max-width: 760px; margin: 0 auto; padding: 28px 16px 60px; display: grid; gap: 18px; }
@@ -43,131 +43,134 @@
 <body>
 <div class="page">
   <header class="top">
-    <div class="brand"><img src="icons/icon48.png" alt="" width="32" height="32"><span>Inkling 墨点 · 设置</span></div>
-    <label class="row small muted">总开关 <span class="switch"><input type="checkbox" id="enabled" aria-label="总开关"><span></span></span></label>
+    <div class="brand"><img src="icons/icon48.png" alt="" width="32" height="32"><span data-i18n="opt_title">Inkling 墨点 · 设置</span></div>
+    <div class="row small muted" style="gap:14px">
+      <label class="row" style="gap:6px"><span data-i18n="ui_lang">界面语言</span> <select id="uiLanguage" style="width:auto;padding:4px 8px"></select></label>
+      <label class="row"><span data-i18n="master_switch">总开关</span> <span class="switch"><input type="checkbox" id="enabled" data-i18n-aria="master_switch" aria-label="总开关"><span></span></span></label>
+    </div>
   </header>
 
   <section class="panel" id="sites">
-    <h2>支持的网站</h2>
-    <p class="muted small">Inkling 默认只在下列英文新闻和视频网站上运行。其他网站可在工具栏弹窗里点「在此网站启用」单独授权。</p>
+    <h2 data-i18n="sites_h">支持的网站</h2>
+    <p class="muted small" data-i18n="sites_desc">Inkling 默认只在下列英文新闻和视频网站上运行。其他网站可在工具栏弹窗里点「在此网站启用」单独授权。</p>
     <div class="chips" id="defaultSites" style="margin-top:8px"></div>
-    <h3>你启用的其他网站</h3>
+    <h3 data-i18n="sites_extra_h">你启用的其他网站</h3>
     <div id="extraSites" class="chips"></div>
-    <p class="muted small" id="extraEmpty">还没有。</p>
+    <p class="muted small" id="extraEmpty" data-i18n="sites_none">还没有。</p>
   </section>
 
   <section class="panel" id="level-section">
     <div class="section-head">
-      <h2>词汇水平</h2>
+      <h2 data-i18n="level_h">词汇水平</h2>
       <span><span class="big-level" id="levelVal">4500</span> <span class="muted" id="levelName">四级</span></span>
     </div>
-    <p class="muted small">词频排名在 N 以内的词视为已认识，不会注释。生词本里的词总会注释，熟词本里的词永不注释。</p>
-    <div class="chips" id="presets" role="group" aria-label="预设档位"></div>
+    <p class="muted small" data-i18n="level_desc">词频排名在 N 以内的词视为已认识，不会注释。生词本里的词总会注释，熟词本里的词永不注释。</p>
+    <div class="chips" id="presets" role="group" data-i18n-aria="presets_aria" aria-label="预设档位"></div>
     <div class="level-row">
-      <input type="range" id="level" min="0" max="1000" aria-label="词汇量滑杆">
-      <input type="number" id="levelNum" min="500" max="25000" step="100" aria-label="词汇量数值">
+      <input type="range" id="level" min="0" max="1000" data-i18n-aria="level_slider_aria" aria-label="词汇量滑杆">
+      <input type="number" id="levelNum" min="500" max="25000" step="100" data-i18n-aria="level_number_aria" aria-label="词汇量数值">
     </div>
     <div class="near">
-      <div class="small muted">这条线附近的词（左边的会被视为认识，带框的会被注释）：</div>
+      <div class="small muted" data-i18n="near_desc">这条线附近的词（左边的会被视为认识，带框的会被注释）：</div>
       <div class="chips" id="near" style="margin-top:6px"></div>
     </div>
-    <h3>不确定自己的水平？</h3>
-    <p class="muted small">40 词小测：从 10 个词频段各抽 4 个词，勾选你确定认识的，估算词汇量。</p>
-    <button class="btn" id="quizStart">开始小测</button>
+    <h3 data-i18n="quiz_h">不确定自己的水平？</h3>
+    <p class="muted small" data-i18n="quiz_desc">40 词小测：从 10 个词频段各抽 4 个词，勾选你确定认识的，估算词汇量。</p>
+    <button class="btn" id="quizStart" data-i18n="quiz_start">开始小测</button>
     <div id="quiz" hidden>
       <div class="quiz-grid" id="quizGrid"></div>
       <div class="row wrap">
-        <button class="btn primary" id="quizDone">估算我的水平</button>
-        <button class="btn" id="quizCancel">取消</button>
+        <button class="btn primary" id="quizDone" data-i18n="quiz_done">估算我的水平</button>
+        <button class="btn" id="quizCancel" data-i18n="cancel">取消</button>
         <span id="quizResult" class="status"></span>
       </div>
     </div>
   </section>
 
   <section class="panel">
-    <h2>显示方式</h2>
-    <div class="seg" role="radiogroup" aria-label="显示方式" style="margin-top:8px">
-      <label><input type="radio" name="mode" value="ruby"><span>词上方小字</span></label>
-      <label><input type="radio" name="mode" value="paren"><span>词后括注</span></label>
-      <label><input type="radio" name="mode" value="underline"><span>只加下划线</span></label>
+    <h2 data-i18n="display_mode">显示方式</h2>
+    <div class="seg" role="radiogroup" data-i18n-aria="display_mode" aria-label="显示方式" style="margin-top:8px">
+      <label><input type="radio" name="mode" value="ruby"><span data-i18n="mode_ruby">词上方小字</span></label>
+      <label><input type="radio" name="mode" value="paren"><span data-i18n="mode_paren">词后括注</span></label>
+      <label><input type="radio" name="mode" value="underline"><span data-i18n="mode_underline">只加下划线</span></label>
     </div>
-    <p class="muted small">同一段落里同一个词只在第一次出现时显示释义。点击被注释的词可以打开词卡；选中任意词或短语会出现「注」按钮。</p>
-    <h3>释义颜色</h3>
+    <p class="muted small" data-i18n="display_desc">同一段落里同一个词只在第一次出现时显示释义。点击被注释的词可以打开词卡；选中任意词或短语会出现「注」按钮。</p>
+    <h3 data-i18n="color_h">释义颜色</h3>
     <div class="row wrap" style="gap:8px">
-      <div class="swatches" id="swatches" role="radiogroup" aria-label="释义颜色"></div>
-      <label class="custom-color" title="自定义颜色"><input type="color" id="glossColor" aria-label="自定义释义颜色"><span>自定义</span></label>
+      <div class="swatches" id="swatches" role="radiogroup" data-i18n-aria="color_h" aria-label="释义颜色"></div>
+      <label class="custom-color" data-i18n-title="color_custom_title" title="自定义颜色"><input type="color" id="glossColor" data-i18n-aria="color_custom_aria" aria-label="自定义释义颜色"><span data-i18n="custom">自定义</span></label>
       <code id="glossHex"></code>
     </div>
     <div class="preview" id="glossPreview">Officials say the <ruby>tariffs<rt>关税</rt></ruby> were <ruby>levied<rt>征收</rt></ruby> on steel.</div>
-    <p class="muted small">深色背景的网页上，如果所选颜色看不清（比如黑色），会自动改用浅灰色。</p>
+    <p class="muted small" data-i18n="color_note">深色背景的网页上，如果所选颜色看不清（比如黑色），会自动改用浅灰色。</p>
   </section>
 
   <section class="panel" id="pron">
-    <h2>音标与发音</h2>
+    <h2 data-i18n="pron_h">音标与发音</h2>
     <div class="row between" style="margin-top:10px">
-      <span class="grow">在注释中显示美式音标<span class="muted small" id="phonPreview"></span></span>
-      <label class="switch"><input type="checkbox" id="showPhonetic" aria-label="在注释中显示美式音标"><span></span></label>
+      <span class="grow"><span data-i18n="show_ipa">在注释中显示美式音标</span><span class="muted small" id="phonPreview"></span></span>
+      <label class="switch"><input type="checkbox" id="showPhonetic" data-i18n-aria="show_ipa" aria-label="在注释中显示美式音标"><span></span></label>
     </div>
-    <p class="muted small">美式 IPA 来自 CMUdict（如 tariff /ˈtɛrəf/）。词卡里总会显示音标；这个开关只控制页面上的注释。「只加下划线」模式下不显示。</p>
+    <p class="muted small" data-i18n="ipa_desc">美式 IPA 来自 CMUdict（如 tariff /ˈtɛrəf/）。词卡里总会显示音标；这个开关只控制页面上的注释。「只加下划线」模式下不显示。</p>
     <div class="row between" style="margin-top:12px">
-      <span class="grow">打开词卡时自动朗读</span>
-      <label class="switch"><input type="checkbox" id="autoSpeak" aria-label="打开词卡时自动朗读"><span></span></label>
+      <span class="grow" data-i18n="auto_speak">打开词卡时自动朗读</span>
+      <label class="switch"><input type="checkbox" id="autoSpeak" data-i18n-aria="auto_speak" aria-label="打开词卡时自动朗读"><span></span></label>
     </div>
     <div class="row wrap" style="margin-top:12px; gap:12px">
-      <div class="field grow" style="margin:0; min-width:220px"><label for="speechVoice">声音</label><select id="speechVoice"></select></div>
-      <div class="field" style="margin:0; width:200px"><label for="speechRate">语速 <span id="rateVal"></span></label><input type="range" id="speechRate" min="0.5" max="1.5" step="0.05"></div>
-      <button class="btn" id="tryVoice" type="button" style="align-self:flex-end">🔊 试听</button>
+      <div class="field grow" style="margin:0; min-width:220px"><label for="speechVoice" data-i18n="voice">声音</label><select id="speechVoice"></select></div>
+      <div class="field" style="margin:0; width:200px"><label for="speechRate"><span data-i18n="rate">语速</span> <span id="rateVal"></span></label><input type="range" id="speechRate" min="0.5" max="1.5" step="0.05"></div>
+      <button class="btn" id="tryVoice" type="button" style="align-self:flex-end" data-i18n="try_voice">🔊 试听</button>
     </div>
-    <p class="muted small" id="voiceNote">使用浏览器自带的语音合成，可选声音取决于操作系统。</p>
+    <p class="muted small" id="voiceNote" data-i18n="voice_note">使用浏览器自带的语音合成，可选声音取决于操作系统。</p>
   </section>
 
   <section class="panel">
-    <div class="section-head"><h2>熟词本 / 生词本</h2>
-      <div class="row"><button class="btn" id="exportLists">导出 JSON</button></div>
+    <div class="section-head"><h2 data-i18n="lists_h">熟词本 / 生词本</h2>
+      <div class="row"><button class="btn" id="exportLists" data-i18n="export_json">导出 JSON</button></div>
     </div>
-    <p class="muted small">每行一个词（原形）。修改后点「保存」，已打开的页面立即生效。</p>
+    <p class="muted small" data-i18n="lists_desc">每行一个词（原形）。修改后点「保存」，已打开的页面立即生效。</p>
     <div class="lists">
-      <div class="field"><label for="knownList">熟词本（<span id="knownCount">0</span>）· 永不注释</label><textarea id="knownList" spellcheck="false"></textarea></div>
-      <div class="field"><label for="learningList">生词本（<span id="learningCount">0</span>）· 总是注释</label><textarea id="learningList" spellcheck="false"></textarea></div>
+      <div class="field"><label for="knownList" id="knownLabel">熟词本（<span id="knownCount">0</span>）· 永不注释</label><textarea id="knownList" spellcheck="false"></textarea></div>
+      <div class="field"><label for="learningList" id="learningLabel">生词本（<span id="learningCount">0</span>）· 总是注释</label><textarea id="learningList" spellcheck="false"></textarea></div>
     </div>
-    <div class="row"><button class="btn primary" id="saveLists">保存</button><span class="status" id="listStatus"></span></div>
+    <div class="row"><button class="btn primary" id="saveLists" data-i18n="save">保存</button><span class="status" id="listStatus"></span></div>
   </section>
 
   <section class="panel" id="ai">
-    <h2>大模型</h2>
-    <p class="muted small">用于词卡里的「AI 语境解释」和可选的 AI 优化注释。两种接入方式任选其一。</p>
+    <h2 data-i18n="ai_h">大模型</h2>
+    <p class="muted small" data-i18n="ai_desc">用于词卡里的「AI 语境解释」和可选的 AI 优化注释。两种接入方式任选其一。</p>
     <div class="provider-cards">
       <div class="pcard" id="pcard-apikey">
-        <label class="pcard-head"><input type="radio" name="provider" value="apikey"> 使用 API Key（OpenAI 兼容接口）</label>
-        <div class="field"><label for="apiBase">接口地址</label><input type="url" id="apiBase" placeholder="https://api.openai.com/v1" spellcheck="false"></div>
+        <label class="pcard-head"><input type="radio" name="provider" value="apikey"> <span data-i18n="apikey_head">使用 API Key（OpenAI 兼容接口）</span></label>
+        <div class="field"><label for="apiBase" data-i18n="api_base">接口地址</label><input type="url" id="apiBase" placeholder="https://api.openai.com/v1" spellcheck="false"></div>
         <div class="field"><label for="apiKey">API Key</label>
-          <div class="key-row"><input type="password" id="apiKey" placeholder="sk-…" autocomplete="off" spellcheck="false"><button class="btn" id="toggleKey" type="button">显示</button></div>
-          <div class="small muted" style="margin-top:4px">只保存在本机（chrome.storage.local），不会同步，也不会发给接口地址以外的任何服务。</div>
+          <div class="key-row"><input type="password" id="apiKey" placeholder="sk-…" autocomplete="off" spellcheck="false"><button class="btn" id="toggleKey" type="button" data-i18n="show">显示</button></div>
+          <div class="small muted" style="margin-top:4px" data-i18n="api_key_note">只保存在本机（chrome.storage.local），不会同步，也不会发给接口地址以外的任何服务。</div>
         </div>
-        <div class="field"><label for="apiModel">模型</label>
-          <div class="model-row"><input type="text" id="apiModel" list="apiModels" placeholder="gpt-4o-mini" spellcheck="false"><datalist id="apiModels"></datalist><button class="btn" id="fetchModels" type="button">获取模型列表</button></div>
+        <div class="field"><label for="apiModel" data-i18n="model">模型</label>
+          <div class="model-row"><input type="text" id="apiModel" list="apiModels" placeholder="gpt-4o-mini" spellcheck="false"><datalist id="apiModels"></datalist><button class="btn" id="fetchModels" type="button" data-i18n="fetch_models">获取模型列表</button></div>
         </div>
-        <div class="row wrap"><button class="btn" id="testApi" type="button">测试连接</button><span class="status" id="apiStatus" role="status"></span></div>
+        <div class="row wrap"><button class="btn" id="testApi" type="button" data-i18n="test_conn">测试连接</button><span class="status" id="apiStatus" role="status"></span></div>
       </div>
 
       <div class="pcard" id="pcard-chatgpt">
-        <label class="pcard-head"><input type="radio" name="provider" value="chatgpt"> 使用 ChatGPT 账号（消耗 Plus / Pro 套餐用量）</label>
+        <label class="pcard-head"><input type="radio" name="provider" value="chatgpt"> <span data-i18n="chatgpt_head">使用 ChatGPT 账号（消耗 Plus / Pro 套餐用量）</span></label>
         <div id="cgSignedOut">
-          <p class="muted small">登录后，AI 解释会计入你的 ChatGPT 套餐用量，无需 API Key。登录与授权在 OpenAI 页面完成，Inkling 不会看到你的密码。</p>
+          <p class="muted small" data-i18n="chatgpt_desc">登录后，AI 解释会计入你的 ChatGPT 套餐用量，无需 API Key。登录与授权在 OpenAI 页面完成，Inkling 不会看到你的密码。</p>
           <div class="row wrap">
             <button class="btn dark" id="cgLogin" type="button">Continue with ChatGPT</button>
-            <button class="btn link small" id="cgLoginOther" type="button" hidden>使用其他账号登录</button>
+            <button class="btn link small" id="cgLoginOther" type="button" hidden data-i18n="login_other">使用其他账号登录</button>
           </div>
         </div>
         <div id="cgSignedIn" class="signed" hidden>
-          <div class="row wrap"><span class="ok" id="cgUsing">正在使用 ChatGPT 套餐用量</span><a href="https://chatgpt.com/settings/usage" target="_blank" rel="noopener" id="cgUsage">管理用量</a></div>
+          <div class="row wrap"><span class="ok" id="cgUsing" data-i18n="ai_using_plan">正在使用 ChatGPT 套餐用量</span><a href="https://chatgpt.com/settings/usage" target="_blank" rel="noopener" id="cgUsage" data-i18n="manage_usage">管理用量</a></div>
           <div class="small muted" id="cgAccount"></div>
-          <div class="field"><label for="cgModel">模型</label>
-            <div class="model-row"><select id="cgModel"></select><button class="btn" id="cgFetchModels" type="button">刷新模型列表</button></div>
+          <div class="field"><label for="cgModel" data-i18n="model">模型</label>
+            <div class="model-row"><select id="cgModel"></select><button class="btn" id="cgFetchModels" type="button" data-i18n="refresh_models">刷新模型列表</button></div>
           </div>
           <div class="row wrap">
-            <button class="btn" id="cgTest" type="button">测试连接</button>
-            <button class="btn" id="cgLogout" type="button">退出登录</button>
+            <button class="btn" id="cgTest" type="button" data-i18n="test_conn">测试连接</button>
+            <button class="btn" id="cgLogout" type="button" data-i18n="logout">退出登录</button>
             <span class="status" id="cgStatus" role="status"></span>
           </div>
         </div>
@@ -175,23 +178,23 @@
       </div>
     </div>
 
-    <h3>AI 优化注释（语境释义 + 难度分级）</h3>
+    <h3 data-i18n="auto_h">AI 优化注释（语境释义 + 难度分级）</h3>
     <div class="row between">
-      <span class="grow">读到哪段，就让模型按你的词汇水平重新判断这一段该注释什么。</span>
-      <label class="switch"><input type="checkbox" id="autoAI" aria-label="AI 优化注释"><span></span></label>
+      <span class="grow" data-i18n="auto_desc">读到哪段，就让模型按你的词汇水平重新判断这一段该注释什么。</span>
+      <label class="switch"><input type="checkbox" id="autoAI" data-i18n-aria="auto_h" aria-label="AI 优化注释"><span></span></label>
     </div>
     <ul class="muted small" style="margin:6px 0 0; padding-left:18px">
-      <li>释义按上下文给出，不再只是词典的第一个义项；</li>
-      <li>去掉不需要注释的：人名地名、你大概率认识或能猜出来的词；</li>
-      <li>补上词频表发现不了的：熟词僻义（如 markets <b>brace</b> for… 里的 brace 表示「准备应对」）、短语动词和习语（如 rule out、in the wake of）；</li>
-      <li>词卡里显示语境义和 CEFR 难度等级（A1–C2）。</li>
+      <li data-i18n="auto_li1">释义按上下文给出，不再只是词典的第一个义项；</li>
+      <li data-i18n="auto_li2">去掉不需要注释的：人名地名、你大概率认识或能猜出来的词；</li>
+      <li data-i18n="auto_li3">补上词频表发现不了的：熟词僻义（如 markets <b>brace</b> for… 里的 brace 表示「准备应对」）、短语动词和习语（如 rule out、in the wake of）；</li>
+      <li data-i18n="auto_li4">词卡里显示语境义和 CEFR 难度等级（A1–C2）。</li>
     </ul>
-    <p class="warn small">开启后用量会明显增加：每读一段就要请求一次模型，相邻的短段落会合并成一次请求。默认关闭。结果会缓存，同一段在同一档水平下不会重复请求。没开启时，词典注释照常工作。</p>
+    <p class="warn small" data-i18n="auto_warn">开启后用量会明显增加：每读一段就要请求一次模型，相邻的短段落会合并成一次请求。默认关闭。结果会缓存，同一段在同一档水平下不会重复请求。没开启时，词典注释照常工作。</p>
   </section>
 
   <section class="panel">
-    <h2>关于</h2>
-    <p class="small muted">离线词典基于 <a href="https://github.com/skywind3000/ECDICT" target="_blank" rel="noopener">ECDICT</a>（MIT 许可）精简生成。朗读使用浏览器自带的语音合成。</p>
+    <h2 data-i18n="about_h">关于</h2>
+    <p class="small muted" id="aboutText">离线词典基于 <a href="https://github.com/skywind3000/ECDICT" target="_blank" rel="noopener">ECDICT</a>（MIT 许可）精简生成。朗读使用浏览器自带的语音合成。</p>
   </section>
 </div>
 <script type="module" src="options.js"></script>

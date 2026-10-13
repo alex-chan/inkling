@@ -1,0 +1,677 @@
+{
+  "appName": {
+    "message": "Inkling – Chinese glosses for English words"
+  },
+  "appDesc": {
+    "message": "Chinese glosses, US IPA and audio for unfamiliar English words on CNN, BBC, YouTube & more, matched to your vocabulary level."
+  },
+  "brand": {
+    "message": "Inkling"
+  },
+  "error_generic": {
+    "message": "Something went wrong"
+  },
+  "error_detail": {
+    "message": "Something went wrong: {0}"
+  },
+  "cancelled": {
+    "message": "Cancelled"
+  },
+  "unknown_error": {
+    "message": "Unknown error"
+  },
+  "cancel": {
+    "message": "Cancel"
+  },
+  "save": {
+    "message": "Save"
+  },
+  "saved": {
+    "message": "Saved"
+  },
+  "remove": {
+    "message": "Remove"
+  },
+  "remove_aria": {
+    "message": "Remove {0}"
+  },
+  "custom": {
+    "message": "Custom"
+  },
+  "settings": {
+    "message": "Settings"
+  },
+  "model": {
+    "message": "Model"
+  },
+  "preset_1500": {
+    "message": "Junior high"
+  },
+  "preset_3500": {
+    "message": "Senior high"
+  },
+  "preset_4500": {
+    "message": "CET-4"
+  },
+  "preset_6000": {
+    "message": "CET-6"
+  },
+  "preset_6500": {
+    "message": "Postgrad exam"
+  },
+  "preset_8000": {
+    "message": "IELTS/TOEFL"
+  },
+  "preset_11000": {
+    "message": "TEM-8"
+  },
+  "preset_14000": {
+    "message": "GRE"
+  },
+  "color_000000": {
+    "message": "Black"
+  },
+  "color_5f6368": {
+    "message": "Dark gray"
+  },
+  "color_b4541a": {
+    "message": "Ochre"
+  },
+  "color_c62828": {
+    "message": "Red"
+  },
+  "color_2e7d32": {
+    "message": "Green"
+  },
+  "color_1a5fb4": {
+    "message": "Blue"
+  },
+  "color_7b3fbf": {
+    "message": "Purple"
+  },
+  "tag_zk": {
+    "message": "Zhongkao"
+  },
+  "tag_gk": {
+    "message": "Gaokao"
+  },
+  "tag_cet4": {
+    "message": "CET-4"
+  },
+  "tag_cet6": {
+    "message": "CET-6"
+  },
+  "tag_ky": {
+    "message": "NPEE"
+  },
+  "tag_toefl": {
+    "message": "TOEFL"
+  },
+  "tag_ielts": {
+    "message": "IELTS"
+  },
+  "tag_gre": {
+    "message": "GRE"
+  },
+  "site_google_news": {
+    "message": "Google News"
+  },
+  "card_aria": {
+    "message": "Inkling word card"
+  },
+  "sel_title": {
+    "message": "Look up (Inkling)"
+  },
+  "sel_label": {
+    "message": "注"
+  },
+  "kind_word": {
+    "message": "New word"
+  },
+  "kind_sense": {
+    "message": "Uncommon sense"
+  },
+  "kind_phrase": {
+    "message": "Phrase"
+  },
+  "kind_idiom": {
+    "message": "Idiom"
+  },
+  "ctx_label": {
+    "message": "In context"
+  },
+  "cefr_title": {
+    "message": "CEFR level"
+  },
+  "lemma": {
+    "message": "Base form {0}"
+  },
+  "rank": {
+    "message": "Frequency #{0}"
+  },
+  "close": {
+    "message": "Close"
+  },
+  "us_ipa": {
+    "message": "US IPA"
+  },
+  "us_badge": {
+    "message": "US"
+  },
+  "speak_title": {
+    "message": "Pronounce (US)"
+  },
+  "speak": {
+    "message": "Pronounce"
+  },
+  "not_in_dict_word": {
+    "message": "This word isn't in the dictionary, so AI is explaining it in context."
+  },
+  "not_in_dict_phrase": {
+    "message": "This phrase isn't in the dictionary, so AI is explaining it in context."
+  },
+  "ai_explain": {
+    "message": "Explain in context (AI)"
+  },
+  "ai_explaining": {
+    "message": "Explaining…"
+  },
+  "ai_reexplain": {
+    "message": "Explain again"
+  },
+  "know_word": {
+    "message": "I know this word"
+  },
+  "know_phrase": {
+    "message": "I know this phrase"
+  },
+  "add_learning": {
+    "message": "Add to learning list"
+  },
+  "remove_learning": {
+    "message": "Remove from learning list"
+  },
+  "ext_updated": {
+    "message": "Inkling was updated. Reload the page and try again."
+  },
+  "view": {
+    "message": "View"
+  },
+  "open_settings": {
+    "message": "Open Inkling settings"
+  },
+  "master_switch": {
+    "message": "Inkling on/off"
+  },
+  "site_enabled_on": {
+    "message": "Enabled on {0}"
+  },
+  "this_page": {
+    "message": "this page"
+  },
+  "site_switch_aria": {
+    "message": "Toggle for this site"
+  },
+  "not_default_site": {
+    "message": "{0} isn't on the default list. Once you allow it, Inkling runs on this site only."
+  },
+  "enable_here": {
+    "message": "Enable on this site"
+  },
+  "grant_denied": {
+    "message": "Permission not granted"
+  },
+  "enable_failed": {
+    "message": "Couldn't enable"
+  },
+  "vocab": {
+    "message": "Vocabulary"
+  },
+  "display_mode": {
+    "message": "Display"
+  },
+  "mode_ruby_short": {
+    "message": "Above"
+  },
+  "mode_ruby": {
+    "message": "Small text above"
+  },
+  "mode_paren": {
+    "message": "In brackets"
+  },
+  "mode_underline": {
+    "message": "Underline only"
+  },
+  "checking": {
+    "message": "Checking…"
+  },
+  "auto_ai_short": {
+    "message": "AI-optimized glosses (context + level)"
+  },
+  "counts": {
+    "message": "Known {0} · Learning {1}"
+  },
+  "ai_using_plan": {
+    "message": "Using your ChatGPT plan"
+  },
+  "ai_plan_not_granted": {
+    "message": "Signed in to ChatGPT, but plan usage isn't authorized"
+  },
+  "ai_signed_out": {
+    "message": "Not signed in to ChatGPT"
+  },
+  "ai_apikey": {
+    "message": "API key · {0}"
+  },
+  "ai_no_model": {
+    "message": "no model"
+  },
+  "ai_unconfigured": {
+    "message": "Not set up (add an API key or sign in with ChatGPT in Settings)"
+  },
+  "auto_title_on": {
+    "message": "Uses noticeably more quota"
+  },
+  "auto_title_off": {
+    "message": "Connect an AI model in Settings first"
+  },
+  "opt_title": {
+    "message": "Inkling · Settings"
+  },
+  "ui_lang": {
+    "message": "Language"
+  },
+  "ui_lang_auto": {
+    "message": "Same as browser"
+  },
+  "sites_h": {
+    "message": "Supported sites"
+  },
+  "sites_desc": {
+    "message": "By default Inkling runs only on the English news and video sites below. To use it elsewhere, click \"Enable on this site\" in the toolbar popup."
+  },
+  "sites_extra_h": {
+    "message": "Other sites you enabled"
+  },
+  "sites_none": {
+    "message": "None yet."
+  },
+  "level_h": {
+    "message": "Vocabulary level"
+  },
+  "level_desc": {
+    "message": "Words ranked within the top N by frequency count as known and are not glossed. Words in your learning list are always glossed; words in your known list never are."
+  },
+  "presets_aria": {
+    "message": "Presets"
+  },
+  "level_slider_aria": {
+    "message": "Vocabulary slider"
+  },
+  "level_number_aria": {
+    "message": "Vocabulary size"
+  },
+  "near_desc": {
+    "message": "Words around this level (left ones count as known; outlined ones get glossed):"
+  },
+  "quiz_h": {
+    "message": "Not sure of your level?"
+  },
+  "quiz_desc": {
+    "message": "40-word quiz: 4 words from each of 10 frequency bands. Tick the ones you definitely know to estimate your vocabulary."
+  },
+  "quiz_start": {
+    "message": "Start quiz"
+  },
+  "quiz_again": {
+    "message": "Take it again"
+  },
+  "quiz_done": {
+    "message": "Estimate my level"
+  },
+  "quiz_result": {
+    "message": "Estimated vocabulary: about {0} ({1}). Applied."
+  },
+  "display_desc": {
+    "message": "A word is glossed only the first time it appears in a paragraph. Click a glossed word to open its card; select any word or phrase to get the \"注\" button."
+  },
+  "color_h": {
+    "message": "Gloss color"
+  },
+  "color_custom_title": {
+    "message": "Custom color"
+  },
+  "color_custom_aria": {
+    "message": "Custom gloss color"
+  },
+  "color_note": {
+    "message": "On dark pages, a color that would be hard to read (such as black) automatically switches to light gray."
+  },
+  "pron_h": {
+    "message": "Phonetics & pronunciation"
+  },
+  "show_ipa": {
+    "message": "Show US IPA in glosses"
+  },
+  "ipa_example": {
+    "message": " (e.g. tariff /{0}/ 关税)"
+  },
+  "ipa_desc": {
+    "message": "US IPA comes from CMUdict (e.g. tariff /ˈtɛrəf/). The word card always shows it; this switch only affects glosses on the page. Not shown in \"Underline only\" mode."
+  },
+  "auto_speak": {
+    "message": "Pronounce automatically when a card opens"
+  },
+  "voice": {
+    "message": "Voice"
+  },
+  "rate": {
+    "message": "Speed"
+  },
+  "try_voice": {
+    "message": "🔊 Preview"
+  },
+  "voice_note": {
+    "message": "Uses the browser's built-in speech synthesis; available voices depend on your OS."
+  },
+  "voice_auto": {
+    "message": "Automatic (prefer US English)"
+  },
+  "voice_unavailable": {
+    "message": "{0} (unavailable)"
+  },
+  "voice_count": {
+    "message": "Uses the browser's built-in speech synthesis. {0} English voices are available on this device."
+  },
+  "voice_none": {
+    "message": "No English voices found, so pronunciation may not work. Add an English (US) voice in your system settings."
+  },
+  "lists_h": {
+    "message": "Known & learning lists"
+  },
+  "export_json": {
+    "message": "Export JSON"
+  },
+  "lists_desc": {
+    "message": "One word (base form) per line. Click Save and open pages update immediately."
+  },
+  "known_label": {
+    "message": "Known ({0}) · never glossed"
+  },
+  "learning_label": {
+    "message": "Learning ({0}) · always glossed"
+  },
+  "ai_h": {
+    "message": "AI model"
+  },
+  "ai_desc": {
+    "message": "Powers \"Explain in context\" on word cards and the optional AI-optimized glosses. Pick either way to connect."
+  },
+  "apikey_head": {
+    "message": "Use an API key (OpenAI-compatible)"
+  },
+  "api_base": {
+    "message": "Base URL"
+  },
+  "api_key_note": {
+    "message": "Stored only on this device (chrome.storage.local). Never synced or sent anywhere except the base URL above."
+  },
+  "show": {
+    "message": "Show"
+  },
+  "hide": {
+    "message": "Hide"
+  },
+  "fetch_models": {
+    "message": "Fetch models"
+  },
+  "test_conn": {
+    "message": "Test connection"
+  },
+  "chatgpt_head": {
+    "message": "Use your ChatGPT account (counts toward your Plus / Pro plan)"
+  },
+  "chatgpt_desc": {
+    "message": "After signing in, AI explanations count toward your ChatGPT plan, no API key needed. Sign-in happens on OpenAI's page; Inkling never sees your password."
+  },
+  "login_other": {
+    "message": "Sign in with another account"
+  },
+  "manage_usage": {
+    "message": "Manage usage"
+  },
+  "refresh_models": {
+    "message": "Refresh models"
+  },
+  "logout": {
+    "message": "Sign out"
+  },
+  "need_api_access": {
+    "message": "Allow access to {0} to use this base URL"
+  },
+  "fetching_models": {
+    "message": "Fetching models…"
+  },
+  "got_models": {
+    "message": "Found {0} models. Pick one in the Model field."
+  },
+  "testing": {
+    "message": "Testing…"
+  },
+  "test_ok": {
+    "message": "Connected ({0} ms). Model replied: {1}"
+  },
+  "last_login": {
+    "message": "Last signed in as {0}"
+  },
+  "auto_h": {
+    "message": "AI-optimized glosses (context + difficulty)"
+  },
+  "auto_desc": {
+    "message": "As you read, the model re-decides what each paragraph needs glossed for your level."
+  },
+  "auto_li1": {
+    "message": "Glosses fit the context, not just the first dictionary sense;"
+  },
+  "auto_li2": {
+    "message": "Drops what you don't need: names, places, and words you probably know or can guess;"
+  },
+  "auto_li3": {
+    "message": "Adds what a frequency list misses: uncommon senses (brace in \"markets brace for…\" means 准备应对) and phrasal verbs/idioms (rule out, in the wake of);"
+  },
+  "auto_li4": {
+    "message": "Word cards show the in-context meaning and CEFR level (A1–C2)."
+  },
+  "auto_warn": {
+    "message": "Uses noticeably more quota: one model request per paragraph you read (short neighbors are batched). Off by default. Results are cached, so a paragraph isn't re-requested at the same level. Dictionary glosses work as usual when this is off."
+  },
+  "about_h": {
+    "message": "About"
+  },
+  "about_text": {
+    "message": "The offline dictionary is built from {0} (MIT license); US IPA comes from CMUdict. Pronunciation uses the browser's built-in speech synthesis."
+  },
+  "cb_title": {
+    "message": "Inkling · Sign in with ChatGPT"
+  },
+  "cb_finishing": {
+    "message": "Finishing sign-in…"
+  },
+  "cb_wait": {
+    "message": "Please wait while Inkling exchanges tokens with ChatGPT."
+  },
+  "back_settings": {
+    "message": "Back to settings"
+  },
+  "cb_ok": {
+    "message": "Signed in to ChatGPT"
+  },
+  "cb_ok_msg": {
+    "message": "Using your ChatGPT plan{0}. This page will close automatically."
+  },
+  "cb_noplan": {
+    "message": "Signed in, but plan usage isn't authorized"
+  },
+  "cb_noplan_msg": {
+    "message": "Plan usage wasn't authorized. Go back to Settings to sign in again and allow it, or use an API key instead."
+  },
+  "cb_fail": {
+    "message": "Sign-in not completed"
+  },
+  "site_no_permission": {
+    "message": "Access to this site wasn't granted"
+  },
+  "login_stale": {
+    "message": "This sign-in request expired or was already used. Go back to Inkling settings and click Continue with ChatGPT again."
+  },
+  "login_denied": {
+    "message": "You declined, or ChatGPT plan sharing isn't enabled. Sign in again and allow plan usage, or use an API key instead."
+  },
+  "login_failed": {
+    "message": "Sign-in failed: {0}"
+  },
+  "login_no_code": {
+    "message": "The callback has no authorization code"
+  },
+  "login_no_client": {
+    "message": "Registration returned no client_id. Please try again."
+  },
+  "login_client_mismatch": {
+    "message": "The callback's client_id doesn't match the saved one, so sign-in was rejected"
+  },
+  "login_network": {
+    "message": "Can't reach OpenAI's sign-in server. Check your network."
+  },
+  "login_code_expired": {
+    "message": "The authorization code expired. Please sign in again."
+  },
+  "token_exchange_failed": {
+    "message": "Token exchange failed (HTTP {0}){1}"
+  },
+  "login_account_mismatch": {
+    "message": "You signed in with a different ChatGPT account. To switch accounts, choose \"Sign in with another account\" in Settings."
+  },
+  "plan_not_granted": {
+    "message": "Signed in, but ChatGPT plan usage isn't authorized. Sign in again and allow it, or use an API key."
+  },
+  "session_expired": {
+    "message": "Your session expired. Please sign in to ChatGPT again."
+  },
+  "refresh_network": {
+    "message": "Network error while refreshing your ChatGPT session. Try again later."
+  },
+  "login_invalid": {
+    "message": "Your ChatGPT sign-in is no longer valid. Please sign in again."
+  },
+  "refresh_failed": {
+    "message": "Refreshing the ChatGPT token failed (HTTP {0}){1}"
+  },
+  "not_signed_in": {
+    "message": "Not signed in to ChatGPT. Click Continue with ChatGPT in Settings."
+  },
+  "plan_disabled": {
+    "message": "Signed in to ChatGPT, but plan usage isn't authorized. Sign in again and allow it, or use an API key."
+  },
+  "logout_ok": {
+    "message": "Signed out of ChatGPT"
+  },
+  "logout_unconfirmed": {
+    "message": "Signed out, but token revocation couldn't be confirmed. You can disconnect Inkling in ChatGPT settings."
+  },
+  "openai_network": {
+    "message": "Can't reach the OpenAI API. Check your network."
+  },
+  "usage_limit": {
+    "message": "Your ChatGPT plan usage limit is reached. Try later or adjust usage settings."
+  },
+  "not_eligible": {
+    "message": "This ChatGPT account can't share plan usage (Plus or Pro required). Use an API key instead."
+  },
+  "invalid_user": {
+    "message": "Your ChatGPT session is invalid. Please sign in again."
+  },
+  "usage_unavailable": {
+    "message": "Couldn't check ChatGPT usage right now. Try again later."
+  },
+  "unsupported_capability": {
+    "message": "The selected model or a request option isn't supported{0}. Pick another model."
+  },
+  "route_unsupported": {
+    "message": "That API endpoint isn't supported."
+  },
+  "scope_not_authorized": {
+    "message": "Your current authorization doesn't allow this. Sign in again and allow plan usage."
+  },
+  "http_forbidden": {
+    "message": "Request refused (HTTP 403){0}"
+  },
+  "usage_limit_short": {
+    "message": "ChatGPT plan usage limit reached."
+  },
+  "service_unavailable": {
+    "message": "ChatGPT is temporarily unavailable. Try again later."
+  },
+  "http_failed": {
+    "message": "Request failed (HTTP {0}){1}"
+  },
+  "no_chatgpt_model": {
+    "message": "No ChatGPT model selected. Choose one in Settings."
+  },
+  "gen_failed": {
+    "message": "The model failed to respond{0}"
+  },
+  "incomplete": {
+    "message": "The answer was cut off"
+  },
+  "model_error": {
+    "message": "The model returned an error: {0}"
+  },
+  "interrupted": {
+    "message": "The connection dropped before the answer finished. Try again."
+  },
+  "no_json": {
+    "message": "The model didn't return JSON"
+  },
+  "usage_paused": {
+    "message": "Usage limit reached, so AI-optimized glosses are paused"
+  },
+  "bad_base": {
+    "message": "The base URL must start with http:// or https://"
+  },
+  "no_api_key": {
+    "message": "No API key yet. Add one under \"AI model\" in Settings."
+  },
+  "need_host": {
+    "message": "Access to {0} isn't allowed yet. In Settings → AI model, click \"Test connection\" and allow access when prompted."
+  },
+  "cannot_connect": {
+    "message": "Can't reach {0}. Check the base URL and your network."
+  },
+  "server_said": {
+    "message": " (server said: {0})"
+  },
+  "http_401": {
+    "message": "Invalid or expired API key (HTTP 401){0}"
+  },
+  "http_403": {
+    "message": "No access to this endpoint or model (HTTP 403){0}"
+  },
+  "http_404": {
+    "message": "Wrong base URL or model name (HTTP 404){0}"
+  },
+  "http_429": {
+    "message": "Too many requests or not enough credit (HTTP 429){0}"
+  },
+  "http_5xx": {
+    "message": "Server error (HTTP {0}). Try again later.{1}"
+  },
+  "models_unrecognized": {
+    "message": "Couldn't read the model list returned by the API"
+  },
+  "no_model": {
+    "message": "No model selected. Enter a model name in Settings."
+  },
+  "empty_reply": {
+    "message": "The model returned nothing"
+  }
+}

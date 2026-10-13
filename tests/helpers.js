@@ -44,6 +44,7 @@ export const test = base.extend({
     await sw.evaluate(async (base) => {
       await chrome.storage.local.set({
         devConfig: { authBase: base, issuer: base, apiBase: `${base}/v1`, noWelcome: true, extraSites: ['http://127.0.0.1/*'] },
+        uiLanguage: 'zh_CN', // 测试浏览器是英文环境；默认固定简体，多语言另有专门测试
       });
     }, mock.base);
     await waitRegistered(sw, true);

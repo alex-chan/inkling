@@ -1,5 +1,7 @@
 // 大模型统一入口：语境解释（流式）与段落级注释优化（释义 + 分级，JSON，并发 2，带缓存）
 
+import { t, locale } from './i18n.js';
+
 import { getSettings, PRESETS } from './settings.js';
 import { AIError } from './sse.js';
 import * as compat from './openai-compat.js';
@@ -7,7 +9,7 @@ import * as chatgpt from './chatgpt.js';
 
 export const EXPLAIN_PROMPT = `你是面向中文母语读者的英语阅读助手。读者在英文文章里遇到一个词或短语，请结合上下文解释它在这句话里的意思。
 {{READER}}用法说明请用这个水平的读者能看懂的说法。
-用简体中文，严格按下面的格式输出，总长不超过 120 字：
+用{{LANG}}，严格按下面的格式输出，总长不超过 120 字：
 本句含义：……
 读音：/美式 IPA/
 用法：……（词性、常见搭配，一句话）
@@ -24,7 +26,7 @@ export const ANNOTATE_PROMPT = `你是英语阅读助手，帮助中文母语读
 每条给出：
 - p：段落编号（数字）
 - text：文中原样出现的连续文本，大小写与原文一致，不要改写或省略中间的词
-- gloss：本句语境下的中文释义，不超过 8 个汉字
+- gloss：本句语境下的{{LANG}}释义，不超过 8 个汉字
 - level：CEFR 难度等级，A1、A2、B1、B2、C1、C2 之一
 - kind：word（生词）、sense（熟词僻义）、phrase（短语/习语）之一
 宁缺毋滥，每段最多 12 条。只输出 JSON：{"items":[{"p":1,"text":"…","gloss":"…","level":"B2","kind":"word"}]}，不要输出其他内容。`;
@@ -35,6 +37,11 @@ export function readerProfile(level) {
   const preset = [...PRESETS].reverse().find((p) => p.value <= level);
   const cefr = CEFR_BY_LEVEL.find(([n]) => level <= n)[1];
   return `读者的英语词汇量约 ${level} 词（${preset ? `约${preset.label}水平` : '初学'}，相当于 CEFR ${cefr}）。`;
+}
+
+// 释义语言：繁体界面用繁体中文，其余用简体中文（离线词典本身只有简体）
+function outputLanguage() {
+  return locale() === 'zh_TW' ? '繁體中文' : '简体中文';
 }
 
 function explainInput({ text, context }) {
@@ -51,7 +58,7 @@ async function run({ system, user, onDelta, signal, temperature }) {
 
 export async function explain(req, onDelta, signal) {
   const { level } = await getSettings();
-  return run({ system: EXPLAIN_PROMPT.replace('{{READER}}', readerProfile(level)), user: explainInput(req), onDelta, signal });
+  return run({ system: EXPLAIN_PROMPT.replace('{{READER}}', readerProfile(level)).replace('{{LANG}}', outputLanguage()), user: explainInput(req), onDelta, signal });
 }
 
 // ---------- 并发限制 ----------
@@ -117,7 +124,7 @@ async function hash(s) {
 function parseJson(text) {
   const s = text.replace(/```(?:json)?/gi, '');
   const a = s.indexOf('{'), b = s.lastIndexOf('}');
-  if (a < 0 || b <= a) throw new AIError('模型没有返回 JSON');
+  if (a < 0 || b <= a) throw new AIError(t('no_json'));
   return JSON.parse(s.slice(a, b + 1));
 }
 
@@ -155,14 +162,14 @@ let pausedUntil = 0; // 用量超限后暂停自动注释
 
 // paras: [{ text, cands: [候选生词] }] → [{ items }]（与 paras 一一对应）
 export async function annotate({ paras }) {
-  if (Date.now() < pausedUntil) throw new AIError('用量已达上限，AI 优化注释已暂停');
+  if (Date.now() < pausedUntil) throw new AIError(t('usage_paused'), { code: 'usage_paused' });
   const s = await getSettings();
   const model = s.aiProvider === 'chatgpt' ? s.chatgptModel : s.apiModel;
   const list = paras.slice(0, 6).map((x) => ({
     text: String(x.text || '').slice(0, 2500),
     cands: [...new Set((x.cands || []).map((w) => String(w).toLowerCase()))].slice(0, 40),
   }));
-  const keys = await Promise.all(list.map((x) => hash(`v2|${s.aiProvider}|${model}|${levelBucket(s.level)}|${x.text}|${x.cands.join(',')}`)));
+  const keys = await Promise.all(list.map((x) => hash(`v2|${s.aiProvider}|${model}|${outputLanguage()}|${levelBucket(s.level)}|${x.text}|${x.cands.join(',')}`)));
   const results = await Promise.all(keys.map((k) => cacheGet(k)));
   const todo = list.map((x, i) => i).filter((i) => !results[i]);
   if (!todo.length) return results;
@@ -170,7 +177,7 @@ export async function annotate({ paras }) {
   try {
     const user = todo.map((i, n) => `[P${n + 1}] ${list[i].text}\n候选生词：${list[i].cands.join(', ') || '（无）'}`).join('\n\n');
     const out = await run({
-      system: ANNOTATE_PROMPT.replace('{{READER}}', readerProfile(s.level)),
+      system: ANNOTATE_PROMPT.replace('{{READER}}', readerProfile(s.level)).replace('{{LANG}}', outputLanguage()),
       user,
       temperature: 0.2,
     });
