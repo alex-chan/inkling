@@ -656,7 +656,7 @@
   const CARD_CSS = `
     :host { all: initial; }
     * { box-sizing: border-box; }
-    .card, .sel { font: 14px/1.55 system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    .card, .sel { font: 14px/1.55 system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", "Hiragino Sans", "Yu Gothic", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
       --bg: #fffdf8; --fg: #1f1d1a; --muted: #6b665e; --line: #e8e1d4; --accent: #b4541a; --accent-bg: #fbeee2;
       --btn: #f4efe6; --btn-hover: #ebe3d6; --ai-bg: #f7f4ee; --err: #b42318; }
     @media (prefers-color-scheme: dark) {
@@ -701,6 +701,7 @@
     .ai .cursor::after { content: '▍'; animation: blink 1s steps(1) infinite; color: var(--muted); }
     @keyframes blink { 50% { opacity: 0; } }
     .note { color: var(--muted); font-size: 12px; margin-top: 6px; }
+    .note.src { font-size: 11px; margin-top: 2px; }
     .sel { position: absolute; z-index: 2147483647; border: 1px solid var(--line); background: var(--accent); color: #fff;
       width: 28px; height: 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;
       box-shadow: 0 4px 12px rgba(0,0,0,.18); padding: 0; }
@@ -791,7 +792,8 @@
       </div>
       ${aiRow}
       ${isWord ? `<div class="meta">${lemmaNote}${rank}${tags}</div>
-      <ul class="defs">${I.tr.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>` : ai ? '' : `<div class="note">${esc(t(isPhrase ? 'not_in_dict_phrase' : 'not_in_dict_word'))}</div>`}
+      ${I.noGloss ? `<div class="note">${esc(t('no_gloss', t(`gloss_${I.gl}`)))}</div>` : `<ul class="defs">${I.tr.map((l) => `<li>${esc(l)}</li>`).join('')}</ul>`}
+      ${I.src === 'wiktionary' ? `<div class="note src">${esc(t('gloss_source'))}</div>` : ''}` : ai ? '' : `<div class="note">${esc(t(isPhrase ? 'not_in_dict_phrase' : 'not_in_dict_word'))}</div>`}
       <div class="ai" hidden></div>
       <div class="row">
         <button class="b primary act-ai">${esc(t('ai_explain'))}</button>
@@ -1095,6 +1097,18 @@
   window.addEventListener('mousedown', onMouseDown, true);
   window.addEventListener('keydown', onKey, true);
   document.addEventListener('copy', onCopy, true);
+
+  // 释义语言切换：清掉词典信息缓存和 AI 结果，整页重新注释
+  chrome.storage.onChanged.addListener((changes, area) => {
+    if (area !== 'local' || !('glossLanguage' in changes)) return;
+    info.clear();
+    aiResults = new WeakMap();
+    if (active) {
+      stop();
+      gen++;
+      start();
+    }
+  });
 
   // 界面语言切换：重新取文案；词卡和划词按钮按新语言重建
   chrome.storage.onChanged.addListener((changes, area) => {

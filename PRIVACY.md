@@ -1,6 +1,6 @@
 # Inkling 墨点 隐私政策 / Privacy Policy
 
-最后更新：2026-10-10
+最后更新：2026-10-14
 
 Inkling 是一个开源浏览器扩展（[源代码](https://github.com/alex-chan/inkling)）。开发者**不运营任何服务器**，不收集、不接收、不出售任何用户数据，也没有统计、广告或追踪代码。
 
@@ -10,6 +10,10 @@ Inkling 是一个开源浏览器扩展（[源代码](https://github.com/alex-cha
 - **设置与词表**：词汇水平、显示偏好、熟词本、生词本，保存在本机的 `chrome.storage.local`，不会同步到其他设备。
 - **API Key 与登录令牌**：你填写的 API Key，以及用 ChatGPT 登录后得到的访问令牌、刷新令牌和账号信息（姓名、邮箱，仅用于在设置页显示当前账号），只保存在本机的 `chrome.storage.local`。
 - **AI 结果缓存**：AI 返回的注释结果缓存在本机的 IndexedDB 中，用来避免重复请求。
+
+## 释义包下载
+
+在设置中把释义语言选为日语或韩语时，扩展会从 GitHub Pages（`alex-chan.github.io`）下载对应的释义包，下载完成后存放在本机。这只是普通的文件下载，请求里不含任何个人数据或浏览内容。和访问任何网站一样，GitHub 会看到请求来源的 IP 地址。
 
 ## 只在你使用 AI 功能时才会发送的数据
 
@@ -38,4 +42,4 @@ AI 功能默认不启用。只有在你配置了大模型，并主动点击「AI
 
 ---
 
-**English summary.** Inkling has no backend and collects no data. Settings, word lists, your API key and OAuth tokens are stored only in `chrome.storage.local` on your device. Page text is processed locally with an offline dictionary. AI features are off by default. When you use them, the selected word with nearby sentences, or nearby paragraph text if "AI-optimized annotation" is on, is sent directly to the AI provider you configured: your OpenAI-compatible endpoint, or OpenAI when you sign in with ChatGPT. Nothing is sent to the developer. Nothing is sold or used for advertising or tracking.
+**English summary.** Inkling has no backend and collects no data. Settings, word lists, your API key and OAuth tokens are stored only in `chrome.storage.local` on your device. Page text is processed locally with an offline dictionary. AI features are off by default. When you use them, the selected word with nearby sentences, or nearby paragraph text if "AI-optimized annotation" is on, is sent directly to the AI provider you configured: your OpenAI-compatible endpoint, or OpenAI when you sign in with ChatGPT. Choosing Japanese or Korean glosses downloads that gloss pack from GitHub Pages (alex-chan.github.io); the request carries no personal data or browsing content. Nothing is sent to the developer. Nothing is sold or used for advertising or tracking.

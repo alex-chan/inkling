@@ -3,7 +3,7 @@
   "default_locale": "zh_CN",
   "name": "__MSG_appName__",
   "short_name": "Inkling",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "__MSG_appDesc__",
   "homepage_url": "https://github.com/alex-chan/inkling",
   "minimum_chrome_version": "116",

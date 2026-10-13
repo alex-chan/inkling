@@ -1,4 +1,7 @@
 // 离线词典（ECDICT 精简版）：懒加载为 Map，提供词形还原与批量查询
+// 生词判断始终用英文词频；释义语言为日语 / 韩语时，释义改用按需下载的释义包（lib/glosspack.js）。
+
+import { packMap } from './glosspack.js';
 
 const NAME_RE = /(男子名|女子名|姓氏|人名)/;
 const VARIANT_RE = /(的过去式|的过去分词|的现在分词|的复数|第三人称单数|的比较级|的最高级)/;
@@ -122,13 +125,36 @@ function infoFor(token) {
   };
 }
 
+// 当前释义语言的释义包；中文或尚未下载时返回 null（用内置中文释义）
+async function currentPack() {
+  const { glossLanguage = 'zh' } = await chrome.storage.local.get('glossLanguage');
+  if (glossLanguage === 'zh') return null;
+  const map = await packMap(glossLanguage).catch(() => null);
+  return map ? { lang: glossLanguage, map } : null;
+}
+
+function packEntry(pack, ...keys) {
+  for (const k of keys) {
+    const e = k && pack.map.get(k.toLowerCase());
+    if (e) return e;
+  }
+  return null;
+}
+
 export async function lookup(tokens) {
   await ensureLoaded();
+  const pack = await currentPack();
   const out = {};
   for (const t of tokens) {
     const k = String(t).toLowerCase();
     if (!/^[a-z]{1,40}$/.test(k)) { out[k] = null; continue; }
-    out[k] = infoFor(k);
+    const info = infoFor(k);
+    if (info && pack) {
+      const e = packEntry(pack, k, info.l, info.w);
+      info.gl = pack.lang;
+      if (e) { info.g = e.g; info.tr = e.tr; info.src = 'wiktionary'; } else { info.g = ''; info.tr = []; info.noGloss = true; }
+    }
+    out[k] = info;
   }
   return out;
 }
@@ -141,7 +167,8 @@ export async function nearWords(level, count = 10) {
   const pick = [];
   const step = Math.max(1, Math.floor(pool.length / count));
   for (let i = 0; i < pool.length && pick.length < count; i += step) pick.push(pool[i]);
-  return pick.map((e) => ({ w: e.w, r: e.r, g: shortGloss(e.tr), known: e.r <= level }));
+  const pack = await currentPack();
+  return pick.map((e) => ({ w: e.w, r: e.r, g: pack ? (packEntry(pack, e.w)?.g || '') : shortGloss(e.tr), known: e.r <= level }));
 }
 
 export const QUIZ_BANDS = [
@@ -151,12 +178,13 @@ export const QUIZ_BANDS = [
 
 export async function quizWords() {
   await ensureLoaded();
+  const pack = await currentPack();
   const out = [];
   QUIZ_BANDS.forEach(([a, b], band) => {
     const pool = ordered.filter((e) => e.r >= a && e.r < b && e.w.length >= 4 && (e.t || a > 12000));
     const chosen = new Set();
     while (chosen.size < Math.min(4, pool.length)) chosen.add(pool[Math.floor(Math.random() * pool.length)]);
-    for (const e of chosen) out.push({ band, w: e.w, g: shortGloss(e.tr) });
+    for (const e of chosen) out.push({ band, w: e.w, g: pack ? (packEntry(pack, e.w)?.g || '') : shortGloss(e.tr) });
   });
   return out;
 }

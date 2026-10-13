@@ -489,7 +489,55 @@
     "message": "關於"
   },
   "about_text": {
-    "message": "離線詞典以 {0}（MIT 授權）精簡產生，美式音標來自 CMUdict。朗讀使用瀏覽器內建的語音合成。"
+    "message": "離線詞典以 {0}（MIT 授權）精簡產生，美式音標來自 CMUdict，日語、韓語釋義包來自維基詞典（CC BY-SA 4.0）。朗讀使用瀏覽器內建的語音合成。"
+  },
+  "gloss_lang_h": {
+    "message": "釋義語言"
+  },
+  "gloss_lang_desc": {
+    "message": "註釋和詞卡中以哪種語言解釋英文詞。中文為內建詞典；日語、韓語釋義包在第一次選擇時從 GitHub Pages 下載（約 0.5～1 MB），之後可離線使用。"
+  },
+  "gloss_zh": {
+    "message": "中文（內建）"
+  },
+  "gloss_ja": {
+    "message": "日語"
+  },
+  "gloss_ko": {
+    "message": "韓語"
+  },
+  "pack_downloading": {
+    "message": "正在下載{0}釋義包…"
+  },
+  "pack_ready": {
+    "message": "{0}釋義包已就緒：{1} 個詞，{2}，版本 {3}"
+  },
+  "pack_update": {
+    "message": "檢查更新"
+  },
+  "pack_delete": {
+    "message": "刪除已下載的釋義包"
+  },
+  "pack_deleted": {
+    "message": "已刪除，釋義語言改回中文。"
+  },
+  "pack_failed": {
+    "message": "下載失敗，仍使用原本的釋義語言。{0}"
+  },
+  "pack_network": {
+    "message": "無法下載釋義包（{0}），請檢查網路後重試。"
+  },
+  "pack_checksum": {
+    "message": "釋義包校驗失敗（檔案不完整或已被修改），請重試。"
+  },
+  "pack_unknown": {
+    "message": "沒有 {0} 釋義包"
+  },
+  "no_gloss": {
+    "message": "釋義包中暫時沒有這個詞的{0}釋義，可以點「AI 語境解釋」。"
+  },
+  "gloss_source": {
+    "message": "釋義來自維基詞典（CC BY-SA 4.0）"
   },
   "cb_title": {
     "message": "Inkling · 登入 ChatGPT"

@@ -95,6 +95,14 @@
       <label><input type="radio" name="mode" value="underline"><span data-i18n="mode_underline">只加下划线</span></label>
     </div>
     <p class="muted small" data-i18n="display_desc">同一段落里同一个词只在第一次出现时显示释义。点击被注释的词可以打开词卡；选中任意词或短语会出现「注」按钮。</p>
+    <h3 data-i18n="gloss_lang_h">释义语言</h3>
+    <p class="muted small" data-i18n="gloss_lang_desc">注释和词卡里用哪种语言解释英文词。</p>
+    <div class="row wrap" style="gap:8px">
+      <select id="glossLanguage" style="width:auto" data-i18n-aria="gloss_lang_h" aria-label="释义语言"></select>
+      <button class="btn" id="packUpdate" type="button" data-i18n="pack_update" hidden>检查更新</button>
+      <button class="btn link small" id="packDelete" type="button" data-i18n="pack_delete" hidden>删除已下载的释义包</button>
+    </div>
+    <div class="status small" id="packStatus" role="status"></div>
     <h3 data-i18n="color_h">释义颜色</h3>
     <div class="row wrap" style="gap:8px">
       <div class="swatches" id="swatches" role="radiogroup" data-i18n-aria="color_h" aria-label="释义颜色"></div>

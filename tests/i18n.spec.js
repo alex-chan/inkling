@@ -5,20 +5,24 @@ const loc = (l) => JSON.parse(fs.readFileSync(new URL(`../extension/_locales/${l
 const zhCN = loc('zh_CN');
 const zhTW = loc('zh_TW');
 const en = loc('en');
+const ja = loc('ja');
+const ko = loc('ko');
 
 test.describe('界面多语言', () => {
   test('三种语言的 key 完全一致，没有空文案，占位符数量一致', () => {
     const keys = Object.keys(zhCN).sort();
-    expect(Object.keys(zhTW).sort()).toEqual(keys);
-    expect(Object.keys(en).sort()).toEqual(keys);
+    for (const m of [zhTW, en, ja, ko]) expect(Object.keys(m).sort()).toEqual(keys);
     for (const k of keys) {
       const ph = (s) => (s.match(/\{\d\}/g) || []).sort().join();
-      for (const m of [zhCN, zhTW, en]) expect(m[k].message.trim(), k).not.toBe('');
-      expect(ph(zhTW[k].message), k).toBe(ph(zhCN[k].message));
-      expect(ph(en[k].message), k).toBe(ph(zhCN[k].message));
+      for (const m of [zhCN, zhTW, en, ja, ko]) {
+        expect(m[k].message.trim(), k).not.toBe('');
+        expect(ph(m[k].message), k).toBe(ph(zhCN[k].message));
+      }
     }
-    expect(en.appDesc.message.length).toBeLessThanOrEqual(132);
-    expect(en.appName.message.length).toBeLessThanOrEqual(75);
+    for (const m of [zhCN, zhTW, en, ja, ko]) {
+      expect(m.appDesc.message.length).toBeLessThanOrEqual(132);
+      expect(m.appName.message.length).toBeLessThanOrEqual(75);
+    }
   });
 
   test('manifest 名称和说明走 _locales，扩展能正常加载', async ({ sw }) => {
@@ -45,6 +49,13 @@ test.describe('界面多语言', () => {
     await opt.locator('#uiLanguage').selectOption('zh_TW');
     await expect(opt.locator('h2[data-i18n="sites_h"]')).toHaveText('支援的網站');
     await expect(opt.getByRole('button', { name: '測試連線' }).first()).toBeVisible();
+
+    await opt.locator('#uiLanguage').selectOption('ja');
+    await expect(opt.locator('h2[data-i18n="sites_h"]')).toHaveText('対応サイト');
+    await expect(opt.locator('html')).toHaveAttribute('lang', 'ja');
+    await opt.locator('#uiLanguage').selectOption('ko');
+    await expect(opt.locator('h2[data-i18n="sites_h"]')).toHaveText('지원 사이트');
+    await expect(opt.getByRole('button', { name: '연결 테스트' }).first()).toBeVisible();
 
     // 跟随浏览器：测试浏览器为英文
     await opt.locator('#uiLanguage').selectOption('auto');

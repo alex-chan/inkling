@@ -1,12 +1,14 @@
-// 界面多语言：简体中文 / 繁體中文 / English
+// 界面多语言：简体中文 / 繁體中文 / English / 日本語 / 한국어
 // chrome.i18n 只跟随浏览器语言、不能运行时切换，所以这里直接读取 _locales/*/messages.json，
-// 支持设置页里手动选择语言（storage.local.uiLanguage：auto | zh_CN | zh_TW | en）。
+// 支持设置页里手动选择语言（storage.local.uiLanguage：auto | zh_CN | zh_TW | en | ja | ko）。
 // 文案总表在 tools/i18n_table.py，占位符为 {0} {1}。
 
 export const UI_LANGUAGES = [
   ['zh_CN', '简体中文'],
   ['zh_TW', '繁體中文'],
   ['en', 'English'],
+  ['ja', '日本語'],
+  ['ko', '한국어'],
 ];
 const SUPPORTED = UI_LANGUAGES.map(([k]) => k);
 const FALLBACK = 'zh_CN';
@@ -21,6 +23,8 @@ export function resolveLocale(pref) {
   const ui = (chrome.i18n?.getUILanguage?.() || navigator.language || '').replace('-', '_');
   if (/^zh_(TW|HK|MO)|^zh_Hant/i.test(ui)) return 'zh_TW';
   if (/^zh/i.test(ui)) return 'zh_CN';
+  if (/^ja/i.test(ui)) return 'ja';
+  if (/^ko/i.test(ui)) return 'ko';
   return 'en';
 }
 
@@ -93,7 +97,7 @@ export function applyI18n(root = document) {
     }
   }
   if (root === document) {
-    document.documentElement.lang = { zh_CN: 'zh-CN', zh_TW: 'zh-TW', en: 'en' }[locale()];
+    document.documentElement.lang = { zh_CN: 'zh-CN', zh_TW: 'zh-TW', en: 'en', ja: 'ja', ko: 'ko' }[locale()];
     const title = document.querySelector('title[data-i18n]');
     if (title) document.title = t(title.dataset.i18n);
   }

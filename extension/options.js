@@ -163,6 +163,67 @@ for (const r of document.querySelectorAll('input[name=mode]')) {
   r.addEventListener('change', () => save({ displayMode: r.value }));
 }
 
+// ---------------- 释义语言（日语 / 韩语释义包按需从 GitHub Pages 下载） ----------------
+
+{
+  const sel = $('glossLanguage');
+  sel.replaceChildren(new Option(t('gloss_zh'), 'zh'), new Option('日本語', 'ja'), new Option('한국어', 'ko'));
+  sel.value = S.glossLanguage;
+  const mb = (n) => (n >= 1e6 ? `${(n / 1e6).toFixed(2)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
+  // 设置页里的颜色预览也跟随释义语言
+  const PREVIEW = { zh: ['关税', '征收'], ja: ['関税', '徴収'], ko: ['관세', '부과'] };
+  const renderPreview = () => $('glossPreview').querySelectorAll('rt').forEach((rt, i) => { rt.textContent = PREVIEW[S.glossLanguage]?.[i] ?? rt.textContent; });
+  renderPreview();
+
+  async function renderPacks(note) {
+    const st = await call('packStatus').catch(() => ({}));
+    const cur = S.glossLanguage;
+    const anyPack = Object.values(st).some(Boolean);
+    $('packUpdate').hidden = !st[cur];
+    $('packDelete').hidden = !anyPack;
+    if (note) setStatus($('packStatus'), note.text, note.kind);
+    else if (st[cur]) setStatus($('packStatus'), t('pack_ready', t(`gloss_${cur}`), st[cur].entries.toLocaleString(), mb(st[cur].size), st[cur].version), 'ok');
+    else setStatus($('packStatus'), '');
+  }
+
+  async function fetchPack(lang) {
+    sel.disabled = true;
+    $('packUpdate').disabled = true;
+    setStatus($('packStatus'), t('pack_downloading', t(`gloss_${lang}`)));
+    try {
+      await call('downloadPack', { lang });
+      return true;
+    } catch (e) {
+      await renderPacks({ text: t('pack_failed', e.message), kind: 'err' });
+      return false;
+    } finally {
+      sel.disabled = false;
+      $('packUpdate').disabled = false;
+    }
+  }
+
+  sel.addEventListener('change', async () => {
+    const want = sel.value;
+    if (want !== 'zh' && !(await fetchPack(want))) { sel.value = S.glossLanguage; return; }
+    await save({ glossLanguage: want });
+    renderPreview();
+    await renderPacks();
+    renderNear();
+  });
+  $('packUpdate').addEventListener('click', async () => {
+    if (await fetchPack(S.glossLanguage)) await renderPacks();
+  });
+  $('packDelete').addEventListener('click', async () => {
+    for (const lang of ['ja', 'ko']) await call('deletePack', { lang });
+    sel.value = 'zh';
+    await save({ glossLanguage: 'zh' });
+    renderPreview();
+    await renderPacks({ text: t('pack_deleted'), kind: 'ok' });
+    renderNear();
+  });
+  renderPacks();
+}
+
 // ---------------- 释义颜色 ----------------
 
 for (const c of GLOSS_COLORS) {

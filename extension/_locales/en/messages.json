@@ -489,7 +489,55 @@
     "message": "About"
   },
   "about_text": {
-    "message": "The offline dictionary is built from {0} (MIT license); US IPA comes from CMUdict. Pronunciation uses the browser's built-in speech synthesis."
+    "message": "The offline dictionary is built from {0} (MIT license); US IPA comes from CMUdict; Japanese and Korean gloss packs come from Wiktionary (CC BY-SA 4.0). Pronunciation uses the browser's built-in speech synthesis."
+  },
+  "gloss_lang_h": {
+    "message": "Gloss language"
+  },
+  "gloss_lang_desc": {
+    "message": "Which language explains English words in glosses and word cards. Chinese is built in; the Japanese and Korean packs download from GitHub Pages the first time you choose them (about 0.5–1 MB) and then work offline."
+  },
+  "gloss_zh": {
+    "message": "Chinese (built-in)"
+  },
+  "gloss_ja": {
+    "message": "Japanese"
+  },
+  "gloss_ko": {
+    "message": "Korean"
+  },
+  "pack_downloading": {
+    "message": "Downloading the {0} gloss pack…"
+  },
+  "pack_ready": {
+    "message": "{0} gloss pack ready: {1} words, {2}, version {3}"
+  },
+  "pack_update": {
+    "message": "Check for updates"
+  },
+  "pack_delete": {
+    "message": "Delete downloaded packs"
+  },
+  "pack_deleted": {
+    "message": "Deleted. Gloss language switched back to Chinese."
+  },
+  "pack_failed": {
+    "message": "Download failed; the previous gloss language is kept. {0}"
+  },
+  "pack_network": {
+    "message": "Couldn't download the gloss pack ({0}). Check your network and try again."
+  },
+  "pack_checksum": {
+    "message": "The gloss pack failed its integrity check (incomplete or modified). Please try again."
+  },
+  "pack_unknown": {
+    "message": "No gloss pack for {0}"
+  },
+  "no_gloss": {
+    "message": "The gloss pack has no {0} gloss for this word yet. Try \"Explain in context (AI)\"."
+  },
+  "gloss_source": {
+    "message": "Glosses from Wiktionary (CC BY-SA 4.0)"
   },
   "cb_title": {
     "message": "Inkling · Sign in with ChatGPT"

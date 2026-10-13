@@ -43,7 +43,7 @@ export const test = base.extend({
     // 测试页面在 127.0.0.1 上：它不在默认网站列表里，按"用户启用的网站"同样的路径动态注册 content script
     await sw.evaluate(async (base) => {
       await chrome.storage.local.set({
-        devConfig: { authBase: base, issuer: base, apiBase: `${base}/v1`, noWelcome: true, extraSites: ['http://127.0.0.1/*'] },
+        devConfig: { authBase: base, issuer: base, apiBase: `${base}/v1`, packBase: `${base}/glosspacks`, noWelcome: true, extraSites: ['http://127.0.0.1/*'] },
         uiLanguage: 'zh_CN', // 测试浏览器是英文环境；默认固定简体，多语言另有专门测试
       });
     }, mock.base);

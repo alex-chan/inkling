@@ -2,9 +2,10 @@
 import * as dict from './lib/dict.js';
 import * as ai from './lib/ai.js';
 import * as chatgpt from './lib/chatgpt.js';
+import * as glosspack from './lib/glosspack.js';
 import { errorPayload } from './lib/sse.js';
 import { DEFAULT_MATCHES, matchesAny, originPattern } from './lib/sites.js';
-import { t, ready, locale, allMessages } from './lib/i18n.js';
+import { t, ready, locale, allMessages, resolveLocale } from './lib/i18n.js';
 
 // ---------- 用户自行启用的网站：动态注册 content script ----------
 // 默认网站由 manifest 静态注入；其他网站需要用户在弹窗里授权（optional_host_permissions）。
@@ -76,6 +77,14 @@ chrome.runtime.onInstalled.addListener(async ({ reason }) => {
   // 没有进行中的登录时，清掉可能残留的回调重定向规则
   const { chatgptPending } = await chrome.storage.session.get('chatgptPending');
   if (!chatgptPending || !Object.keys(chatgptPending).length) chatgpt.removeRedirectRule().catch(() => {});
+  // 浏览器是日语 / 韩语时，首次安装顺便下载对应的释义包，并把释义语言设成它（失败则保持中文）
+  if (reason === 'install') {
+    const loc = resolveLocale();
+    const { glossLanguage } = await chrome.storage.local.get('glossLanguage');
+    if ((loc === 'ja' || loc === 'ko') && !glossLanguage) {
+      glosspack.downloadPack(loc).then(() => chrome.storage.local.set({ glossLanguage: loc })).catch(() => {});
+    }
+  }
   if (reason === 'install') {
     const { devConfig } = await chrome.storage.local.get('devConfig');
     if (!devConfig?.noWelcome) chrome.runtime.openOptionsPage();
@@ -96,6 +105,9 @@ const handlers = {
   async chatgptLogin({ newAccount }) { return chatgpt.startLogin({ newAccount }); },
   async chatgptLogout() { return chatgpt.logout(); },
   async authCallback({ search }) { return chatgpt.handleCallback(search); },
+  async downloadPack({ lang }) { return glosspack.downloadPack(lang); },
+  async packStatus() { return glosspack.packStatus(); },
+  async deletePack({ lang }) { return glosspack.deletePack(lang); },
   async i18n() { return { locale: locale(), messages: allMessages() }; },
   async enableSite(msg) { return enableSite(msg); },
   async disableSite(msg) { return disableSite(msg); },

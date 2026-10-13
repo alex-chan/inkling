@@ -1,0 +1,725 @@
+{
+  "appName": {
+    "message": "Inkling – 英単語にやさしい注釈"
+  },
+  "appDesc": {
+    "message": "CNN・BBC・Reuters・YouTube などの英語ニュースや動画で、語彙レベルに合わせて未知の英単語に訳語・米音IPA・発音を付けます。AI 解説にも対応。"
+  },
+  "brand": {
+    "message": "Inkling"
+  },
+  "error_generic": {
+    "message": "エラーが発生しました"
+  },
+  "error_detail": {
+    "message": "エラーが発生しました：{0}"
+  },
+  "cancelled": {
+    "message": "キャンセルしました"
+  },
+  "unknown_error": {
+    "message": "不明なエラー"
+  },
+  "cancel": {
+    "message": "キャンセル"
+  },
+  "save": {
+    "message": "保存"
+  },
+  "saved": {
+    "message": "保存しました"
+  },
+  "remove": {
+    "message": "削除"
+  },
+  "remove_aria": {
+    "message": "{0} を削除"
+  },
+  "custom": {
+    "message": "カスタム"
+  },
+  "settings": {
+    "message": "設定"
+  },
+  "model": {
+    "message": "モデル"
+  },
+  "preset_1500": {
+    "message": "中学"
+  },
+  "preset_3500": {
+    "message": "高校"
+  },
+  "preset_4500": {
+    "message": "CET-4"
+  },
+  "preset_6000": {
+    "message": "CET-6"
+  },
+  "preset_6500": {
+    "message": "大学院入試"
+  },
+  "preset_8000": {
+    "message": "IELTS/TOEFL"
+  },
+  "preset_11000": {
+    "message": "TEM-8"
+  },
+  "preset_14000": {
+    "message": "GRE"
+  },
+  "color_000000": {
+    "message": "黒"
+  },
+  "color_5f6368": {
+    "message": "ダークグレー"
+  },
+  "color_b4541a": {
+    "message": "オークル"
+  },
+  "color_c62828": {
+    "message": "赤"
+  },
+  "color_2e7d32": {
+    "message": "緑"
+  },
+  "color_1a5fb4": {
+    "message": "青"
+  },
+  "color_7b3fbf": {
+    "message": "紫"
+  },
+  "tag_zk": {
+    "message": "中考"
+  },
+  "tag_gk": {
+    "message": "高考"
+  },
+  "tag_cet4": {
+    "message": "CET-4"
+  },
+  "tag_cet6": {
+    "message": "CET-6"
+  },
+  "tag_ky": {
+    "message": "考研"
+  },
+  "tag_toefl": {
+    "message": "TOEFL"
+  },
+  "tag_ielts": {
+    "message": "IELTS"
+  },
+  "tag_gre": {
+    "message": "GRE"
+  },
+  "site_google_news": {
+    "message": "Google ニュース"
+  },
+  "card_aria": {
+    "message": "Inkling 単語カード"
+  },
+  "sel_title": {
+    "message": "意味を見る（Inkling）"
+  },
+  "sel_label": {
+    "message": "注"
+  },
+  "kind_word": {
+    "message": "新出語"
+  },
+  "kind_sense": {
+    "message": "意外な語義"
+  },
+  "kind_phrase": {
+    "message": "フレーズ"
+  },
+  "kind_idiom": {
+    "message": "慣用句"
+  },
+  "ctx_label": {
+    "message": "文脈での意味"
+  },
+  "cefr_title": {
+    "message": "CEFR レベル"
+  },
+  "lemma": {
+    "message": "原形 {0}"
+  },
+  "rank": {
+    "message": "頻度 #{0}"
+  },
+  "close": {
+    "message": "閉じる"
+  },
+  "us_ipa": {
+    "message": "米音 IPA"
+  },
+  "us_badge": {
+    "message": "米"
+  },
+  "speak_title": {
+    "message": "発音を聞く（米国）"
+  },
+  "speak": {
+    "message": "発音"
+  },
+  "not_in_dict_word": {
+    "message": "この単語は辞書にないため、AI が文脈から解説しています。"
+  },
+  "not_in_dict_phrase": {
+    "message": "このフレーズは辞書にないため、AI が文脈から解説しています。"
+  },
+  "ai_explain": {
+    "message": "AI で文脈を解説"
+  },
+  "ai_explaining": {
+    "message": "解説中…"
+  },
+  "ai_reexplain": {
+    "message": "もう一度解説"
+  },
+  "know_word": {
+    "message": "この単語は知っている"
+  },
+  "know_phrase": {
+    "message": "このフレーズは知っている"
+  },
+  "add_learning": {
+    "message": "学習リストに追加"
+  },
+  "remove_learning": {
+    "message": "学習リストから外す"
+  },
+  "ext_updated": {
+    "message": "Inkling が更新されました。ページを再読み込みしてからもう一度お試しください。"
+  },
+  "view": {
+    "message": "表示"
+  },
+  "open_settings": {
+    "message": "Inkling の設定を開く"
+  },
+  "master_switch": {
+    "message": "Inkling オン/オフ"
+  },
+  "site_enabled_on": {
+    "message": "{0} で有効"
+  },
+  "this_page": {
+    "message": "このページ"
+  },
+  "site_switch_aria": {
+    "message": "このサイトのオン/オフ"
+  },
+  "not_default_site": {
+    "message": "{0} は標準の対応サイトではありません。許可すると、このサイトでのみ Inkling が動作します。"
+  },
+  "enable_here": {
+    "message": "このサイトで有効にする"
+  },
+  "grant_denied": {
+    "message": "許可されませんでした"
+  },
+  "enable_failed": {
+    "message": "有効にできませんでした"
+  },
+  "vocab": {
+    "message": "語彙数"
+  },
+  "display_mode": {
+    "message": "表示方法"
+  },
+  "mode_ruby_short": {
+    "message": "上に表示"
+  },
+  "mode_ruby": {
+    "message": "単語の上に小さく表示"
+  },
+  "mode_paren": {
+    "message": "単語の後に括弧で表示"
+  },
+  "mode_underline": {
+    "message": "下線のみ"
+  },
+  "checking": {
+    "message": "確認中…"
+  },
+  "auto_ai_short": {
+    "message": "AI 注釈の最適化（文脈訳 + レベル）"
+  },
+  "counts": {
+    "message": "既知 {0} · 学習中 {1}"
+  },
+  "ai_using_plan": {
+    "message": "ChatGPT プランの利用枠を使用中"
+  },
+  "ai_plan_not_granted": {
+    "message": "ChatGPT にサインイン済みですが、プラン利用が許可されていません"
+  },
+  "ai_signed_out": {
+    "message": "ChatGPT 未サインイン"
+  },
+  "ai_apikey": {
+    "message": "API キー · {0}"
+  },
+  "ai_no_model": {
+    "message": "モデル未選択"
+  },
+  "ai_unconfigured": {
+    "message": "未設定（設定で API キーを入力するか、ChatGPT でサインインしてください）"
+  },
+  "auto_title_on": {
+    "message": "利用量が大きく増えます"
+  },
+  "auto_title_off": {
+    "message": "先に設定で AI モデルを接続してください"
+  },
+  "opt_title": {
+    "message": "Inkling · 設定"
+  },
+  "ui_lang": {
+    "message": "表示言語"
+  },
+  "ui_lang_auto": {
+    "message": "ブラウザに合わせる"
+  },
+  "sites_h": {
+    "message": "対応サイト"
+  },
+  "sites_desc": {
+    "message": "Inkling は標準では以下の英語ニュース・動画サイトでのみ動作します。ほかのサイトでは、ツールバーのポップアップで「このサイトで有効にする」を押して個別に許可してください。"
+  },
+  "sites_extra_h": {
+    "message": "有効にしたほかのサイト"
+  },
+  "sites_none": {
+    "message": "まだありません。"
+  },
+  "level_h": {
+    "message": "語彙レベル"
+  },
+  "level_desc": {
+    "message": "頻度順位が N 以内の単語は既知とみなし、注釈を付けません。学習リストの単語には常に注釈を付け、既知リストの単語には付けません。"
+  },
+  "presets_aria": {
+    "message": "プリセット"
+  },
+  "level_slider_aria": {
+    "message": "語彙数スライダー"
+  },
+  "level_number_aria": {
+    "message": "語彙数"
+  },
+  "near_desc": {
+    "message": "このレベル付近の単語（左は既知扱い、枠付きは注釈対象）："
+  },
+  "quiz_h": {
+    "message": "自分のレベルがわからない？"
+  },
+  "quiz_desc": {
+    "message": "40 語テスト：10 の頻度帯から 4 語ずつ出題します。確実に知っている単語にチェックすると語彙数を推定します。"
+  },
+  "quiz_start": {
+    "message": "テストを始める"
+  },
+  "quiz_again": {
+    "message": "もう一度"
+  },
+  "quiz_done": {
+    "message": "レベルを推定"
+  },
+  "quiz_result": {
+    "message": "推定語彙数：約 {0}（{1}）。適用しました。"
+  },
+  "display_desc": {
+    "message": "同じ段落の同じ単語には最初の 1 回だけ訳語を表示します。注釈付きの単語をクリックすると単語カードが開き、任意の語句を選択すると「注」ボタンが表示されます。"
+  },
+  "color_h": {
+    "message": "訳語の色"
+  },
+  "color_custom_title": {
+    "message": "カスタムカラー"
+  },
+  "color_custom_aria": {
+    "message": "訳語のカスタムカラー"
+  },
+  "color_note": {
+    "message": "背景が暗いページでは、選んだ色が見えにくい場合（黒など）自動的に薄いグレーになります。"
+  },
+  "pron_h": {
+    "message": "発音記号と発音"
+  },
+  "show_ipa": {
+    "message": "注釈に米音 IPA を表示"
+  },
+  "ipa_example": {
+    "message": "（例：tariff /{0}/ 関税）"
+  },
+  "ipa_desc": {
+    "message": "米音 IPA は CMUdict に基づきます（例：tariff /ˈtɛrəf/）。単語カードには常に表示されます。このスイッチはページ上の注釈のみに影響し、「下線のみ」モードでは表示されません。"
+  },
+  "auto_speak": {
+    "message": "単語カードを開いたら自動で発音"
+  },
+  "voice": {
+    "message": "音声"
+  },
+  "rate": {
+    "message": "速さ"
+  },
+  "try_voice": {
+    "message": "🔊 試聴"
+  },
+  "voice_note": {
+    "message": "ブラウザ内蔵の音声合成を使います。選べる音声は OS によって異なります。"
+  },
+  "voice_auto": {
+    "message": "自動（米国英語を優先）"
+  },
+  "voice_unavailable": {
+    "message": "{0}（現在利用不可）"
+  },
+  "voice_count": {
+    "message": "ブラウザ内蔵の音声合成を使います。この端末には英語の音声が {0} 個あります。"
+  },
+  "voice_none": {
+    "message": "英語の音声が見つからないため、発音できない場合があります。システム設定で英語（米国）の音声を追加してください。"
+  },
+  "lists_h": {
+    "message": "既知リスト / 学習リスト"
+  },
+  "export_json": {
+    "message": "JSON を書き出す"
+  },
+  "lists_desc": {
+    "message": "1 行に 1 語（原形）。「保存」を押すと、開いているページにもすぐ反映されます。"
+  },
+  "known_label": {
+    "message": "既知リスト（{0}）· 注釈しない"
+  },
+  "learning_label": {
+    "message": "学習リスト（{0}）· 常に注釈"
+  },
+  "ai_h": {
+    "message": "AI モデル"
+  },
+  "ai_desc": {
+    "message": "単語カードの「AI で文脈を解説」と、任意の AI 注釈最適化に使います。どちらかの方法で接続してください。"
+  },
+  "apikey_head": {
+    "message": "API キーを使う（OpenAI 互換）"
+  },
+  "api_base": {
+    "message": "ベース URL"
+  },
+  "api_key_note": {
+    "message": "この端末（chrome.storage.local）にのみ保存され、同期されることも、上記ベース URL 以外に送信されることもありません。"
+  },
+  "show": {
+    "message": "表示"
+  },
+  "hide": {
+    "message": "隠す"
+  },
+  "fetch_models": {
+    "message": "モデル一覧を取得"
+  },
+  "test_conn": {
+    "message": "接続テスト"
+  },
+  "chatgpt_head": {
+    "message": "ChatGPT アカウントを使う（Plus / Pro プランの利用枠を消費）"
+  },
+  "chatgpt_desc": {
+    "message": "サインインすると、AI 解説は ChatGPT プランの利用枠でまかなわれ、API キーは不要です。サインインは OpenAI のページで行われ、Inkling がパスワードを見ることはありません。"
+  },
+  "login_other": {
+    "message": "別のアカウントでサインイン"
+  },
+  "manage_usage": {
+    "message": "利用状況を管理"
+  },
+  "refresh_models": {
+    "message": "モデル一覧を更新"
+  },
+  "logout": {
+    "message": "サインアウト"
+  },
+  "need_api_access": {
+    "message": "このベース URL を使うには {0} へのアクセスを許可してください"
+  },
+  "fetching_models": {
+    "message": "モデル一覧を取得中…"
+  },
+  "got_models": {
+    "message": "{0} 個のモデルが見つかりました。「モデル」欄で選択してください。"
+  },
+  "testing": {
+    "message": "テスト中…"
+  },
+  "test_ok": {
+    "message": "接続成功（{0} ms）。モデルの返答：{1}"
+  },
+  "last_login": {
+    "message": "前回のサインイン：{0}"
+  },
+  "auto_h": {
+    "message": "AI 注釈の最適化（文脈訳 + 難易度）"
+  },
+  "auto_desc": {
+    "message": "読み進めた段落ごとに、あなたの語彙レベルに合わせて何に注釈すべきかをモデルが判断し直します。"
+  },
+  "auto_li1": {
+    "message": "辞書の最初の意味ではなく、文脈に合った訳を付けます。"
+  },
+  "auto_li2": {
+    "message": "人名・地名や、知っている・推測できそうな単語は外します。"
+  },
+  "auto_li3": {
+    "message": "頻度表では拾えない意外な語義（\"markets brace for…\" の brace は「備える」）や句動詞・慣用句（rule out、in the wake of）を補います。"
+  },
+  "auto_li4": {
+    "message": "単語カードに文脈での意味と CEFR レベル（A1–C2）を表示します。"
+  },
+  "auto_warn": {
+    "message": "利用量が大きく増えます。読んだ段落ごとにモデルへ 1 回リクエストします（短い段落はまとめて送信）。標準ではオフです。結果はキャッシュされ、同じレベルで同じ段落を再リクエストしません。オフでも辞書による注釈は通常どおり動作します。"
+  },
+  "about_h": {
+    "message": "このアプリについて"
+  },
+  "about_text": {
+    "message": "オフライン辞書は {0}（MIT ライセンス）をもとに作成し、米音 IPA は CMUdict に基づきます。日本語・韓国語の訳語パックはウィクショナリー（CC BY-SA 4.0）由来です。発音にはブラウザ内蔵の音声合成を使います。"
+  },
+  "gloss_lang_h": {
+    "message": "訳語の言語"
+  },
+  "gloss_lang_desc": {
+    "message": "注釈と単語カードで英単語をどの言語で説明するか。中国語は内蔵辞書です。日本語・韓国語の訳語パックは初めて選んだときに GitHub Pages からダウンロードされ（約 0.5～1 MB）、以降はオフラインで使えます。"
+  },
+  "gloss_zh": {
+    "message": "中国語（内蔵）"
+  },
+  "gloss_ja": {
+    "message": "日本語"
+  },
+  "gloss_ko": {
+    "message": "韓国語"
+  },
+  "pack_downloading": {
+    "message": "{0}の訳語パックをダウンロード中…"
+  },
+  "pack_ready": {
+    "message": "{0}の訳語パック：{1} 語、{2}、バージョン {3}"
+  },
+  "pack_update": {
+    "message": "更新を確認"
+  },
+  "pack_delete": {
+    "message": "ダウンロードした訳語パックを削除"
+  },
+  "pack_deleted": {
+    "message": "削除しました。訳語の言語を中国語に戻しました。"
+  },
+  "pack_failed": {
+    "message": "ダウンロードに失敗したため、以前の訳語の言語のままです。{0}"
+  },
+  "pack_network": {
+    "message": "訳語パックをダウンロードできませんでした（{0}）。ネットワークを確認して再度お試しください。"
+  },
+  "pack_checksum": {
+    "message": "訳語パックの検証に失敗しました（ファイルが不完全か改変されています）。再度お試しください。"
+  },
+  "pack_unknown": {
+    "message": "{0} の訳語パックはありません"
+  },
+  "no_gloss": {
+    "message": "訳語パックにはまだこの単語の{0}訳がありません。「AI で文脈を解説」をお試しください。"
+  },
+  "gloss_source": {
+    "message": "訳語：ウィクショナリー（CC BY-SA 4.0）"
+  },
+  "cb_title": {
+    "message": "Inkling · ChatGPT でサインイン"
+  },
+  "cb_finishing": {
+    "message": "サインインを完了しています…"
+  },
+  "cb_wait": {
+    "message": "ChatGPT とトークンを交換しています。しばらくお待ちください。"
+  },
+  "back_settings": {
+    "message": "設定に戻る"
+  },
+  "cb_ok": {
+    "message": "ChatGPT にサインインしました"
+  },
+  "cb_ok_msg": {
+    "message": "ChatGPT プランの利用枠を使用中{0}。このページは自動的に閉じます。"
+  },
+  "cb_noplan": {
+    "message": "サインイン済みですが、プラン利用が許可されていません"
+  },
+  "cb_noplan_msg": {
+    "message": "ChatGPT プランの利用が許可されませんでした。設定に戻って再度サインインして許可するか、API キーを使ってください。"
+  },
+  "cb_fail": {
+    "message": "サインインが完了しませんでした"
+  },
+  "site_no_permission": {
+    "message": "このサイトへのアクセスが許可されていません"
+  },
+  "login_stale": {
+    "message": "このサインイン要求は期限切れか使用済みです。Inkling の設定に戻り、もう一度 Continue with ChatGPT を押してください。"
+  },
+  "login_denied": {
+    "message": "許可されなかったか、ChatGPT のプラン共有が有効になっていません。再度サインインしてプラン利用を許可するか、API キーを使ってください。"
+  },
+  "login_failed": {
+    "message": "サインインに失敗しました：{0}"
+  },
+  "login_no_code": {
+    "message": "コールバックに認可コードがありません"
+  },
+  "login_no_client": {
+    "message": "登録で client_id が返されませんでした。もう一度お試しください。"
+  },
+  "login_client_mismatch": {
+    "message": "コールバックの client_id が保存済みのものと一致しないため、サインインを拒否しました"
+  },
+  "login_network": {
+    "message": "OpenAI のサインインサーバーに接続できません。ネットワークを確認してください。"
+  },
+  "login_code_expired": {
+    "message": "認可コードの有効期限が切れました。もう一度サインインしてください。"
+  },
+  "token_exchange_failed": {
+    "message": "トークンの交換に失敗しました（HTTP {0}）{1}"
+  },
+  "login_account_mismatch": {
+    "message": "以前とは別の ChatGPT アカウントでサインインしました。アカウントを切り替えるには、設定で「別のアカウントでサインイン」を選んでください。"
+  },
+  "plan_not_granted": {
+    "message": "サインイン済みですが、ChatGPT プランの利用が許可されていません。再度サインインして許可するか、API キーを使ってください。"
+  },
+  "session_expired": {
+    "message": "セッションの有効期限が切れました。ChatGPT にもう一度サインインしてください。"
+  },
+  "refresh_network": {
+    "message": "ChatGPT のセッション更新中にネットワークエラーが発生しました。しばらくしてからお試しください。"
+  },
+  "login_invalid": {
+    "message": "ChatGPT のサインインが無効になりました。もう一度サインインしてください。"
+  },
+  "refresh_failed": {
+    "message": "ChatGPT トークンの更新に失敗しました（HTTP {0}）{1}"
+  },
+  "not_signed_in": {
+    "message": "ChatGPT にサインインしていません。設定で Continue with ChatGPT を押してください。"
+  },
+  "plan_disabled": {
+    "message": "ChatGPT にサインイン済みですが、プラン利用が許可されていません。再度サインインして許可するか、API キーを使ってください。"
+  },
+  "logout_ok": {
+    "message": "ChatGPT からサインアウトしました"
+  },
+  "logout_unconfirmed": {
+    "message": "サインアウトしましたが、トークンの取り消しを確認できませんでした。ChatGPT の設定で Inkling との接続を解除できます。"
+  },
+  "openai_network": {
+    "message": "OpenAI API に接続できません。ネットワークを確認してください。"
+  },
+  "usage_limit": {
+    "message": "ChatGPT プランの利用上限に達しました。しばらくしてからお試しいただくか、利用設定を調整してください。"
+  },
+  "not_eligible": {
+    "message": "この ChatGPT アカウントではプランの利用枠を共有できません（Plus または Pro が必要）。API キーを使ってください。"
+  },
+  "invalid_user": {
+    "message": "ChatGPT のセッションが無効です。もう一度サインインしてください。"
+  },
+  "usage_unavailable": {
+    "message": "現在 ChatGPT の利用状況を確認できません。しばらくしてからお試しください。"
+  },
+  "unsupported_capability": {
+    "message": "選択したモデルまたはリクエストのオプションはサポートされていません{0}。別のモデルを選んでください。"
+  },
+  "route_unsupported": {
+    "message": "その API エンドポイントはサポートされていません。"
+  },
+  "scope_not_authorized": {
+    "message": "現在の認可ではこの操作はできません。再度サインインしてプラン利用を許可してください。"
+  },
+  "http_forbidden": {
+    "message": "リクエストが拒否されました（HTTP 403）{0}"
+  },
+  "usage_limit_short": {
+    "message": "ChatGPT プランの利用上限に達しました。"
+  },
+  "service_unavailable": {
+    "message": "ChatGPT は一時的に利用できません。しばらくしてからお試しください。"
+  },
+  "http_failed": {
+    "message": "リクエストに失敗しました（HTTP {0}）{1}"
+  },
+  "no_chatgpt_model": {
+    "message": "ChatGPT のモデルが選択されていません。設定で選んでください。"
+  },
+  "gen_failed": {
+    "message": "モデルの応答に失敗しました{0}"
+  },
+  "incomplete": {
+    "message": "回答が途中で切れました"
+  },
+  "model_error": {
+    "message": "モデルがエラーを返しました：{0}"
+  },
+  "interrupted": {
+    "message": "回答の途中で接続が切れました。もう一度お試しください。"
+  },
+  "no_json": {
+    "message": "モデルが JSON を返しませんでした"
+  },
+  "usage_paused": {
+    "message": "利用上限に達したため、AI 注釈の最適化を一時停止しました"
+  },
+  "bad_base": {
+    "message": "ベース URL は http:// または https:// で始めてください"
+  },
+  "no_api_key": {
+    "message": "API キーが未入力です。設定の「AI モデル」で入力してください。"
+  },
+  "need_host": {
+    "message": "{0} へのアクセスがまだ許可されていません。設定 →「AI モデル」で「接続テスト」を押し、表示される確認で許可してください。"
+  },
+  "cannot_connect": {
+    "message": "{0} に接続できません。ベース URL とネットワークを確認してください。"
+  },
+  "server_said": {
+    "message": "（サーバーの応答：{0}）"
+  },
+  "http_401": {
+    "message": "API キーが無効か期限切れです（HTTP 401）{0}"
+  },
+  "http_403": {
+    "message": "このエンドポイントまたはモデルへのアクセス権がありません（HTTP 403）{0}"
+  },
+  "http_404": {
+    "message": "ベース URL またはモデル名が正しくありません（HTTP 404）{0}"
+  },
+  "http_429": {
+    "message": "リクエストが多すぎるか、残高が不足しています（HTTP 429）{0}"
+  },
+  "http_5xx": {
+    "message": "サーバーエラー（HTTP {0}）。しばらくしてからお試しください。{1}"
+  },
+  "models_unrecognized": {
+    "message": "API が返したモデル一覧を読み取れませんでした"
+  },
+  "no_model": {
+    "message": "モデルが選択されていません。設定でモデル名を入力してください。"
+  },
+  "empty_reply": {
+    "message": "モデルから何も返ってきませんでした"
+  }
+}

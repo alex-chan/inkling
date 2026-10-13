@@ -1,0 +1,24 @@
+{
+  "packs": {
+    "ko": {
+      "version": "20261014",
+      "file": "ko/gloss-ko-20261014.tsv",
+      "size": 456584,
+      "sha256": "09bc9f30d391edbbc154f23725b54ed7b8141d381475a1c34fd8414be07aceb9",
+      "entries": 12626,
+      "coverage_rank_le_20000": 0.562,
+      "license": "CC BY-SA 4.0",
+      "source": "English Wiktionary (Wiktextract, kaikki.org)"
+    },
+    "ja": {
+      "version": "20261014",
+      "file": "ja/gloss-ja-20261014.tsv",
+      "size": 680434,
+      "sha256": "a98f603ff27ec8d383f9589a5c4d9d9210a4d46160085bff64a21faf8371ef74",
+      "entries": 16591,
+      "coverage_rank_le_20000": 0.713,
+      "license": "CC BY-SA 4.0",
+      "source": "English Wiktionary (Wiktextract, kaikki.org)"
+    }
+  }
+}

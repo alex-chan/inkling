@@ -118,6 +118,26 @@ export function startMockServer(port = 18080) {
         return json(res, 200, { ok: true });
       }
 
+      // ---------- 释义包（模拟 GitHub Pages 上的 glosspacks/） ----------
+      if (url.pathname.startsWith('/glosspacks/')) {
+        const packs = {
+          ja: '# test pack\ntariff\t関税\t関税、税率\nstagnation\t停滞\t停滞、沈滞\nlevy\t徴収\t徴収、課税\nquagmire\t苦境\t苦境、泥沼\nturmoil\t混乱\t混乱、騒乱\n',
+          ko: '# test pack\ntariff\t관세\t관세\nstagnation\t침체\t침체, 정체\nlevy\t부과\t부과, 징수\n',
+        };
+        if (url.pathname === '/glosspacks/index.json') {
+          const idx = { packs: {} };
+          for (const [lang, text] of Object.entries(packs)) {
+            idx.packs[lang] = { version: 'test', file: `${lang}/gloss-${lang}-test.tsv`, size: Buffer.byteLength(text), sha256: crypto.createHash('sha256').update(text).digest('hex'), entries: text.split('\n').length - 2 };
+          }
+          return json(res, 200, idx);
+        }
+        const m = /^\/glosspacks\/(ja|ko)\/gloss-(ja|ko)-test\.tsv$/.exec(url.pathname);
+        if (m) {
+          res.writeHead(200, { 'Content-Type': 'text/tab-separated-values; charset=utf-8', 'Access-Control-Allow-Origin': '*' });
+          return res.end(state.control.packCorrupt ? packs[m[1]] + 'tampered\tx\n' : packs[m[1]]);
+        }
+      }
+
       // ---------- 测试页面 ----------
       if (url.pathname.startsWith('/pages/')) {
         const f = path.join(FIXTURES, path.basename(url.pathname));

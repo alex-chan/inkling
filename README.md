@@ -17,14 +17,33 @@ Chrome / Edge 扩展（Manifest V3）：按你的词汇量给英文新闻和视�
 3. 点「加载已解压的扩展程序」，选择解压后的文件夹（或 `extension/` 目录）。
 4. 首次安装会自动打开设置页。
 
-## 界面语言
+## 界面语言与释义语言
 
-界面支持 **简体中文、繁體中文、English**。默认跟随浏览器语言，也可以在设置页右上角「界面语言」手动切换，已打开的网页不用刷新就会生效。注释释义仍为中文：界面选繁体时，AI 释义也会用繁體中文输出；离线词典本身只有简体。
+- **界面语言**：简体中文、繁體中文、English、日本語、한국어。默认跟随浏览器，也可以在设置页右上角「界面语言」手动切换，已打开的网页不用刷新就会生效。
+- **释义语言**（设置页「显示方式」→「释义语言」）：中文为内置词典；**日语、韩语释义包不随扩展打包**，第一次选择时才从 GitHub Pages 下载（`https://alex-chan.github.io/inkling/glosspacks/`），按 `index.json` 里的 sha256 校验后缓存在 IndexedDB，之后离线可用。浏览器语言为日语 / 韩语时，首次安装会自动下载对应的包。
+- 判断哪些词是生词，始终用英文词频；释义包只决定显示什么释义。包里没有的词照样加下划线，词卡提示可以用 AI 解释。AI 解释和 AI 释义跟随释义语言输出。界面为繁体、释义为中文时，AI 输出繁體中文。
 
-- 文案总表：[tools/i18n_table.py](tools/i18n_table.py)，key 对应（简体, 繁體, English）三种译文。改完后运行 `python3 -I tools/i18n_table.py`，生成 `extension/_locales/*/messages.json`。
+| 释义包 | 大小 | 词数 | 覆盖率（词频前 2 万） |
+|---|---|---|---|
+| 日语 `glosspacks/ja/` | 0.68 MB | 16,591 | 71% |
+| 韩语 `glosspacks/ko/` | 0.46 MB | 12,626 | 56% |
+
+释义包由英文维基词典里日语、韩语词条的英文释义**反查**生成（例如 関税 的释义是 "tariff; customs duty"，于是 tariff → 関税），许可为 CC BY-SA 4.0，见 [glosspacks/LICENSE.md](glosspacks/LICENSE.md)。重新生成：
+
+```bash
+mkdir -p /tmp/wikt && cd /tmp/wikt
+curl -LO https://kaikki.org/dictionary/Japanese/kaikki.org-dictionary-Japanese.jsonl   # 385 MB，只在构建时下载
+curl -LO https://kaikki.org/dictionary/Korean/kaikki.org-dictionary-Korean.jsonl       # 205 MB
+cd - && python3 -I tools/build_gloss_pack.py ja /tmp/wikt/kaikki.org-dictionary-Japanese.jsonl
+python3 -I tools/build_gloss_pack.py ko /tmp/wikt/kaikki.org-dictionary-Korean.jsonl
+```
+
+脚本会更新 `glosspacks/index.json`（版本、大小、sha256、覆盖率），推送后 GitHub Pages 自动发布，用户在设置里点「检查更新」即可拿到新包。反查质量的已知问题：极常用词有时会挑到少见的义项（如 go → 碁），这些词一般远低于生词阈值，基本不会被注释；词卡里会列出最多 3 个候选。
+
+- 文案总表：[tools/i18n_table.py](tools/i18n_table.py)，key 对应（简体, 繁體, English），日语、韩语在同一文件的 `JA` / `KO` 里；生成时校验五种语言 key 和占位符一致。改完后运行 `python3 -I tools/i18n_table.py`，生成 `extension/_locales/*/messages.json`。
 - 运行时：[extension/lib/i18n.js](extension/lib/i18n.js) 直接读取 messages.json，以支持手动切换（`chrome.i18n` 只能跟随浏览器）。页面用 `data-i18n` / `data-i18n-title` / `data-i18n-aria` 标注；content script 从后台取当前语言的文案。
 - manifest 的名称、说明使用 `__MSG_appName__` / `__MSG_appDesc__`，两个商店会按语言显示。各语言的商店详细说明见 [store/listing-i18n.md](store/listing-i18n.md)。
-- 测试会校验三种语言的 key 完全一致、占位符数量一致（`tests/i18n.spec.js`）。
+- 测试会校验五种语言的 key 完全一致、占位符数量一致（`tests/i18n.spec.js`）。
 
 ## 支持的网站与权限
 

@@ -31,7 +31,8 @@ export const DEFAULTS = {
   autoSpeak: false,           // 打开词卡时自动朗读
   speechVoice: '',            // 朗读声音（空 = 自动选美式英语）
   speechRate: 0.9,            // 语速
-  glossColor: '#000000',      // 中文释义颜色
+  glossColor: '#000000',      // 释义颜色
+  glossLanguage: 'zh',        // 释义语言：zh（内置）| ja | ko（释义包按需下载）
 };
 
 export const GLOSS_COLORS = [

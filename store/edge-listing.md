@@ -1,7 +1,7 @@
 # Microsoft Edge Add-ons 上架资料（Partner Center）
 
 后台：https://partner.microsoft.com/dashboard/microsoftedge/overview
-包：`dist/inkling-1.0.2.zip`，与 Chrome 应用商店用同一个包（`./tools/package.sh` 生成）。
+包：`dist/inkling-1.1.0.zip`，与 Chrome 应用商店用同一个包（`./tools/package.sh` 生成）。
 素材：`store/assets/`
 
 整套端到端测试也在 Microsoft Edge 155 上跑过（`BROWSER_PATH="/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge" npm test`）。
@@ -10,7 +10,7 @@
 
 ## 1. 软件包（Packages）
 
-上传 `inkling-1.0.2.zip`。
+上传 `inkling-1.1.0.zip`。
 
 ## 2. 可用性（Availability）
 

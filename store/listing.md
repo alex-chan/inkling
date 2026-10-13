@@ -1,6 +1,6 @@
 # Chrome Web Store 上架资料（逐项粘贴到开发者后台）
 
-包：`dist/inkling-1.0.2.zip`（`./tools/package.sh` 生成）
+包：`dist/inkling-1.1.0.zip`（`./tools/package.sh` 生成）
 素材：`store/assets/`（`node store/make-assets.mjs` 重新生成）
 
 ---
@@ -39,6 +39,9 @@
 • 「AI 语境解释」：结合所在句子讲清这个词在本句的意思、读音、用法和背景
 • 「AI 优化注释」：按你的水平重新判断每段该注释什么，释义按上下文给出；会补上熟词僻义（如 markets brace for… 里的 brace 表示「准备应对」）和习语短语（如 in the wake of），并标出 CEFR 难度等级
 • 两种接入方式：填 OpenAI 兼容接口的 API Key，或用 ChatGPT 账号登录（消耗 Plus / Pro 套餐用量）
+
+【多语言】
+界面支持简体中文、繁體中文、English、日本語、한국어。释义默认为中文；日语、韩语释义包（来自维基词典，CC BY-SA 4.0）在设置中选择时才下载，每个不到 1 MB，之后离线可用。
 
 【隐私】
 离线词典，不联网也能注释。开发者不运营服务器、不收集任何数据；只有在你使用 AI 功能时，相关文字才会直接发往你自己选择的模型服务。开源：github.com/alex-chan/inkling

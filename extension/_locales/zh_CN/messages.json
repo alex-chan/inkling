@@ -489,7 +489,55 @@
     "message": "关于"
   },
   "about_text": {
-    "message": "离线词典基于 {0}（MIT 许可）精简生成，美式音标来自 CMUdict。朗读使用浏览器自带的语音合成。"
+    "message": "离线词典基于 {0}（MIT 许可）精简生成，美式音标来自 CMUdict，日语、韩语释义包来自维基词典（CC BY-SA 4.0）。朗读使用浏览器自带的语音合成。"
+  },
+  "gloss_lang_h": {
+    "message": "释义语言"
+  },
+  "gloss_lang_desc": {
+    "message": "注释和词卡里用哪种语言解释英文词。中文为内置词典；日语、韩语释义包在第一次选择时从 GitHub Pages 下载（约 0.5～1 MB），之后离线可用。"
+  },
+  "gloss_zh": {
+    "message": "中文（内置）"
+  },
+  "gloss_ja": {
+    "message": "日语"
+  },
+  "gloss_ko": {
+    "message": "韩语"
+  },
+  "pack_downloading": {
+    "message": "正在下载{0}释义包…"
+  },
+  "pack_ready": {
+    "message": "{0}释义包已就绪：{1} 个词，{2}，版本 {3}"
+  },
+  "pack_update": {
+    "message": "检查更新"
+  },
+  "pack_delete": {
+    "message": "删除已下载的释义包"
+  },
+  "pack_deleted": {
+    "message": "已删除，释义语言改回中文。"
+  },
+  "pack_failed": {
+    "message": "下载失败，仍使用原来的释义语言。{0}"
+  },
+  "pack_network": {
+    "message": "无法下载释义包（{0}），请检查网络后重试。"
+  },
+  "pack_checksum": {
+    "message": "释义包校验失败（文件不完整或已被修改），请重试。"
+  },
+  "pack_unknown": {
+    "message": "没有 {0} 释义包"
+  },
+  "no_gloss": {
+    "message": "释义包里暂时没有这个词的{0}释义，可以点「AI 语境解释」。"
+  },
+  "gloss_source": {
+    "message": "释义来自维基词典（CC BY-SA 4.0）"
   },
   "cb_title": {
     "message": "Inkling · 登录 ChatGPT"
